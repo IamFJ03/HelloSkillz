@@ -3,16 +3,16 @@ import { User } from 'lucide-react';
 import user from '../assets/user.png';
 export default function Navbar() {
   return (
-    <div>
+    <div className='sticky top-0 z-50'>
       <div className='flex items-center justify-between px-20 py-5 bg-white shadow-2xl'>
         <div>
             <p className='font-bold text-2xl'>HelloSkills</p>
         </div>
         <div>
             <ul className='flex gap-20'>
-                <li className='cursor-pointer'>Courses</li>
-                <li className='cursor-pointer'>About Us</li>
-                <li className='cursor-pointer'>Contact</li>
+                <li className='cursor-pointer hover:border-b-2 hover:border-blue-200 transition duration-500'>Courses</li>
+                <li className='cursor-pointer hover:border-b-2 hover:border-blue-200 transition duration-500'>About Us</li>
+                <li className='cursor-pointer hover:border-b-2 hover:border-blue-200 transition duration-500'>Contact</li>
             </ul>
         </div>
         <div className='flex gap-3 items-center'>
