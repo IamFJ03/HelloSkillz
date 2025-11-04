@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 export default function Navbar() {
   return (
     <div className='sticky top-0 z-50'>
-      <div className='flex items-center justify-between px-20 py-5 bg-white shadow-2xl'>
+      <div className='flex items-center justify-between px-20 py-5 bg-linear-to-r from-blue-200 to-white shadow-2xl'>
         <div>
-            <p className='font-bold text-2xl'>FlavorFinds</p>
+            <p className='font-bold text-2xl'><Link to={'/'}>FlavorFinds</Link></p>
         </div>
         <div>
             <ul className='flex gap-20 items-center'>
-                <li className='cursor-pointer  transition-all duration-500 hover:text-blue-200'><select className="appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-3 pr-10 text-gray-700 leading-tight focus:outline-none focus:border-blue-500">
+                <li className='cursor-pointer  transition-all duration-500 hover:text-blue-200'><select className="appearance-none border border-gray-300 rounded-lg py-2 pl-3 pr-10 text-gray-700 leading-tight focus:outline-none focus:border-blue-500">
                   <option>Categories</option>
                   <option>Course</option>
                   <option>Cuisine</option>

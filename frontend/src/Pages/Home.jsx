@@ -68,11 +68,11 @@ export default function Home() {
 
     setVisibleMeals((prev) => [...prev, ...nextBatch])
   }
-
+  const currScreen = window.location.pathname;
   return (
     <div>
       <Navbar />
-      <HeroSection />
+      <HeroSection path={currScreen}/>
       <div className='h-120'>
         <p className='text-3xl font-bold my-10 px-20'>Trending Recipes</p>
         <div className='px-20'>
