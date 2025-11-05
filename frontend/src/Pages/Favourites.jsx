@@ -1,8 +1,12 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect } from 'react';
 import Navbar from '../Components/Navbar';
-
+import { useCart } from '../Context/CartContext';
 export default function Favourites() {
   const [meals, setMeals] = useState([]);
+  const {favourites} = useCart();
+  useEffect(() => {
+    console.log("Meal Found!", favourites);
+  },[])
   return (
     <div>
       <Navbar />

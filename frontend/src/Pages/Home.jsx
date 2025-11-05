@@ -6,7 +6,7 @@ import { FaUserGear } from "react-icons/fa6";
 import { FaBowlFood } from "react-icons/fa6";
 import { FaPlateWheat } from "react-icons/fa6";
 import { X } from 'lucide-react';
-
+import { useCart } from '../Context/CartContext';
 const MEALS_BATCH_SIZE = 4;
 
 export default function Home() {
@@ -20,6 +20,7 @@ export default function Home() {
   const [visibleMeals, setVisibleMeals] = useState([]);
   const [modal, setModal] = useState(false);
   const [details, setDetails] = useState({});
+  const { favourites, setFavourites } = useCart();
 
   const fetchRecipes = async () => {
     const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${searchTerm}&app_id=${APP_ID}&app_key=${APP_KEY}`;
@@ -77,7 +78,12 @@ export default function Home() {
     setDetails(item);
     setModal(true)
     console.log(item);
-    
+  }
+
+  const handleFavourites = (item) => {
+     setFavourites(item);
+     console.log("Meal Added to Cart", item);
+     
   }
   return (
     <div>
@@ -147,7 +153,7 @@ export default function Home() {
                         <span className='font-bold'>Dish Type: </span><span>{foodItems.recipe.dishType}</span>
                       </div>
                       <button className='bg-blue-200 text-white py-2 px-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleViewDetails(foodItems)}>View Details</button>
-                      <button className='bg-blue-200 text-white py-2 px-5 ml-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded'>Add to Favourites</button>
+                      <button className='bg-blue-200 text-white py-2 px-5 ml-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleFavourites(foodItems)}>Add to Favourites</button>
                     </div>
                   </div>
                 ))}
@@ -163,7 +169,7 @@ export default function Home() {
         }
       </div>
       {
-        modal &&
+        
         <div className={`fixed inset-0 z-100 ${modal ? 'bg-black/50 opacity-100 pointer-events-auto' : 'bg-transparent opacity-0 pointer-events-none'} transition-all duration-500`}>
         <div className={`h-120 w-200 rounded-2xl bg-white shadow-xl relative top-30 left-90 ${modal ? 'scale-100' : 'scale-0'} transition-transform duration-500`}>
           <div className='flex items-center justify-between px-10 pt-10'>
@@ -171,20 +177,20 @@ export default function Home() {
             <X color='black' size={25} onClick={() => setModal(false)} className='cursor-pointer'/>
           </div>
           <div className='flex items-center justify-between px-10 gap-10'>
-          <img src={details.recipe.image} className='h-70 w-70 rounded-2xl' />
+          <img src={details.recipe?.image} className='h-70 w-70 rounded-2xl' />
           <div className='font-mono text-lg'>
-            <span className='font-bold'>Name: </span><span>{details.recipe.label}</span>
+            <span className='font-bold'>Name: </span><span>{details.recipe?.label}</span>
             <div className='flex items-center'>
-            <span className='font-bold my-5'>Diets: </span><span className='flex'>{details.recipe.dietLabels.map((item) => (
+            <span className='font-bold my-5'>Diets: </span><span className='flex'>{details.recipe?.dietLabels.map((item) => (
               <p className='py-1 px-3 ml-3 bg-blue-200 rounded-2xl'>{item} </p>
             ))}</span>
             
             </div>
             <div>
-              <span className='font-bold'>Meal Type: </span><span>{details.recipe.mealType}</span>
+              <span className='font-bold'>Meal Type: </span><span>{details.recipe?.mealType}</span>
             </div>
             <div className='flex my-5'>
-            <span className='font-bold my-3'>Dish Types: </span><span className='flex flex-wrap gap-3'>{details.recipe.healthLabels.map((item) => (
+            <span className='font-bold my-3'>Dish Types: </span><span className='flex flex-wrap gap-3'>{details.recipe?.healthLabels.map((item) => (
               <p className='py-1 px-3 ml-3 bg-blue-200 rounded-2xl'>{item}</p>
             ))}</span>
             

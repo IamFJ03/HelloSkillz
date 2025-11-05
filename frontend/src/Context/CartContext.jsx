@@ -1,4 +1,4 @@
-import React,{createContext, useContext} from 'react'
+import React,{createContext, useContext, useState} from 'react'
 
 const GlobalContext = createContext(null);
 
@@ -7,8 +7,9 @@ export const useCart = () => {
 }
 
 export default function CartContext({children}) {
+  const [favourites, setFavourites] = useState({});
   return <GlobalContext.Provider
-  value={{}}
+  value={{favourites, setFavourites}}
   >
     {children}
   </GlobalContext.Provider>
