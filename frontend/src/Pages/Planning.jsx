@@ -8,16 +8,16 @@ export default function Planning() {
     <div>
       <Navbar />
       <HeroSection path={currScreen} />
-      <div>
-        <div className='px-20 mt-10'>
-        <p className='text-xl'>Tailor-made meal plans designed for your health goals and lifestyle.</p>
-        <p className='text-xl'>Delicious, easy, and nutriciest approved</p>
-        <p className='text-2xl font-bold my-10'>Filter By:</p>
+      <div className='h-100 bg-linear-to-r from-blue-200 to-white'>
+        <div className='px-20 py-10'>
+          <p className='text-xl'>Tailor-made meal plans designed for your health goals and lifestyle.</p>
+          <p className='text-xl'>Delicious, easy, and nutriciest approved</p>
+          <p className='text-2xl font-bold my-10'>Filter By:</p>
         </div>
         <div className='flex items-center justify-between px-20'>
           <div>
             <p className='mb-2'>Goal</p>
-            <select name="Goal" className='appearance-none border border-gray-400 pl-3 pr-7 rounded py-1.75 focus:outline-none focus:border-blue-400'>
+            <select name="Goal" className='appearance-none border border-gray-400 pl-3 pr-7 rounded py-1.75 focus:outline-none focus:border-blue-400 cursor-pointer'>
               <option>Loss Weight</option>
               <option>Maintain Weight</option>
               <option>Gain Weight</option>
@@ -25,8 +25,7 @@ export default function Planning() {
           </div>
           <div>
             <p className='mb-2'>Diet</p>
-
-            <select name="Diet" className='appearance-none border border-gray-400 pl-3 pr-7 rounded py-1.75 focus:outline-none focus:border-blue-400'>
+            <select name="Diet" className='appearance-none border border-gray-400 pl-3 pr-7 rounded py-1.75 focus:outline-none focus:border-blue-400 cursor-pointer'>
               <option value="">Keto-Friendly</option>
               <option value="">Paleo</option>
               <option value="">Mediterranean</option>
@@ -35,42 +34,48 @@ export default function Planning() {
           </div>
           <div>
             <p className='mb-2'>Dietary Type</p>
-            <select name="Type" className='appearance-none border border-gray-400 pl-3 pr-7 rounded py-1.75 focus:outline-none focus:border-blue-400'>
+            <select name="Type" className='appearance-none border border-gray-400 pl-3 pr-7 rounded py-1.75 focus:outline-none focus:border-blue-400 cursor-pointer'>
               <option value="">Gluten-Free</option>
               <option value="">Dairy-Free</option>
               <option value="">Vegan</option>
               <option value="">Vegetarian</option>
             </select>
           </div>
-          <div className='space-y-2'>
-            <p className='mb-2'>Nutrient Targets</p>
 
-            <select name="MacroNutrient" className='appearance-none border border-gray-400 pl-3 pr-7 rounded py-1.75 focus:outline-none focus:border-blue-400'>
-              <option value="">Protein</option>
-              <option value="">Carbs</option>
-              <option value="">Fat</option>
-              <option value="">Calories</option>
-            </select>
-          </div>
+          <div className=' flex-col'>
+            <p>Nutrient Targets</p>
+            <div className='flex gap-5 -mt-6'>
+              <div className='space-y-2'>
+                <p className='opacity-0'>_</p>
+                <select name="MacroNutrient" className='appearance-none border border-gray-400 pl-3 pr-7 rounded py-1.75 focus:outline-none focus:border-blue-400 cursor-pointer'>
+                  <option value="">Protein</option>
+                  <option value="">Carbs</option>
+                  <option value="">Fat</option>
+                  <option value="">Calories</option>
+                </select>
+              </div>
 
-          <div className='space-y-2'>
-            <p className='opacity-0'>_</p>
-            <select name="HealthNutrient" className='appearance-none border border-gray-400 pl-3 pr-7 rounded py-1.75 focus:outline-none focus:border-blue-400'>
-              <option value="">Sodium</option>
-              <option value="">Sugar</option>
-              <option value="">Potassium</option>
-              <option value="">Fiber</option>
-            </select>
-          </div>
+              <div className='space-y-2'>
+                <p className='opacity-0'>_</p>
+                <select name="HealthNutrient" className='appearance-none border border-gray-400 pl-3 pr-7 rounded py-1.75 focus:outline-none focus:border-blue-400 cursor-pointer'>
+                  <option value="">Sodium</option>
+                  <option value="">Sugar</option>
+                  <option value="">Potassium</option>
+                  <option value="">Fiber</option>
+                </select>
+              </div>
 
-          <div className='space-y-2'>
-            <p className='opacity-0'>_</p> 
-            <select name="FatsQuality" className='appearance-none border border-gray-400 pl-3 pr-7 rounded py-1.75 focus:outline-none focus:border-blue-400'>
-              <option value="">Saturated Fat</option>
-              <option value="">Cholesterol</option>
-            </select>
+              <div className='space-y-2'>
+                <p className='opacity-0'>_</p>
+                <select name="FatsQuality" className='appearance-none border border-gray-400 pl-3 pr-7 rounded py-1.75 focus:outline-none focus:border-blue-400 cursor-pointer'>
+                  <option value="">Saturated Fat</option>
+                  <option value="">Cholesterol</option>
+                </select>
+              </div>
+            </div>
           </div>
         </div>
+        <button className='absolute right-20 bg-blue-200 px-6 py-2 rounded cursor-pointer mt-10 hover:shadow-xl transition-all hover:scale-105 duration-500'>Apply</button>
       </div>
     </div>
   )
