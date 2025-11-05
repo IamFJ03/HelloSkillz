@@ -7,7 +7,7 @@ export const useCart = () => {
 }
 
 export default function CartContext({children}) {
-  const [favourites, setFavourites] = useState({});
+  const [favourites, setFavourites] = useState([]);
   return <GlobalContext.Provider
   value={{favourites, setFavourites}}
   >

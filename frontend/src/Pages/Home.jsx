@@ -81,7 +81,7 @@ export default function Home() {
   }
 
   const handleFavourites = (item) => {
-     setFavourites(item);
+     setFavourites(prev => [...prev, item]);
      console.log("Meal Added to Cart", item);
      
   }

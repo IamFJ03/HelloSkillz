@@ -1,0 +1,18 @@
+/* Hide scrollbar but keep scrolling functional */
+.hide-scrollbar {
+  /* For iOS momentum scrolling */
+  -webkit-overflow-scrolling: touch;
+
+  /* For Internet Explorer and Edge */
+  -ms-overflow-style: none;
+
+  /* For Firefox */
+  scrollbar-width: none;
+}
+
+/* For Chrome, Safari, and Opera (WebKit browsers) */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0;   /* no reserved space for vertical scrollbar */
+  height: 0;  /* no reserved space for horizontal scrollbar */
+}
