@@ -81,9 +81,9 @@ export default function Home() {
   }
 
   const handleFavourites = (item) => {
-     setFavourites(prev => [...prev, item]);
-     console.log("Meal Added to Cart", item);
-     
+    setFavourites(prev => [...prev, item]);
+    console.log("Meal Added to Cart", item);
+
   }
   return (
     <div>
@@ -144,7 +144,7 @@ export default function Home() {
                     <div>
                       <p className='text-2xl font-bold mb-3'>{foodItems.recipe.label}</p>
                       <div>
-                        <span className='font-bold'>Calories: </span><span>{Math.round(foodItems.recipe.calories)} cals</span>
+                        <span className='font-bold'>Calories: </span><span>{Math.round(foodItems.recipe.calories)} cal</span>
                       </div>
                       <div className='my-3'>
                         <span className='font-bold'>Cusine Type: </span><span>{foodItems.recipe.cuisineType}</span>
@@ -169,38 +169,38 @@ export default function Home() {
         }
       </div>
       {
-        
+
         <div className={`fixed inset-0 z-100 ${modal ? 'bg-black/50 opacity-100 pointer-events-auto' : 'bg-transparent opacity-0 pointer-events-none'} transition-all duration-500`}>
-        <div className={`h-120 w-200 rounded-2xl bg-white shadow-xl relative top-30 left-90 ${modal ? 'scale-100' : 'scale-0'} transition-transform duration-500`}>
-          <div className='flex items-center justify-between px-10 pt-10'>
-            <p className='font-bold font-mono text-2xl '>Meal Details:</p>
-            <X color='black' size={25} onClick={() => setModal(false)} className='cursor-pointer'/>
-          </div>
-          <div className='flex items-center justify-between px-10 gap-10'>
-          <img src={details.recipe?.image} className='h-70 w-70 rounded-2xl' />
-          <div className='font-mono text-lg'>
-            <span className='font-bold'>Name: </span><span>{details.recipe?.label}</span>
-            <div className='flex items-center'>
-            <span className='font-bold my-5'>Diets: </span><span className='flex'>{details.recipe?.dietLabels.map((item) => (
-              <p className='py-1 px-3 ml-3 bg-blue-200 rounded-2xl'>{item} </p>
-            ))}</span>
-            
+          <div className={`h-120 w-200 rounded-2xl bg-white shadow-xl relative top-30 left-90 ${modal ? 'scale-100' : 'scale-0'} transition-transform duration-500`}>
+            <div className='flex items-center justify-between px-10 pt-10'>
+              <p className='font-bold font-mono text-2xl '>Meal Details:</p>
+              <X color='black' size={25} onClick={() => setModal(false)} className='cursor-pointer' />
             </div>
-            <div>
-              <span className='font-bold'>Meal Type: </span><span>{details.recipe?.mealType}</span>
+            <div className='flex items-center justify-between px-10 gap-10'>
+              <img src={details.recipe?.image} className='h-70 w-70 rounded-2xl' />
+              <div className='font-mono text-lg'>
+                <span className='font-bold'>Name: </span><span>{details.recipe?.label}</span>
+                <div className='flex items-center'>
+                  <span className='font-bold my-5'>Diets: </span><span className='flex'>{details.recipe?.dietLabels.map((item) => (
+                    <p className='py-1 px-3 ml-3 bg-blue-200 rounded-2xl'>{item} </p>
+                  ))}</span>
+
+                </div>
+                <div>
+                  <span className='font-bold'>Meal Type: </span><span>{details.recipe?.mealType}</span>
+                </div>
+                <div className='flex my-5'>
+                  <span className='font-bold my-3'>Dish Types: </span><span className='flex flex-wrap gap-3'>{details.recipe?.healthLabels.map((item) => (
+                    <p className='py-1 px-3 ml-3 bg-blue-200 rounded-2xl'>{item}</p>
+                  ))}</span>
+
+                </div>
+              </div>
             </div>
-            <div className='flex my-5'>
-            <span className='font-bold my-3'>Dish Types: </span><span className='flex flex-wrap gap-3'>{details.recipe?.healthLabels.map((item) => (
-              <p className='py-1 px-3 ml-3 bg-blue-200 rounded-2xl'>{item}</p>
-            ))}</span>
-            
-            </div>
+            <p></p>
           </div>
-          </div>
-          <p></p>
         </div>
-      </div>
-}
+      }
     </div>
   )
 }

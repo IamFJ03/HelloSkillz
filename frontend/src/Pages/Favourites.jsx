@@ -1,8 +1,10 @@
 import React,{useState, useEffect } from 'react';
 import Navbar from '../Components/Navbar';
 import { useCart } from '../Context/CartContext';
+import { X } from 'lucide-react';
 export default function Favourites() {
   const [meals, setMeals] = useState([]);
+  const [modal, setModal] = useState(false);
   const {favourites} = useCart();
   useEffect(() => {
     console.log("Meal Found!", favourites);
@@ -19,12 +21,12 @@ export default function Favourites() {
         <div className='mt-10'>
         {
           meals.length > 0 ?
-          <div className="flex gap-10 ml-20 overflow-x-auto hide-scrollbar">
+          <div className="flex gap-10 ml-20 overflow-x-auto">
   {meals.map(item => (
-    <div key={item.recipe.uri} className="h-110 bg-white shadow-md relative min-w-70">
+    <div key={item.recipe.uri} className="h-110 bg-white shadow-lg relative min-w-70">
       <img src={item.recipe.image} alt={item.recipe.label} className="rounded-2xl" />
       <p className="text-xl font-bold p-3">{item.recipe.label}</p>
-      <button className="bg-blue-200 py-1 px-3 rounded-2xl cursor-pointer absolute right-5 bottom-5">
+      <button className="bg-blue-200 py-1 px-3 rounded-2xl cursor-pointer absolute right-5 bottom-5" onClick={() => setModal(true)}>
         View Recipe
       </button>
     </div>
@@ -32,9 +34,20 @@ export default function Favourites() {
 </div>
           :
           <div>
-            <p className='text-xl font-mono text-gray-400'>No Meals added in favourites Yet...</p>
+            <p className='text-xl font-mono text-gray-400 ml-20'>No Meals added in favourites Yet...</p>
           </div>
         }
+        </div>
+      </div>
+
+
+      <div className={` fixed inset-0 transition-all duration-500 ${ modal ? 'bg-black/50 opacity-100 pointer-events-auto' : 'bg-transparent opacity-0 pointer-events-none' }`}>
+        <div className={`relative h-70 w-120 bg-white shadow-lg rounded-2xl ml-120 mt-50 ${modal ? 'scale-100' : 'scale-0'} transition-transform duration-500`} >
+<X size={25} color='black' className='absolute right-5 top-5 cursor-pointer' onClick={()=> setModal(false)}/>
+  <p className='pt-17 text-xl font-bold px-17'>Are you Sure you want to proceed??</p>
+  <p className='px-17 my-5 '>By Proceeding Further you are using your 1 of 3 free meal recipe findings</p>
+  <button className='px-5 py-1 cursor-pointer bg-blue-200 rounded mx-17 hover:scale-105 hover:shadow-md transition-all duration-500'>Cancel</button>
+  <button className='px-5 py-1 cursor-pointer bg-blue-200 rounded hover:scale-105 hover:shadow-md transition-all duration-500'>Proceed</button>
         </div>
       </div>
     </div>

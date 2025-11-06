@@ -9,10 +9,10 @@ export default function Planning() {
       <Navbar />
       <HeroSection path={currScreen} />
       <div className='h-100 bg-linear-to-r from-blue-200 to-white'>
-        <div className='px-20 py-10'>
+        <div className='px-20 py-10 mt-20'>
           <p className='text-xl'>Tailor-made meal plans designed for your health goals and lifestyle.</p>
           <p className='text-xl'>Delicious, easy, and nutriciest approved</p>
-          <p className='text-2xl font-bold my-10'>Filter By:</p>
+          <p className='text-2xl font-bold mt-10'>Filter By:</p>
         </div>
         <div className='flex items-center justify-between px-20'>
           <div>
