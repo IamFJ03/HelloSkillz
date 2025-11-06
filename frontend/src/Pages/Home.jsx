@@ -10,8 +10,10 @@ import { useCart } from '../Context/CartContext';
 const MEALS_BATCH_SIZE = 4;
 
 export default function Home() {
-  const APP_ID = import.meta.env.REACT_APP_EDAMAM_APP_ID;
-  const APP_KEY = import.meta.env.REACT_APP_EDAMAM_APP_KEY;
+  const APP_ID = import.meta.env.VITE_EDAMAM_APP_ID;
+const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
+
+
   const searchTerm = 'pasta';
   const [foods, setFoods] = useState([]);
   const [trendFoods, setTrendFoods] = useState([]);
