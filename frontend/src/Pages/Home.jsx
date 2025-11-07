@@ -179,7 +179,7 @@ const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
       {
 
         <div className={`fixed inset-0 z-100 ${modal ? 'bg-black/50 opacity-100 pointer-events-auto' : 'bg-transparent opacity-0 pointer-events-none'} transition-all duration-500`}>
-          <div className={`h-120 w-200 rounded-2xl bg-white shadow-xl relative top-30 left-90 ${modal ? 'scale-100' : 'scale-0'} transition-transform duration-500`}>
+          <div className={`h-fit w-200 pb-10 rounded-2xl bg-white shadow-xl relative top-30 left-90 ${modal ? 'scale-100' : 'scale-0'} transition-transform duration-500`}>
             <div className='flex items-center justify-between px-10 pt-10'>
               <p className='font-bold font-mono text-2xl '>Meal Details:</p>
               <X color='black' size={25} onClick={() => setModal(false)} className='cursor-pointer' />
@@ -198,7 +198,7 @@ const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
                   <span className='font-bold'>Meal Type: </span><span>{details.recipe?.mealType}</span>
                 </div>
                 <div className='flex my-5'>
-                  <span className='font-bold my-3'>Dish Types: </span><span className='flex flex-wrap gap-3'>{details.recipe?.healthLabels.map((item) => (
+                  <span className='font-bold my-3'>Dish Types: </span><span className='flex flex-wrap gap-3'>{details.recipe?.healthLabels.slice(0,10).map((item) => (
                     <p className='py-1 px-3 ml-3 bg-blue-200 rounded-2xl'>{item}</p>
                   ))}</span>
 
