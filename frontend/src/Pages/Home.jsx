@@ -6,6 +6,7 @@ import { FaUserGear } from "react-icons/fa6";
 import { FaBowlFood } from "react-icons/fa6";
 import { FaPlateWheat } from "react-icons/fa6";
 import { X } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 import { useCart } from '../Context/CartContext';
 const MEALS_BATCH_SIZE = 4;
 
@@ -23,6 +24,7 @@ const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
   const [modal, setModal] = useState(false);
   const [details, setDetails] = useState({});
   const { favourites, setFavourites } = useCart();
+  const [msg, setMsg] = useState(false);
 
   const fetchRecipes = async () => {
     const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${searchTerm}&app_id=${APP_ID}&app_key=${APP_KEY}`;
@@ -80,12 +82,16 @@ const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
     setDetails(item);
     setModal(true)
     console.log(item);
+   
   }
 
   const handleFavourites = (item) => {
     setFavourites(prev => [...prev, item]);
     console.log("Meal Added to Cart", item);
-
+     setMsg(true);
+     setTimeout(() => {
+      setMsg(false);
+     }, 5000);
   }
   return (
     <div>
@@ -203,6 +209,10 @@ const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
           </div>
         </div>
       }
+      <div className={`bg-white h-20 w-90 fixed right-20 bottom-10 rounded-2xl shadow-md flex items-center ${msg ? 'opacity-100' : 'opacity-0'} transition-all duration-500`}>
+        <CheckCircle size={35} color='black' className=' mx-5' />
+        <p className='text-xl font-mono'>Meal Added to Favourites</p>
+      </div>
     </div>
   )
 }

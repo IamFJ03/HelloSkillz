@@ -27,22 +27,22 @@ export default function Recipe() {
   return (
     <div>
       <Navbar />
-      <div className='flex items-center'>
+      <div className='flex items-center gap-20'>
         <div>
         <img src={meal.recipe.image} alt={meal.recipe.label} className='rounded-2xl h-100 m-20 '/> 
         </div>
         <div>
           <p className=' text-2xl font-semibold font-mono mb-3'>Meal Recipe Includes:</p>
           {
-            meal.recipe.ingredientLines.map((i, index) => (
+            meal.recipe.ingredients.map((i, index) => (
               
               <div 
                 key={index}
-                className={`bg-blue-200 rounded-2xl px-5 mb-3 cursor-pointer shadow-md`}
+                className={`bg-blue-200 rounded-2xl px-5 mb-3 cursor-pointer shadow-md min-w-10`}
                 onClick={() => handleIngredientClick(index)}
               >
               
-                <p className='py-2 font-semibold'>{i}</p>
+                <p className='py-2 font-semibold'>{i.text}</p>
                
                 <div 
                     className={`
@@ -53,10 +53,15 @@ export default function Recipe() {
                         ${expandedIndex === index ? 'max-h-96 pb-3' : 'max-h-0'}
                     `}
                 >
-                    <p className='text-sm text-gray-700'>
-                        This ingredient is key for the flavor profile. 
-                        It is part of a healthy diet plan.
-                    </p>
+                  <div className='flex items-center gap-5 w-70'>
+                    <img src={i.image} className='h-30 w-30 rounded-2xl'/>
+                    <div className='font-mono'>
+                      <div><span className='font-bold'>Food: </span><span>{i.food}</span></div>
+                      <div className='my-3'><span className='font-bold'>Category: </span><span>{i.foodCategory}</span></div>
+                      <div><span className='font-bold'>Weight: </span><span>{Math.round(i.weight)}</span></div>
+                      
+                    </div>
+                  </div>
                 </div>
               </div>
             ))
