@@ -8,8 +8,9 @@ export const useCart = () => {
 
 export default function CartContext({children}) {
   const [favourites, setFavourites] = useState([]);
+  const [allMeals, setAllMeals] = useState([]);
   return <GlobalContext.Provider
-  value={{favourites, setFavourites}}
+  value={{favourites, setFavourites, allMeals, setAllMeals}}
   >
     {children}
   </GlobalContext.Provider>

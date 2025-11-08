@@ -2,7 +2,7 @@ import React from 'react';
 import { User } from 'lucide-react';
 import user from '../assets/user.png';
 import { Link } from 'react-router-dom';
-export default function Navbar() {
+export default function Navbar({foods}) {
   return (
     <div className='sticky top-0 z-50'>
       <div className='flex items-center justify-between px-20 py-5 bg-linear-to-r from-blue-200 to-white shadow-2xl'>

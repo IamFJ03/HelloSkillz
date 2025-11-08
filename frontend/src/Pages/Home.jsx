@@ -15,7 +15,7 @@ export default function Home() {
 const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
 
 
-  const searchTerm = 'pasta';
+  const searchTerm = 'recipe';
   const [foods, setFoods] = useState([]);
   const [trendFoods, setTrendFoods] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +23,7 @@ const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
   const [visibleMeals, setVisibleMeals] = useState([]);
   const [modal, setModal] = useState(false);
   const [details, setDetails] = useState({});
-  const { favourites, setFavourites } = useCart();
+  const { favourites, setFavourites, setAllMeals } = useCart();
   const [msg, setMsg] = useState(false);
 
   const fetchRecipes = async () => {
@@ -39,6 +39,7 @@ const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
       const data = await response.json();
       console.log("Fetched Recipes:", data.hits);
       const fetchedRecipes = data.hits;
+      setAllMeals(fetchedRecipes);
       const topFiveFoods = fetchedRecipes.slice(0, 8);
       const allFoods = fetchedRecipes.slice(8, 20);
 
@@ -95,7 +96,7 @@ const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
   }
   return (
     <div>
-      <Navbar />
+      <Navbar foods={foods}/>
       <HeroSection path={currScreen} />
       <div className='h-120 bg-linear-to-r from-blue-200 to-white my-20'>
         <p className='text-3xl font-bold px-20 py-10'>Trending Recipes</p>
