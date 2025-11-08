@@ -1,9 +1,10 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Navbar from '../Components/Navbar';
 import HeroSection from '../Components/HeroSection';
-import { Search } from 'lucide-react';
+import { Search, Settings2 } from 'lucide-react';
 
 export default function Planning() {
+  const [filter, setFilter] = useState(false);
   const currScreen = window.location.pathname;
 
   const dietLabels = [
@@ -19,8 +20,15 @@ export default function Planning() {
   const healthLabels = [
     "Sugar-Conscious", "Low Potassium", "Kidney-Friendly", "Egg-Free", "Peanut-Free", "Tree-Nut-Free",
 "Soy-Free", "Fish-Free", "Shellfish-Free", "Crustacean-Free", "Celery-Free", "Mustard-Free",
-"Sesame-Free", "Lupine-Free", "Mollusk-Free", "Alcohol-Free", "No oil added", "Sulfite-Free"
-  ]
+"Sesame-Free", "Lupine-Free", "Mollusk-Free", "Alcohol-Free", "No oil added", "Sulfite-Free",
+"Vegetarian", "Pescatarian","Pork-Free", "Red-Meat-Free", "Dairy-Free","Kosher","Vegan", "DASH",
+"Immuno-Supportive","Mollusk-Free"
+  ];
+
+  const handleFilter = () => {
+    setFilter(!filter);
+  }
+
   return (
     <div>
       <Navbar />
@@ -32,8 +40,12 @@ export default function Planning() {
         <div className='bg-blue-200 p-2.75 rounded'>
         <Search size={20} color='white' className='cursor-pointer'/>
         </div>
+        <Settings2 size={25} color='black' className='ml-3 cursor-pointer' onClick={() => handleFilter()}/>
       </div>
-      <div className='flex items-center gap-10 px-20 font-mono my-10'>
+
+      
+      <div className={`relative bg-white shadow-lg py-5 w-340 ml-20 rounded-2xl overflow-hidden ${filter ? 'max-h-190' : 'max-h-0 pointer-events-none opacity-0'} transition-all duration-1000 ease-in-out`}>
+        <div className='flex items-center gap-10 px-20 font-mono my-10'>
         <p className='text-xl font-semibold'>Diet Labels:</p>
         <ul className='flex'>
           {dietLabels.map((i) => (
@@ -56,6 +68,8 @@ export default function Planning() {
             <li className='bg-blue-200 rounded-2xl py-1.5 w-fit px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'>{i}</li>
           ))}
         </ul>
+      </div>
+      <button className=' ml-300 bg-blue-200 rounded py-2 px-5 mt-15 hover:shadow-md cursor-pointer hover:scale-105 transition-transform duration-500'>Apply Filter</button>
       </div>
     </div>
   )
