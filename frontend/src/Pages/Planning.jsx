@@ -6,6 +6,7 @@ import { Search, Settings2 } from 'lucide-react';
 export default function Planning() {
   const [filter, setFilter] = useState(false);
   const currScreen = window.location.pathname;
+  const [visibleHealthLabels, setVisibleHealthLabels] = useState([]);
 
   const dietLabels = [
     'Balanced', 'High Fiber',
@@ -25,10 +26,30 @@ export default function Planning() {
 "Immuno-Supportive","Mollusk-Free"
   ];
 
+  const VISIBLE_LABELS_SIZE = 7;
+  
   const handleFilter = () => {
     setFilter(!filter);
+    setVisibleHealthLabels(healthLabels.slice(0, 7));
   }
 
+  const handleLoadMore = () => {
+      const batchStart = visibleHealthLabels.length;
+      const batchEnd = batchStart + VISIBLE_LABELS_SIZE;
+
+      const nextBatch = healthLabels.slice(batchStart, batchEnd);
+      setVisibleHealthLabels(prev => [...prev, ...nextBatch])
+  }
+  const handleLoadLess = () => {
+      const batchStart = visibleHealthLabels.length;
+      const batchEnd = batchStart + VISIBLE_LABELS_SIZE;
+
+      const nextBatch = healthLabels.slice(batchStart, batchEnd);
+      setVisibleHealthLabels(prev => [...prev, ...nextBatch])
+  }
+  
+
+  const hasMoreLabels = visibleHealthLabels.length < healthLabels.length;
   return (
     <div>
       <Navbar />
@@ -63,10 +84,17 @@ export default function Planning() {
       </div>
       <div className='flex gap-10 px-20 font-mono mt-10'>
         <p className='text-xl font-semibold'>Health Labels:</p>
-        <ul className='flex flex-wrap gap-5'>
-          {healthLabels.map((i) => (
+        <ul className='flex flex-wrap gap-5 items-center'>
+          {visibleHealthLabels.map((i) => (
             <li className='bg-blue-200 rounded-2xl py-1.5 w-fit px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'>{i}</li>
+            
           ))}
+          {
+            hasMoreLabels ?
+            <p className='text-gray-500 text-lg cursor-pointer' onClick={() => handleLoadMore()}>Show more...</p>
+            :
+            <p className='text-gray-500 text-lg cursor-pointer' onClick={() => handleLoadLess()}>Show Less...</p>
+          }
         </ul>
       </div>
       <button className=' ml-300 bg-blue-200 rounded py-2 px-5 mt-15 hover:shadow-md cursor-pointer hover:scale-105 transition-transform duration-500'>Apply Filter</button>
