@@ -7,12 +7,17 @@ export default function Planning() {
   const [filter, setFilter] = useState(false);
   const currScreen = window.location.pathname;
   const [visibleHealthLabels, setVisibleHealthLabels] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const {allMeals} = useCart();
+  const [searchMeals, setSearchMeals] = useState([]);
 
   const APP_ID = import.meta.env.VITE_EDAMAM_APP_ID;
   const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
 
-    let searchTerm = '';
+  useEffect(() => {
+    setSearchMeals(allMeals);
+  },[])
+
     const fetchMeals = async () => {
       const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${searchTerm}&app_id=${APP_ID}&app_key=${APP_KEY}`;
       try {
@@ -22,7 +27,7 @@ export default function Planning() {
         }
         const data = await res.json();
         console.log("Meals:", data.hits);
-        
+        setSearchMeals(data.hits);
 
       }
       catch (e) {
@@ -78,7 +83,9 @@ export default function Planning() {
   }
 
   const handleSearch = () => {
-    
+    console.log("Search Item:", searchTerm);
+    setSearchTerm("");
+    fetchMeals();
   }
 
   const hasMoreLabels = visibleHealthLabels.length < healthLabels.length;
@@ -87,9 +94,9 @@ export default function Planning() {
       <Navbar />
       <HeroSection path={currScreen} />
       <div className='px-20 my-10 flex items-center font-mono'>
-        <input type='text' placeholder='Find Your Next Delicioius Meal' className='
+        <input type='text' placeholder='Find Your Next Delicioius Meal' value={searchTerm} className='
         w-330 py-2 px-5 placeholder-gray-400 rounded-tl rounded-bl shadow-md border border-gray-100 focus:outline-none focus:border-blue-500 transition-colors duration-500 
-        '/>
+        ' onChange={(e) => setSearchTerm(e.target.value)}/>
         <div className='bg-blue-200 p-2.75 rounded'>
           <Search size={20} color='white' className='cursor-pointer' onClick={() => handleSearch()}/>
         </div>
@@ -134,7 +141,7 @@ export default function Planning() {
       <div>
         {allMeals.length > 0 ? 
         <div className='flex flex-wrap gap-10 px-20'>
-          {allMeals.map((i) => (
+          {searchMeals.map((i) => (
             <div className='h-130 w-75 shadow-md rounded-2xl cursor-pointer hover:shadow-xl hover:-translate-y-10 transition-all duration-500'>
             <img src={i.recipe.image}  className='rounded-2xl'/>
             <p className='px-10 pt-5 text-lg font-mono'>{i.recipe.label}</p>
