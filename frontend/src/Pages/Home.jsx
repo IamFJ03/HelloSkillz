@@ -98,16 +98,16 @@ const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
     <div>
       <Navbar foods={foods}/>
       <HeroSection path={currScreen} />
-      <div className='h-120 bg-linear-to-r from-blue-200 to-white my-20'>
+      <div className='md:h-120 h-70 bg-linear-to-r from-blue-200 to-white md:my-20 mt-20'>
         <p className='text-3xl font-bold px-20 py-10'>Trending Recipes</p>
-        <div className='px-20'>
+        <div className='md:px-20 px-5'>
           {
             !isLoading ?
-              <div className=' w-350 overflow-hidden relative'>
+              <div className=' md:w-350 w-110 overflow-hidden relative'>
                 <div className='flex justify-start transition-transform duration-500 ease-in-out'
                   style={{ transform: `translateX(-${currIdx * 50}%)` }}>
                   {trendFoods.map((item) => (
-                    <div className='min-w-[25%] shrink-0 p-2'>
+                    <div className='md:min-w-[25%] max-w-[25%] shrink-0 p-2'>
                       <img src={item.recipe.image} className=' rounded-2xl' />
                     </div>
                   ))}
@@ -120,29 +120,29 @@ const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
           }
         </div>
       </div>
-      <div className='h-120 py-10 rounded-t-4xl'>
+      <div className='md:h-120 h-440 py-10 rounded-t-4xl'>
         <p className='text-3xl font-bold ml-20'>Categories to Explore</p>
-        <div className='flex items-center justify-between px-20'>
+        <div className='flex flex-col md:flex-row gap-10 items-center justify-between px-20'>
           <img src={Food1} className='h-70 my-10 rounded-2xl' />
-          <div className='h-50 w-50 rounded-2xl bg-white shadow-md text-center px-15 hover:-translate-y-5 transition-all duration-500 hover:shadow-xl cursor-pointer'>
-            <FaUserGear size={50} color='grey' className='mt-10 ml-5' />
-            <p>Personalized Meal Plans</p>
+          <div className='md:h-50 md:w-50 h-70 w-70 rounded-2xl bg-white shadow-md text-center px-15 hover:-translate-y-5 transition-all duration-500 hover:shadow-xl cursor-pointer'>
+            <FaUserGear size={50} color='grey' className='relative top-15 left-15 md:top-10 md:left-5' />
+            <p className='md:mt-10 mt-20 text-xl md:text-lg font-bold md:font-normal'>Personalized Meal Plans</p>
           </div>
-          <div className='h-50 w-50 rounded-2xl bg-white shadow-md text-center px-15 hover:-translate-y-5 transition-all duration-500 hover:shadow-xl cursor-pointer'>
-            <p>Save Your Favourites</p>
+          <div className='md:h-50 md:w-50 h-70 w-70 rounded-2xl bg-white shadow-md text-center px-15 hover:-translate-y-5 transition-all duration-500 hover:shadow-xl cursor-pointer'>
+            <p className='md:mt-10 mt-20 text-xl md:text-lg font-bold md:font-normal'>Save Your Favourites</p>
           </div>
-          <div className='h-50 w-50 rounded-2xl bg-white shadow-md text-center px-15 hover:-translate-y-5 transition-all duration-500 hover:shadow-xl cursor-pointer'>
-            <FaPlateWheat size={50} color='grey' className='mt-10 ml-5' />
-            <p>Cook with Confidence</p>
+          <div className='md:h-50 md:w-50 h-70 w-70 rounded-2xl bg-white shadow-md text-center px-15 hover:-translate-y-5 transition-all duration-500 hover:shadow-xl cursor-pointer'>
+            <FaPlateWheat size={50} color='grey' className='relative top-15 left-15 md:top-10 md:left-5'  />
+            <p className='md:mt-10 mt-20 text-xl md:text-lg font-bold md:font-normal'>Cook with Confidence</p>
           </div>
-          <div className='h-50 w-50 rounded-2xl bg-white shadow-md text-center px-15 hover:-translate-y-5 duration-500 hover:shadow-xl transition-all cursor-pointer'>
-            <FaBowlFood size={50} color='grey' className='mt-10 ml-5' />
-            <p>Cook with...</p>
+          <div className='md:h-50 md:w-50 h-70 w-70 rounded-2xl bg-white shadow-md text-center px-15 hover:-translate-y-5 transition-all duration-500 hover:shadow-xl cursor-pointer'>
+            <FaBowlFood size={50} color='grey' className='relative top-15 left-15 md:top-10 md:left-5'  />
+            <p className='md:mt-10 mt-20 text-xl md:text-lg font-bold md:font-normal'>Cook with...</p>
           </div>
         </div>
       </div>
-      <div className='px-20'>
-        <p className='text-3xl font-bold py-10'>All Meals</p>
+      <div className='md:px-20 mt-10'>
+        <p className='text-3xl font-bold md:py-10'>All Meals</p>
         {
           !isLoading ?
             (

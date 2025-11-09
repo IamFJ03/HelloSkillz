@@ -38,7 +38,7 @@ export default function Recipe() {
               
               <div 
                 key={index}
-                className={`bg-blue-200 rounded-2xl px-5 mb-3 cursor-pointer shadow-md min-w-10`}
+                className={`bg-blue-200 rounded-2xl px-5 mb-3 cursor-pointer shadow-md max-w-100`}
                 onClick={() => handleIngredientClick(index)}
               >
               

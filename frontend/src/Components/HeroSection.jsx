@@ -6,8 +6,8 @@ export default function HeroSection({path}) {
   return (
     <div>
       <div className='relative w-full overflow-hidden shadow-2xl'>
-        <img src={Hero} className={`w-full object-cover ${ path==='/meal-plan' ? 'h-70' : 'h-130'}`}/>
-        <div className='absolute top-60 left-120 text-center'>
+        <img src={Hero} className={`w-full object-cover ${ path==='/meal-plan' ? 'h-70' : 'md:h-130 h-90'}`}/>
+        <div className='absolute md:top-60 top-25 md:left-120 left-5 text-center'>
         { 
         path === "/" ?
         <div>

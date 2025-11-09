@@ -3,7 +3,7 @@ import Navbar from '../Components/Navbar';
 import HeroSection from '../Components/HeroSection';
 import { Search, Settings2 } from 'lucide-react';
 import { useCart } from '../Context/CartContext';
-import { X } from 'lucide-react';
+import { X, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function Planning() {
@@ -11,10 +11,11 @@ export default function Planning() {
   const currScreen = window.location.pathname;
   const [visibleHealthLabels, setVisibleHealthLabels] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const { allMeals } = useCart();
+  const { allMeals, setFavourites } = useCart();
   const [searchMeals, setSearchMeals] = useState([]);
   const [modal, setModal] = useState(false);
   const [details, setDetails] = useState({});
+  const [msg, setMsg] = useState("");
   const APP_ID = import.meta.env.VITE_EDAMAM_APP_ID;
   const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
 
@@ -90,6 +91,16 @@ export default function Planning() {
     console.log("Search Item:", searchTerm);
 
     fetchMeals();
+  }
+
+  const handleFavourites = (item) => {
+    setModal(false);
+    setFavourites(prev => [...prev, item]);
+    console.log("Meal Added to Cart", item);
+     setMsg(true);
+     setTimeout(() => {
+      setMsg(false);
+     }, 5000);
   }
 
   const hasMoreLabels = visibleHealthLabels.length < healthLabels.length;
@@ -175,7 +186,7 @@ export default function Planning() {
           </div>
           :
           <div>
-            <motion.p className='text-xl font-mono' animate={{ y:-10}} transition={{ repeat: Infinity, duration: 0.5, repeatType: "reverse", ease: "easeInOut" }}>Loading...</motion.p>
+            <motion.p className='text-xl font-mono px-20 text-gray-500' animate={{ y:-10}} transition={{ repeat: Infinity, duration: 0.5, repeatType: "reverse", ease: "easeInOut" }}>Loading...</motion.p>
           </div>}
       </div>
       <div className={`fixed inset-0 z-100 ${modal ? 'bg-black/50 opacity-100 pointer-events-auto' : 'bg-transparent opacity-0 pointer-events-none'} transition-all duration-500`}>
@@ -204,12 +215,16 @@ export default function Planning() {
 
               </div>
               <div>
-                <p className='bg-blue-200 w-60 rounded px-7 py-1 cursor-pointer'>Add to favourites</p>
+                <p className='bg-blue-200 w-60 rounded px-7 py-1 cursor-pointer' onClick={() => handleFavourites(details)}>Add to favourites</p>
               </div>
             </div>
           </div>
           <p></p>
         </div>
+      </div>
+      <div className={`bg-white h-20 w-90 fixed right-20 bottom-10 rounded-2xl shadow-md flex items-center ${msg ? 'opacity-100' : 'opacity-0'} transition-all duration-500`}>
+        <CheckCircle size={35} color='black' className=' mx-5' />
+        <p className='text-xl font-mono'>Meal Added to Favourites</p>
       </div>
     </div>
   )
