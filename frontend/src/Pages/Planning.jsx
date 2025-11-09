@@ -4,6 +4,8 @@ import HeroSection from '../Components/HeroSection';
 import { Search, Settings2 } from 'lucide-react';
 import { useCart } from '../Context/CartContext';
 import { X } from 'lucide-react';
+import { motion } from 'framer-motion';
+
 export default function Planning() {
   const [filter, setFilter] = useState(false);
   const currScreen = window.location.pathname;
@@ -147,7 +149,8 @@ export default function Planning() {
               <div
                 key={i.recipe.uri}
                 className='h-130 w-75 [perspective:1000px] cursor-pointer'
-                onClick={() => {setDetails(i)
+                onClick={() => {
+                  setDetails(i)
                   setModal(true)
                 }}
               >
@@ -161,8 +164,9 @@ export default function Planning() {
                   </div>
 
                   <div className='absolute inset-0 w-full h-full shadow-md rounded-2xl bg-blue-100 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col items-center justify-center p-5'>
-                    <p className='text-3xl font-bold font-mono text-blue-800'>Details</p>
-                    <p className='text-md font-mono text-gray-700 mt-2'>Click again to open modal!</p>
+                    <p className='text-3xl font-bold font-mono text-blue-800'>View Details</p>
+                    <p className='text-xl font-bold font-mono'>or</p>
+                    <p className='text-3xl font-bold font-mono text-blue-800 px-10'>Add To Favourites</p>
                   </div>
 
                 </div>
@@ -171,10 +175,11 @@ export default function Planning() {
           </div>
           :
           <div>
+            <motion.p className='text-xl font-mono' animate={{ y:-10}} transition={{ repeat: Infinity, duration: 0.5, repeatType: "reverse", ease: "easeInOut" }}>Loading...</motion.p>
           </div>}
       </div>
       <div className={`fixed inset-0 z-100 ${modal ? 'bg-black/50 opacity-100 pointer-events-auto' : 'bg-transparent opacity-0 pointer-events-none'} transition-all duration-500`}>
-        <div className={`h-fit w-200 pb-10 rounded-2xl bg-white shadow-xl relative top-30 left-90 ${modal ? 'scale-100' : 'scale-0'} transition-transform duration-500`}>
+        <div className={`h-fit w-200 pb-10 rounded-2xl bg-white shadow-xl relative top-10 left-90 ${modal ? 'scale-100' : 'scale-0 '} transition-transform duration-500`}>
           <div className='flex items-center justify-between px-10 pt-10'>
             <p className='font-bold font-mono text-2xl '>Meal Details:</p>
             <X color='black' size={25} onClick={() => setModal(false)} className='cursor-pointer' />
@@ -197,6 +202,9 @@ export default function Planning() {
                   <p className='py-1 px-3 ml-3 bg-blue-200 rounded-2xl'>{item}</p>
                 ))}</span>
 
+              </div>
+              <div>
+                <p className='bg-blue-200 w-60 rounded px-7 py-1 cursor-pointer'>Add to favourites</p>
               </div>
             </div>
           </div>
