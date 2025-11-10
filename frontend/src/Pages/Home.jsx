@@ -98,7 +98,7 @@ export default function Home() {
     <div>
       <Navbar foods={foods} />
       <HeroSection path={currScreen} />
-      <div className='md:h-120 h-70 bg-gradient-to-r from-blue-200 to-white md:my-20 mt-20'>
+      <div className='md:h-120 h-70 bg-linear-to-r from-blue-200 to-white md:my-20 mt-20'>
         <p className='text-3xl font-bold px-20 py-10'>Trending Recipes</p>
         <div className='md:px-20 px-5'>
           {
