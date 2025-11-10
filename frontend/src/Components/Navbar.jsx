@@ -6,7 +6,7 @@ export default function Navbar({ foods }) {
   const [nav, setNav] = useState(false)
   return (
     <div className='sticky top-0 z-50'>
-      <div className='md:flex hidden items-center justify-between px-20 py-5 bg-linear-to-r from-blue-200 to-white shadow-2xl'>
+      <div className='md:flex hidden items-center justify-between px-20 py-5 bg-gradient-to-r from-blue-200 to-white shadow-2xl'>
         <div>
           <p className='font-bold text-2xl'><Link to={'/'}>FlavorFinds</Link></p>
         </div>
@@ -32,7 +32,7 @@ export default function Navbar({ foods }) {
         <Ellipsis color='black' size={30} onClick={() => setNav(!nav)} />
         {
           
-          <div className={`w-110 bg-linear-to-r from-blue-200 to-white max-h-70 text-center flex flex-col gap-5 mx-5 rounded-2xl ${ nav ? 'scale-100' : 'scale-0'} transition-all duration-500`}>
+          <div className={`w-110 bg-gradient-to-r from-blue-200 to-white max-h-70 text-center flex flex-col gap-5 mx-5 rounded-2xl ${ nav ? 'scale-100' : 'scale-0'} transition-all duration-500`}>
             <div>
               <p className='font-bold text-2xl mt-5'><Link to={'/'}>FlavorFinds</Link></p>
             </div>
