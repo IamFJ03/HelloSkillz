@@ -108,35 +108,34 @@ export default function Planning() {
     <div>
       <Navbar />
       <HeroSection path={currScreen} />
-      <div className='px-20 my-10 flex items-center font-mono'>
+      <div className='md:px-20 px-10 my-10 flex items-center font-mono'>
         <input type='text' placeholder='Find Your Next Delicioius Meal' value={searchTerm} className='
         w-330 py-2 px-5 placeholder-gray-400 rounded-tl rounded-bl shadow-md border border-gray-100 focus:outline-none focus:border-blue-500 transition-colors duration-500 
         ' onChange={(e) => setSearchTerm(e.target.value)} />
         <div className='bg-blue-200 p-2.75 rounded'>
           <Search size={20} color='white' className='cursor-pointer' onClick={() => handleSearch()} />
         </div>
-        <Settings2 size={25} color='black' className='ml-3 cursor-pointer' onClick={() => handleFilter()} />
+        <Settings2 color='black' className='ml-3 cursor-pointer w-30 h-30 md:w-6 md:h-6' onClick={() => handleFilter()} />
       </div>
 
-
-      <div className={`relative bg-white shadow-lg py-5 w-340 ml-20 rounded-2xl overflow-hidden mb-10 ${filter ? 'max-h-190' : 'max-h-0 pointer-events-none opacity-0'} transition-all duration-1000 ease-in-out`}>
-        <div className='flex items-center gap-10 px-20 font-mono my-10'>
+      <div className={`relative bg-white shadow-lg py-5 md:w-340 w-105 md:ml-20 ml-10 rounded-2xl overflow-hidden mb-10 ${filter ? 'md:max-h-190 max-h-555' : 'max-h-0 pointer-events-none opacity-0'} transition-all duration-1000 ease-in-out`}>
+        <div className='flex items-center gap-10 px-10 font-mono my-10'>
           <p className='text-xl font-semibold'>Diet Labels:</p>
-          <ul className='flex'>
+          <ul className='flex flex-wrap md:flex-nowrap gap-5'>
             {dietLabels.map((i) => (
               <li className='bg-blue-200 rounded-2xl py-1.5 px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'>{i}</li>
             ))}
           </ul>
         </div>
-        <div className='flex items-center gap-10 px-20 font-mono'>
+        <div className='flex items-center gap-10 px-10 font-mono'>
           <p className='text-xl font-semibold'>Cuisine Types:</p>
-          <ul className='flex'>
+          <ul className='flex flex-wrap md:flex-nowrap gap-5'>
             {cuisineType.map((i) => (
               <li className='bg-blue-200 rounded-2xl py-1.5 px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'>{i}</li>
             ))}
           </ul>
         </div>
-        <div className='flex gap-10 px-20 font-mono mt-10'>
+        <div className='flex gap-10 px-10 font-mono mt-10'>
           <p className='text-xl font-semibold'>Health Labels:</p>
           <ul className='flex flex-wrap gap-5 items-center'>
             {visibleHealthLabels.map((i) => (
@@ -190,13 +189,13 @@ export default function Planning() {
           </div>}
       </div>
       <div className={`fixed inset-0 z-100 ${modal ? 'bg-black/50 opacity-100 pointer-events-auto' : 'bg-transparent opacity-0 pointer-events-none'} transition-all duration-500`}>
-        <div className={`h-fit w-200 pb-10 rounded-2xl bg-white shadow-xl relative top-10 left-90 ${modal ? 'scale-100' : 'scale-0 '} transition-transform duration-500`}>
+        <div className={`md:h-fit h-165 md:w-200 pb-10 rounded-2xl bg-white shadow-xl relative md:top-10 md:left-90 top-20 overflow-auto ${modal ? 'scale-100' : 'scale-0 '} transition-transform duration-500`}>
           <div className='flex items-center justify-between px-10 pt-10'>
             <p className='font-bold font-mono text-2xl '>Meal Details:</p>
             <X color='black' size={25} onClick={() => setModal(false)} className='cursor-pointer' />
           </div>
-          <div className='flex items-center justify-between px-10 gap-10'>
-            <img src={details.recipe?.image} className='h-70 w-70 rounded-2xl' />
+          <div className='flex md:flex-row flex-col items-center justify-between px-10 gap-10'>
+            <img src={details.recipe?.image} className='md:h-70 md:w-70 h-40 w-40 rounded-2xl mt-15' />
             <div className='font-mono text-lg'>
               <span className='font-bold'>Name: </span><span>{details.recipe?.label}</span>
               <div className='flex items-center'>
@@ -215,14 +214,14 @@ export default function Planning() {
 
               </div>
               <div>
-                <p className='bg-blue-200 w-60 rounded px-7 py-1 cursor-pointer' onClick={() => handleFavourites(details)}>Add to favourites</p>
+                <p className='bg-blue-200 w-60 rounded px-7 py-1 cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-500 shadow-md' onClick={() => handleFavourites(details)}>Add to favourites</p>
               </div>
             </div>
           </div>
           <p></p>
         </div>
       </div>
-      <div className={`bg-white h-20 w-90 fixed right-20 bottom-10 rounded-2xl shadow-md flex items-center ${msg ? 'opacity-100' : 'opacity-0'} transition-all duration-500`}>
+      <div className={`bg-white h-20 w-90 fixed md:right-20 md:bottom-10 top-10 left-6 rounded-2xl shadow-md flex items-center ${msg ? 'opacity-100' : 'opacity-0'} transition-all duration-500`}>
         <CheckCircle size={35} color='black' className=' mx-5' />
         <p className='text-xl font-mono'>Meal Added to Favourites</p>
       </div>

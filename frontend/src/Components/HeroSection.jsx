@@ -16,7 +16,7 @@ export default function HeroSection({path}) {
         <button className='bg-blue-800 text-white rounded-2xl py-2 px-5 cursor-pointer'>Start Browsing Recipes</button>
         </div>
         :
-        <p className=' text-white font-bold text-5xl -mt-20'>Discover Your Perfect Plan</p>
+        <p className=' text-white font-bold text-5xl md:-mt-20 w-100 md:w-200'>Discover Your Perfect Plan</p>
         }
         </div>
       </div>
