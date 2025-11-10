@@ -19,6 +19,8 @@ export default function Planning() {
   const APP_ID = import.meta.env.VITE_EDAMAM_APP_ID;
   const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
 
+  const MEALS_SIZE = 5;
+
   useEffect(() => {
     setSearchMeals(allMeals);
   }, [])
@@ -178,7 +180,6 @@ export default function Planning() {
                     <p className='text-xl font-bold font-mono'>or</p>
                     <p className='text-3xl font-bold font-mono text-blue-800 px-10'>Add To Favourites</p>
                   </div>
-
                 </div>
               </div>
             ))}
@@ -225,6 +226,7 @@ export default function Planning() {
         <CheckCircle size={35} color='black' className=' mx-5' />
         <p className='text-xl font-mono'>Meal Added to Favourites</p>
       </div>
+      
     </div>
   )
 }
