@@ -12,7 +12,7 @@ const MEALS_BATCH_SIZE = 4;
 
 export default function Home() {
   const APP_ID = import.meta.env.VITE_EDAMAM_APP_ID;
-const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
+  const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
 
 
   const searchTerm = 'recipe';
@@ -83,20 +83,20 @@ const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
     setDetails(item);
     setModal(true)
     console.log(item);
-   
+
   }
 
   const handleFavourites = (item) => {
     setFavourites(prev => [...prev, item]);
     console.log("Meal Added to Cart", item);
-     setMsg(true);
-     setTimeout(() => {
+    setMsg(true);
+    setTimeout(() => {
       setMsg(false);
-     }, 5000);
+    }, 5000);
   }
   return (
     <div>
-      <Navbar foods={foods}/>
+      <Navbar foods={foods} />
       <HeroSection path={currScreen} />
       <div className='md:h-120 h-70 bg-linear-to-r from-blue-200 to-white md:my-20 mt-20'>
         <p className='text-3xl font-bold px-20 py-10'>Trending Recipes</p>
@@ -132,11 +132,11 @@ const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
             <p className='md:mt-10 mt-20 text-xl md:text-lg font-bold md:font-normal'>Save Your Favourites</p>
           </div>
           <div className='md:h-50 md:w-50 h-70 w-70 rounded-2xl bg-white shadow-md text-center px-15 hover:-translate-y-5 transition-all duration-500 hover:shadow-xl cursor-pointer'>
-            <FaPlateWheat size={50} color='grey' className='relative top-15 left-15 md:top-10 md:left-5'  />
+            <FaPlateWheat size={50} color='grey' className='relative top-15 left-15 md:top-10 md:left-5' />
             <p className='md:mt-10 mt-20 text-xl md:text-lg font-bold md:font-normal'>Cook with Confidence</p>
           </div>
           <div className='md:h-50 md:w-50 h-70 w-70 rounded-2xl bg-white shadow-md text-center px-15 hover:-translate-y-5 transition-all duration-500 hover:shadow-xl cursor-pointer'>
-            <FaBowlFood size={50} color='grey' className='relative top-15 left-15 md:top-10 md:left-5'  />
+            <FaBowlFood size={50} color='grey' className='relative top-15 left-15 md:top-10 md:left-5' />
             <p className='md:mt-10 mt-20 text-xl md:text-lg font-bold md:font-normal'>Cook with...</p>
           </div>
         </div>
@@ -162,8 +162,8 @@ const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
                         <span className='font-bold'>Dish Type: </span><span>{foodItems.recipe.dishType}</span>
                       </div>
                       <div className='flex flex-col md:flex-row gap-5 md:gap-0 '>
-                      <button className='bg-blue-200 text-white w-50 py-2 px-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleViewDetails(foodItems)}>View Details</button>
-                      <button className='bg-blue-200 text-white w-50 py-2 px-5 md:ml-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleFavourites(foodItems)}>Add to Favourites</button>
+                        <button className='bg-blue-200 text-white w-50 py-2 px-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleViewDetails(foodItems)}>View Details</button>
+                        <button className='bg-blue-200 text-white w-50 py-2 px-5 md:ml-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleFavourites(foodItems)}>Add to Favourites</button>
                       </div>
                     </div>
                   </div>
@@ -180,15 +180,14 @@ const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
         }
       </div>
       {
-
         <div className={`fixed inset-0 z-100 ${modal ? 'bg-black/50 opacity-100 pointer-events-auto' : 'bg-transparent opacity-0 pointer-events-none'} transition-all duration-500`}>
-          <div className={`h-fit w-200 pb-10 rounded-2xl bg-white shadow-xl relative top-30 left-90 ${modal ? 'scale-100' : 'scale-0'} transition-transform duration-500`}>
+          <div className={`h-183 md:h-fit md:w-220 w-110 pb-10 rounded-2xl bg-white shadow-xl relative md:top-30 md:left-90 left-6 ${modal ? 'scale-100' : 'scale-0'} transition-transform duration-500`}>
             <div className='flex items-center justify-between px-10 pt-10'>
-              <p className='font-bold font-mono text-2xl '>Meal Details:</p>
+              <p className='font-bold font-mono text-2xl md:my-0 mb-5'>Meal Details:</p>
               <X color='black' size={25} onClick={() => setModal(false)} className='cursor-pointer' />
             </div>
-            <div className='flex items-center justify-between px-10 gap-10'>
-              <img src={details.recipe?.image} className='h-70 w-70 rounded-2xl' />
+            <div className='flex flex-col md:flex-row items-center justify-between px-10 gap-10'>
+              <img src={details.recipe?.image} className='md:h-70 md:w-70 h-40 w-40 rounded-2xl' />
               <div className='font-mono text-lg'>
                 <span className='font-bold'>Name: </span><span>{details.recipe?.label}</span>
                 <div className='flex items-center'>
@@ -201,7 +200,7 @@ const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
                   <span className='font-bold'>Meal Type: </span><span>{details.recipe?.mealType}</span>
                 </div>
                 <div className='flex my-5'>
-                  <span className='font-bold my-3'>Dish Types: </span><span className='flex flex-wrap gap-3'>{details.recipe?.healthLabels.slice(0,10).map((item) => (
+                  <span className='font-bold my-3'>Dish Types: </span><span className='flex flex-wrap gap-3'>{details.recipe?.healthLabels.slice(0, 8).map((item) => (
                     <p className='py-1 px-3 ml-3 bg-blue-200 rounded-2xl'>{item}</p>
                   ))}</span>
 
