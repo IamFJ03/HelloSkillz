@@ -181,13 +181,13 @@ export default function Home() {
       </div>
       {
         <div className={`fixed inset-0 z-100 ${modal ? 'bg-black/50 opacity-100 pointer-events-auto' : 'bg-transparent opacity-0 pointer-events-none'} transition-all duration-500`}>
-          <div className={`h-183 md:h-fit md:w-220 w-110 pb-10 rounded-2xl bg-white shadow-xl relative md:top-30 md:left-90 left-6 ${modal ? 'scale-100' : 'scale-0'} transition-transform duration-500`}>
+          <div className={`md:h-fit h-165 md:w-220  pb-10 rounded-2xl bg-white shadow-xl relative md:top-30 md:left-90 overflow-auto top-20 ${modal ? 'scale-100' : 'scale-0'} transition-transform duration-500`}>
             <div className='flex items-center justify-between px-10 pt-10'>
               <p className='font-bold font-mono text-2xl md:my-0 mb-5'>Meal Details:</p>
               <X color='black' size={25} onClick={() => setModal(false)} className='cursor-pointer' />
             </div>
             <div className='flex flex-col md:flex-row items-center justify-between px-10 gap-10'>
-              <img src={details.recipe?.image} className='md:h-70 md:w-70 h-40 w-40 rounded-2xl' />
+              <img src={details.recipe?.image} className='md:h-70 md:w-70 rounded-2xl md:mt-0 mt-10' />
               <div className='font-mono text-lg'>
                 <span className='font-bold'>Name: </span><span>{details.recipe?.label}</span>
                 <div className='flex items-center'>
@@ -211,7 +211,7 @@ export default function Home() {
           </div>
         </div>
       }
-      <div className={`bg-white h-20 w-90 fixed right-20 bottom-10 rounded-2xl shadow-md flex items-center ${msg ? 'opacity-100' : 'opacity-0'} transition-all duration-500`}>
+      <div className={`bg-white h-20 w-90 fixed md:right-20 md:bottom-10 top-10 left-6 rounded-2xl shadow-md flex items-center ${msg ? 'opacity-100' : 'opacity-0'} transition-all duration-500`}>
         <CheckCircle size={35} color='black' className=' mx-5' />
         <p className='text-xl font-mono'>Meal Added to Favourites</p>
       </div>
