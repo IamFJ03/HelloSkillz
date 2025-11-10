@@ -142,14 +142,14 @@ const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
         </div>
       </div>
       <div className='md:px-20 mt-10'>
-        <p className='text-3xl font-bold md:py-10'>All Meals</p>
+        <p className='text-3xl font-bold py-10 px-10 md:px-0'>All Meals</p>
         {
           !isLoading ?
             (
               <div className='flex flex-col gap-10 h-320'>
                 {visibleMeals.map((foodItems, index) => (
-                  <div className='flex items-center font-mono gap-40'>
-                    <img src={foodItems.recipe.image} className='h-70 w-70 rounded-2xl' />
+                  <div className='flex items-center font-mono md:gap-40 gap-10 mb-5 px-10 md:px-0'>
+                    <img src={foodItems.recipe.image} className='md:h-70 md:w-70 h-40 w-40 rounded-2xl' />
                     <div>
                       <p className='text-2xl font-bold mb-3'>{foodItems.recipe.label}</p>
                       <div>
@@ -161,8 +161,10 @@ const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
                       <div className='mb-3'>
                         <span className='font-bold'>Dish Type: </span><span>{foodItems.recipe.dishType}</span>
                       </div>
-                      <button className='bg-blue-200 text-white py-2 px-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleViewDetails(foodItems)}>View Details</button>
-                      <button className='bg-blue-200 text-white py-2 px-5 ml-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleFavourites(foodItems)}>Add to Favourites</button>
+                      <div className='flex flex-col md:flex-row gap-5 md:gap-0 '>
+                      <button className='bg-blue-200 text-white w-50 py-2 px-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleViewDetails(foodItems)}>View Details</button>
+                      <button className='bg-blue-200 text-white w-50 py-2 px-5 md:ml-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleFavourites(foodItems)}>Add to Favourites</button>
+                      </div>
                     </div>
                   </div>
                 ))}
