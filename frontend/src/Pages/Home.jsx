@@ -162,8 +162,8 @@ export default function Home() {
                         <span className='font-bold'>Dish Type: </span><span>{foodItems.recipe.dishType}</span>
                       </div>
                       <div className='flex flex-col md:flex-row gap-5 md:gap-0 '>
-                        <button className='bg-blue-400 text-white w-50 py-2 px-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleViewDetails(foodItems)}>View Details</button>
-                        <button className='bg-blue-400 text-white w-50 py-2 px-5 md:ml-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleFavourites(foodItems)}>Add to Favourites</button>
+                        <button className='md:bg-blue-200 bg-blue-400 text-white w-50 py-2 px-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleViewDetails(foodItems)}>View Details</button>
+                        <button className='md:bg-blue-200 bg-blue-400 text-white w-50 py-2 px-5 md:ml-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleFavourites(foodItems)}>Add to Favourites</button>
                       </div>
                     </div>
                   </div>
