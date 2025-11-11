@@ -104,7 +104,7 @@ export default function Home() {
         <div className='md:px-20 px-5'>
           {
             !isLoading ?
-              <div className=' md:w-350 w-110 overflow-hidden relative'>
+              <div className=' md:w-350 w-90 overflow-hidden relative'>
                 <div className='flex justify-start transition-transform duration-500 ease-in-out'
                   style={{ transform: `translateX(-${currIdx * 50}%)` }}>
                   {trendFoods.map((item) => (
@@ -193,7 +193,7 @@ export default function Home() {
                 <span className='font-bold'>Name: </span><span>{details.recipe?.label}</span>
                 <div className='flex items-center'>
                   <span className='font-bold my-5'>Diets: </span><span className='flex'>{details.recipe?.dietLabels.map((item) => (
-                    <p className='py-1 px-3 ml-3 bg-blue-200 rounded-2xl'>{item} </p>
+                    <p style={{backgroundColor:'#bfdbfe'}} className='py-1 px-3 ml-3  rounded-2xl'>{item} </p>
                   ))}</span>
 
                 </div>
@@ -202,7 +202,7 @@ export default function Home() {
                 </div>
                 <div className='flex my-5'>
                   <span className='font-bold my-3'>Dish Types: </span><span className='flex flex-wrap gap-3'>{details.recipe?.healthLabels.slice(0, 8).map((item) => (
-                    <p className='py-1 px-3 ml-3 bg-blue-200 rounded-2xl'>{item}</p>
+                    <p style={{backgroundColor:'#bfdbfe'}} className='py-1 px-3 ml-3 rounded-2xl'>{item}</p>
                   ))}</span>
 
                 </div>
