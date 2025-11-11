@@ -94,12 +94,12 @@ export default function Home() {
       setMsg(false);
     }, 5000);
   }
-  
+
   return (
     <div>
       <Navbar foods={foods} />
       <HeroSection path={currScreen} />
-      <div className='md:h-120 h-70 bg-gradient-to-r from-blue-200 to-white md:my-20 mt-20'>
+      <div style={{backgroundImage: 'linear-gradient(to right, #bfdbfe, white)'}} className='md:h-120 h-70 from-blue-200 to-white md:my-20 mt-20'>
         <p className='text-3xl font-bold px-20 py-10'>Trending Recipes</p>
         <div className='md:px-20 px-5'>
           {
@@ -163,8 +163,8 @@ export default function Home() {
                         <span className='font-bold'>Dish Type: </span><span>{foodItems.recipe.dishType}</span>
                       </div>
                       <div className='flex flex-col md:flex-row gap-5 md:gap-0 '>
-                        <button className='bg-blue-400 md:bg-blue-200 text-white w-40 md:w-50 py-2 px-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleViewDetails(foodItems)}>View Details</button>
-                        <button className='bg-blue-400 md:bg-blue-200 text-white w-40 md:w-50 py-2 px-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleFavourites(foodItems)}>Add to Favourites</button>
+                        <button style={{backgroundColor:'#bfdbfe'}} className=' md:bg-blue-200 text-white w-40 md:w-50 py-2 px-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleViewDetails(foodItems)}>View Details</button>
+                        <button style={{backgroundColor:'#bfdbfe'}} className=' md:bg-blue-200 text-white w-40 md:w-50 py-2 px-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleFavourites(foodItems)}>Add to Favourites</button>
                       </div>
                     </div>
                   </div>

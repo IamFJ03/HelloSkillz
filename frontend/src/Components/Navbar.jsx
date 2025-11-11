@@ -34,7 +34,7 @@ export default function Navbar({ foods }) {
           
           <div 
   style={{backgroundImage: 'linear-gradient(to right, #bfdbfe, white)'}} 
-  className={`w-110 max-h-70 text-center flex flex-col gap-5 mx-5 rounded-2xl ${ nav ? 'scale-100' : 'scale-0'} transition-all duration-500`}
+  className={`w-90 max-h-70 text-center flex flex-col gap-5 mx-5 rounded-2xl ${ nav ? 'scale-100' : 'scale-0'} transition-all duration-500`}
 >
             <div>
               <p className='font-bold text-2xl mt-5'><Link to={'/'}>FlavorFinds</Link></p>

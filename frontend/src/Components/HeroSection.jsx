@@ -13,7 +13,7 @@ export default function HeroSection({path}) {
         <div>
         <p className=' text-white font-bold text-5xl'>Unlock a World of Flavor</p>
         <p className=' text-white text-xl my-5'>Your Culinary Journy starts here</p>
-        <button className='bg-blue-800 text-white rounded-2xl py-2 px-5 cursor-pointer'>Start Browsing Recipes</button>
+        <button style={{backgroundColor:'blue'}} className=' text-white rounded-2xl py-2 px-5 cursor-pointer'>Start Browsing Recipes</button>
         </div>
         :
         <p className=' text-white font-bold text-5xl md:-mt-20 w-100 md:w-200'>Discover Your Perfect Plan</p>
