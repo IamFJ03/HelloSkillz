@@ -94,6 +94,7 @@ export default function Home() {
       setMsg(false);
     }, 5000);
   }
+  
   return (
     <div>
       <Navbar foods={foods} />
