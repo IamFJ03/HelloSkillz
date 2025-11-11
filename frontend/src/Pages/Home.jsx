@@ -104,7 +104,7 @@ export default function Home() {
         <div className='md:px-20 px-5'>
           {
             !isLoading ?
-              <div className=' md:w-350 w-90 overflow-hidden relative'>
+              <div className=' md:w-350 w-80 overflow-hidden relative'>
                 <div className='flex justify-start transition-transform duration-500 ease-in-out'
                   style={{ transform: `translateX(-${currIdx * 50}%)` }}>
                   {trendFoods.map((item) => (
@@ -182,7 +182,7 @@ export default function Home() {
       </div>
       {
         <div className={`fixed inset-0 z-100 ${modal ? 'bg-black/50 opacity-100 pointer-events-auto' : 'bg-transparent opacity-0 pointer-events-none'} transition-all duration-500`}>
-          <div className={`md:h-fit h-165 md:w-220  pb-10 rounded-2xl bg-white shadow-xl relative md:top-30 md:left-90 overflow-auto top-20 ${modal ? 'scale-100' : 'scale-0'} transition-transform duration-500`}>
+          <div className={`md:h-fit h-175 md:w-220  pb-10 rounded-2xl bg-white shadow-xl relative md:top-30 md:left-90 overflow-auto top-20 ${modal ? 'scale-100' : 'scale-0'} transition-transform duration-500`}>
             <div className='flex items-center justify-between px-10 pt-10'>
               <p className='font-bold font-mono text-2xl md:my-0 mb-5'>Meal Details:</p>
               <X color='black' size={25} onClick={() => setModal(false)} className='cursor-pointer' />
