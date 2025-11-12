@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../Components/Navbar';
 import HeroSection from '../Components/HeroSection';
-import { Search, Settings2 } from 'lucide-react';
+import { Search, Settings2, Settings } from 'lucide-react';
 import { useCart } from '../Context/CartContext';
 import { X, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -99,10 +99,10 @@ export default function Planning() {
     setModal(false);
     setFavourites(prev => [...prev, item]);
     console.log("Meal Added to Cart", item);
-     setMsg(true);
-     setTimeout(() => {
+    setMsg(true);
+    setTimeout(() => {
       setMsg(false);
-     }, 5000);
+    }, 5000);
   }
 
   const hasMoreLabels = visibleHealthLabels.length < healthLabels.length;
@@ -114,18 +114,17 @@ export default function Planning() {
         <input type='text' placeholder='Find Your Next Delicioius Meal' value={searchTerm} className='
         w-330 py-2 px-5 placeholder-gray-400 rounded-tl rounded-bl shadow-md border border-gray-100 focus:outline-none focus:border-blue-500 transition-colors duration-500 
         ' onChange={(e) => setSearchTerm(e.target.value)} />
-        <div className='bg-blue-200 p-2.75 rounded'>
+        <div className="flex gap-2 bg-white items-center">
+  <div className='bg-blue-200 p-2.75 rounded'>
           <Search size={20} color='white' className='cursor-pointer' onClick={() => handleSearch()} />
         </div>
-        <Settings2 
-  color='black' 
-  size={24} // Sets the size to 24px
-  className='ml-3 cursor-pointer md:w-6 md:h-6' // md:w-6/h-6 (24px) is only applied on desktop. Mobile relies on the size prop.
-  onClick={() => handleFilter()} 
-/>
+  <Settings color="black" size={30} className='cursor-pointer' onClick={() => handleFilter()}/>
+</div>
+        
+        
       </div>
 
-      <div className={`relative bg-white shadow-lg py-5 md:w-340 w-105 md:ml-20 ml-10 rounded-2xl overflow-hidden mb-10 ${filter ? 'md:max-h-190 max-h-555' : 'max-h-0 pointer-events-none opacity-0'} transition-all duration-1000 ease-in-out`}>
+      <div className={`relative bg-white shadow-lg py-5 md:w-340 w-75 md:ml-20 ml-10 rounded-2xl overflow-hidden mb-10 ${filter ? 'md:max-h-190 max-h-555' : 'max-h-0 pointer-events-none opacity-0'} transition-all duration-1000 ease-in-out`}>
         <div className='flex items-center gap-10 px-10 font-mono my-10'>
           <p className='text-xl font-semibold'>Diet Labels:</p>
           <ul className='flex flex-wrap md:flex-nowrap gap-5'>
@@ -191,7 +190,7 @@ export default function Planning() {
           </div>
           :
           <div>
-            <motion.p className='text-xl font-mono px-20 text-gray-500' animate={{ y:-10}} transition={{ repeat: Infinity, duration: 0.5, repeatType: "reverse", ease: "easeInOut" }}>Loading...</motion.p>
+            <motion.p className='text-xl font-mono px-20 text-gray-500' animate={{ y: -10 }} transition={{ repeat: Infinity, duration: 0.5, repeatType: "reverse", ease: "easeInOut" }}>Loading...</motion.p>
           </div>}
       </div>
       <div className={`fixed inset-0 z-100 ${modal ? 'bg-black/50 opacity-100 pointer-events-auto' : 'bg-transparent opacity-0 pointer-events-none'} transition-all duration-500`}>
@@ -220,7 +219,7 @@ export default function Planning() {
 
               </div>
               <div>
-                <p style={{backgroundImage: 'linear-gradient(to right, #bfdbfe, white)'}} className=' w-60 rounded px-7 py-1 cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-500 shadow-md' onClick={() => handleFavourites(details)}>Add to favourites</p>
+                <p style={{ backgroundImage: 'linear-gradient(to right, #bfdbfe, white)' }} className=' w-60 rounded px-7 py-1 cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-500 shadow-md' onClick={() => handleFavourites(details)}>Add to favourites</p>
               </div>
             </div>
           </div>
@@ -231,7 +230,7 @@ export default function Planning() {
         <CheckCircle size={35} color='black' className=' mx-5' />
         <p className='text-xl font-mono'>Meal Added to Favourites</p>
       </div>
-      
+
     </div>
   )
 }
