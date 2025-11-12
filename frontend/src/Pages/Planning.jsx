@@ -137,16 +137,17 @@ export default function Planning() {
       </div>
 
       <div className={`relative bg-white shadow-lg py-5 md:w-340 w-75 md:ml-20 ml-10 rounded-2xl overflow-hidden mb-10 ${filter ? 'md:max-h-190 max-h-555' : 'max-h-0 pointer-events-none opacity-0'} transition-all duration-1000 ease-in-out`}>
-        <div className='w-250 ml-45 py-1 px-3 border border-blue-200 shadow-md h-fit min-h-7 flex flex-wrap'>
+        <div className='flex md:flex-row flex-col gap-5 items-center'>
+          <div className='md:w-250 md:ml-45 w-60 ml-7  py-1 px-3 border border-blue-200 shadow-md h-fit max-h-70 flex flex-wrap overflow-auto'>
           {filterLabels.map((i) => (
-            <div style={{backgroundColor:'#bfdbfe'}}className='rounded-2xl py-1 px-3 ml-3 my-2 flex items-center'>
+            <div style={{backgroundColor:'#bfdbfe'}}className='rounded-2xl py-1.5 px-4 ml-3 my-2 flex items-center'>
             <span>{i}</span>
             <X color='black' size={15} onClick={() => handleLabelClick(i)} className='mt-1 ml-1 cursor-pointer'/>
             </div>
           ))}
-          
         </div>
-        <button className='absolute top-5 ml-300 bg-blue-200 rounded py-2 px-5 hover:shadow-md cursor-pointer hover:scale-105 transition-transform duration-500'>Apply Filter</button>
+        <button className='h-12 bg-blue-200 rounded py-2 px-5 hover:shadow-md cursor-pointer hover:scale-105 transition-transform duration-500'>Apply Filter</button>
+        </div>
         <div className='flex items-center gap-10 px-10 font-mono my-10'>
           <p className='text-xl font-semibold'>Diet Labels:</p>
           <ul className='flex flex-wrap md:flex-nowrap gap-5'>
