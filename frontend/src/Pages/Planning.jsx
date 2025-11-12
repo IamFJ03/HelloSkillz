@@ -117,7 +117,12 @@ export default function Planning() {
         <div className='bg-blue-200 p-2.75 rounded'>
           <Search size={20} color='white' className='cursor-pointer' onClick={() => handleSearch()} />
         </div>
-        <Settings2 color='black' className='ml-3 cursor-pointer w-30 h-30 md:w-6 md:h-6' onClick={() => handleFilter()} />
+        <Settings2 
+  color='black' 
+  size={24} // Sets the size to 24px
+  className='ml-3 cursor-pointer md:w-6 md:h-6' // md:w-6/h-6 (24px) is only applied on desktop. Mobile relies on the size prop.
+  onClick={() => handleFilter()} 
+/>
       </div>
 
       <div className={`relative bg-white shadow-lg py-5 md:w-340 w-105 md:ml-20 ml-10 rounded-2xl overflow-hidden mb-10 ${filter ? 'md:max-h-190 max-h-555' : 'max-h-0 pointer-events-none opacity-0'} transition-all duration-1000 ease-in-out`}>
@@ -190,7 +195,7 @@ export default function Planning() {
           </div>}
       </div>
       <div className={`fixed inset-0 z-100 ${modal ? 'bg-black/50 opacity-100 pointer-events-auto' : 'bg-transparent opacity-0 pointer-events-none'} transition-all duration-500`}>
-        <div className={`md:h-fit h-165 md:w-200 pb-10 rounded-2xl bg-white shadow-xl relative md:top-10 md:left-90 top-20 overflow-auto ${modal ? 'scale-100' : 'scale-0 '} transition-transform duration-500`}>
+        <div className={`md:h-fit h-165 md:w-200 pb-10 w-90 rounded-2xl bg-white shadow-xl absolute md:relative md:top-10 md:left-90 bottom-0 overflow-auto ${modal ? 'scale-100' : 'scale-0 '} transition-transform duration-500`}>
           <div className='flex items-center justify-between px-10 pt-10'>
             <p className='font-bold font-mono text-2xl '>Meal Details:</p>
             <X color='black' size={25} onClick={() => setModal(false)} className='cursor-pointer' />
@@ -201,7 +206,7 @@ export default function Planning() {
               <span className='font-bold'>Name: </span><span>{details.recipe?.label}</span>
               <div className='flex items-center'>
                 <span className='font-bold my-5'>Diets: </span><span className='flex'>{details.recipe?.dietLabels.map((item) => (
-                  <p className='py-1 px-3 ml-3 bg-blue-200 rounded-2xl'>{item} </p>
+                  <p className='py-1 px-3 ml-3 my-3 bg-blue-200 rounded-2xl'>{item} </p>
                 ))}</span>
 
               </div>
@@ -210,19 +215,19 @@ export default function Planning() {
               </div>
               <div className='flex my-5'>
                 <span className='font-bold my-3'>Dish Types: </span><span className='flex flex-wrap gap-3'>{details.recipe?.healthLabels.slice(0, 10).map((item) => (
-                  <p className='py-1 px-3 ml-3 bg-blue-200 rounded-2xl'>{item}</p>
+                  <p className='py-1 px-3 ml-3  bg-blue-200 rounded-2xl'>{item}</p>
                 ))}</span>
 
               </div>
               <div>
-                <p className='bg-blue-200 w-60 rounded px-7 py-1 cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-500 shadow-md' onClick={() => handleFavourites(details)}>Add to favourites</p>
+                <p style={{backgroundImage: 'linear-gradient(to right, #bfdbfe, white)'}} className=' w-60 rounded px-7 py-1 cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-500 shadow-md' onClick={() => handleFavourites(details)}>Add to favourites</p>
               </div>
             </div>
           </div>
           <p></p>
         </div>
       </div>
-      <div className={`bg-white h-20 w-90 fixed md:right-20 md:bottom-10 top-10 left-6 rounded-2xl shadow-md flex items-center ${msg ? 'opacity-100' : 'opacity-0'} transition-all duration-500`}>
+      <div className={`bg-white md:h-20 md:w-90 w-80 md:py-0 py-5 fixed md:right-20 md:bottom-10 top-10 left-6 rounded-2xl shadow-md flex items-center ${msg ? 'opacity-100' : 'opacity-0'} transition-all duration-500`}>
         <CheckCircle size={35} color='black' className=' mx-5' />
         <p className='text-xl font-mono'>Meal Added to Favourites</p>
       </div>

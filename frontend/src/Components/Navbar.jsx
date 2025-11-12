@@ -41,7 +41,7 @@ export default function Navbar({ foods }) {
             </div>
             <div>
               <ul className='flex flex-col gap-5'>
-                <li className=' transition-all duration-500 hover:text-blue-200'><select className="cursor-pointer appearance-none border border-gray-300 rounded-lg py-2 pl-3 pr-10 text-gray-700 leading-tight focus:outline-none focus:border-blue-500">
+                <li className=' transition-all duration-500 hover:text-blue-200'><select className=" text-center cursor-pointer appearance-none border border-gray-300 rounded-lg py-2 pl-3 pr-10 text-gray-700 leading-tight focus:outline-none focus:border-blue-500">
                   <option>Categories</option>
                   <option>Course</option>
                   <option>Cuisine</option>

@@ -149,7 +149,7 @@ export default function Home() {
             (
               <div className='flex flex-col gap-10 h-320'>
                 {visibleMeals.map((foodItems, index) => (
-                  <div className='flex items-center font-mono md:gap-40 gap-10 mb-5 px-10 md:px-0'>
+                  <div className='flex items-center font-mono md:gap-40 gap-5 mb-5 px-5 md:px-0'>
                     <img src={foodItems.recipe.image} className='md:h-70 md:w-70 h-40 w-40 rounded-2xl' />
                     <div>
                       <p className='text-2xl font-bold mb-3'>{foodItems.recipe.label}</p>
