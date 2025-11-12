@@ -105,6 +105,14 @@ export default function Planning() {
     }, 5000);
   }
 
+  const handleLabelClick = (label) => {
+    setSearchTerm((prev) => {
+      if(prev.toLowerCase().includes(label.toLowerCase())) return prev;
+
+      return prev ? `${prev}, ${label}` : label;
+    });
+  };
+
   const hasMoreLabels = visibleHealthLabels.length < healthLabels.length;
   return (
     <div>
@@ -115,13 +123,11 @@ export default function Planning() {
         w-330 py-2 px-5 placeholder-gray-400 rounded-tl rounded-bl shadow-md border border-gray-100 focus:outline-none focus:border-blue-500 transition-colors duration-500 
         ' onChange={(e) => setSearchTerm(e.target.value)} />
         <div className="flex gap-2 bg-white items-center">
-  <div className='bg-blue-200 p-2.75 rounded'>
-          <Search size={20} color='white' className='cursor-pointer' onClick={() => handleSearch()} />
+          <div className='bg-blue-200 p-2.75 rounded'>
+            <Search size={20} color='white' className='cursor-pointer' onClick={() => handleSearch()} />
+          </div>
+          <Settings color="black" size={30} className='cursor-pointer' onClick={() => handleFilter()} />
         </div>
-  <Settings color="black" size={30} className='cursor-pointer' onClick={() => handleFilter()}/>
-</div>
-        
-        
       </div>
 
       <div className={`relative bg-white shadow-lg py-5 md:w-340 w-75 md:ml-20 ml-10 rounded-2xl overflow-hidden mb-10 ${filter ? 'md:max-h-190 max-h-555' : 'max-h-0 pointer-events-none opacity-0'} transition-all duration-1000 ease-in-out`}>
@@ -129,15 +135,28 @@ export default function Planning() {
           <p className='text-xl font-semibold'>Diet Labels:</p>
           <ul className='flex flex-wrap md:flex-nowrap gap-5'>
             {dietLabels.map((i) => (
-              <li className='bg-blue-200 rounded-2xl py-1.5 px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'>{i}</li>
+              <li
+                key={i}
+                className='bg-blue-200 rounded-2xl py-1.5 px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'
+                onClick={() => handleLabelClick(i)}
+              >
+                {i}
+              </li>
             ))}
+
           </ul>
         </div>
         <div className='flex items-center gap-10 px-10 font-mono'>
           <p className='text-xl font-semibold'>Cuisine Types:</p>
           <ul className='flex flex-wrap md:flex-nowrap gap-5'>
             {cuisineType.map((i) => (
-              <li className='bg-blue-200 rounded-2xl py-1.5 px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'>{i}</li>
+              <li
+                key={i}
+                className='bg-blue-200 rounded-2xl py-1.5 px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'
+                onClick={() => handleLabelClick(i)}
+              >
+                {i}
+              </li>
             ))}
           </ul>
         </div>
@@ -145,8 +164,13 @@ export default function Planning() {
           <p className='text-xl font-semibold'>Health Labels:</p>
           <ul className='flex flex-wrap gap-5 items-center'>
             {visibleHealthLabels.map((i) => (
-              <li className='bg-blue-200 rounded-2xl py-1.5 w-fit px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'>{i}</li>
-
+              <li
+                key={i}
+                className='bg-blue-200 rounded-2xl py-1.5 w-fit px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'
+                onClick={() => handleLabelClick(i)}
+              >
+                {i}
+              </li>
             ))}
             {
               hasMoreLabels ?
