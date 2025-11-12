@@ -16,6 +16,7 @@ export default function Planning() {
   const [modal, setModal] = useState(false);
   const [details, setDetails] = useState({});
   const [msg, setMsg] = useState("");
+  const [filterLabels, setFilterLabels] = useState([]);
   const APP_ID = import.meta.env.VITE_EDAMAM_APP_ID;
   const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
 
@@ -106,11 +107,15 @@ export default function Planning() {
   }
 
   const handleLabelClick = (label) => {
-    setSearchTerm((prev) => {
-      if(prev.toLowerCase().includes(label.toLowerCase())) return prev;
+    setFilterLabels((prev) => {
+    
+    const alreadyExists = prev.some(l => l.toLowerCase() === label.toLowerCase());
+    if (alreadyExists) {      
+      return prev.filter(l => l.toLowerCase() !== label.toLowerCase());
+    }
 
-      return prev ? `${prev}, ${label}` : label;
-    });
+    return [...prev, label];
+  });
   };
 
   const hasMoreLabels = visibleHealthLabels.length < healthLabels.length;
@@ -131,6 +136,9 @@ export default function Planning() {
       </div>
 
       <div className={`relative bg-white shadow-lg py-5 md:w-340 w-75 md:ml-20 ml-10 rounded-2xl overflow-hidden mb-10 ${filter ? 'md:max-h-190 max-h-555' : 'max-h-0 pointer-events-none opacity-0'} transition-all duration-1000 ease-in-out`}>
+        <div>
+          <input type='text' className='w-250 ml-45 py-1 px-3 border border-blue-200 shadow-md' value={filterLabels} disabled/>
+        </div>
         <div className='flex items-center gap-10 px-10 font-mono my-10'>
           <p className='text-xl font-semibold'>Diet Labels:</p>
           <ul className='flex flex-wrap md:flex-nowrap gap-5'>
