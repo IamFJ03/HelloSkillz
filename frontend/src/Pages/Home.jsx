@@ -162,7 +162,7 @@ export default function Home() {
                       <div className='mb-3'>
                         <span className='font-bold'>Dish Type: </span><span>{foodItems.recipe.dishType}</span>
                       </div>
-                      <div className='flex flex-col md:flex-row gap-5 md:gap-0 '>
+                      <div className='flex flex-col  gap-5  '>
                         <button style={{backgroundColor:'#bfdbfe'}} className=' md:bg-blue-200 text-white w-40 md:w-50 py-2 px-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleViewDetails(foodItems)}>View Details</button>
                         <button style={{backgroundColor:'#bfdbfe'}} className=' md:bg-blue-200 text-white w-40 md:w-50 py-2 px-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleFavourites(foodItems)}>Add to Favourites</button>
                       </div>
@@ -212,10 +212,11 @@ export default function Home() {
           </div>
         </div>
       }
-      <div className={`bg-white h-20 w-90 fixed md:right-20 md:bottom-10 top-10 left-6 rounded-2xl shadow-md flex items-center ${msg ? 'opacity-100' : 'opacity-0'} transition-all duration-500`}>
+      <div className={`bg-white h-20 w-90 fixed right-6 top-10 md:right-20 md:bottom-10 md:top-auto rounded-2xl shadow-md flex items-center ${msg ? 'opacity-100' : 'opacity-0'} transition-all duration-500`}>
         <CheckCircle size={35} color='black' className=' mx-5' />
         <p className='text-xl font-mono'>Meal Added to Favourites</p>
       </div>
+      
     </div>
   )
 }
