@@ -56,7 +56,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchRecipes();
-  }, []);
+  }, [trendFoods, visibleMeals]);
 
   useEffect(() => {
     if (trendFoods.length > 0) {
