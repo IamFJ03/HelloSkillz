@@ -138,7 +138,7 @@ export default function Planning() {
 
       <div className={`relative bg-white shadow-lg py-5 md:w-340 w-75 md:ml-20 ml-10 rounded-2xl overflow-hidden mb-10 ${filter ? 'md:max-h-190 max-h-555' : 'max-h-0 pointer-events-none opacity-0'} transition-all duration-1000 ease-in-out`}>
         <div className='flex md:flex-row flex-col gap-5 items-center'>
-          <div className='md:w-250 md:ml-45 w-60 ml-7  py-1 px-3 border border-blue-200 shadow-md h-fit max-h-70 flex flex-wrap overflow-auto'>
+          <div className='md:w-250 md:ml-45 w-60 ml-7  py-1 px-3 border min-h-13 border-blue-200 shadow-md h-fit max-h-70 flex flex-wrap overflow-auto'>
           {filterLabels.map((i) => (
             <div style={{backgroundColor:'#bfdbfe'}}className='rounded-2xl py-1.5 px-4 ml-3 my-2 flex items-center'>
             <span>{i}</span>

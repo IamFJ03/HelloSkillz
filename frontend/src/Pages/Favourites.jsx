@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../Components/Navbar';
+import HeroSection from '../Components/HeroSection';
 import { useCart } from '../Context/CartContext';
 import { X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -29,21 +30,19 @@ export default function Favourites() {
       setModal(false);
       setSelectedMeal({});
   }
-
+  const pathname = window.location.pathname;
   return (
     <div>
       <Navbar />
+      <HeroSection path={pathname}/>
       <div>
-        <div className='ml-20'>
-          <p className='text-2xl font-bold font-mono mt-10'>Favourites:</p>
-          <p>Your curated collection of culinary delights</p>
-        </div>
+        <p className='px-20 text-2xl font-mono font-semibold mt-10'>Favourites:</p>
         <div className='mt-10'>
           {
             meals.length > 0 ?
-              <div className="flex gap-10 ml-20 overflow-x-auto">
+              <div className="flex gap-10 md:ml-20 md:overflow-auto flex-wrap">
                 {meals.map(item => (
-                  <div key={item.recipe.uri} className="h-110 bg-white shadow-lg relative w-70 bg-linear-to-r from-blue-200 to-white rounded-2xl">
+                  <div key={item.recipe.uri} style={{backgroundImage: 'linear-gradient(to right, #bfdbfe, white)'}} className="h-110 bg-white shadow-lg relative w-70 rounded-2xl">
                     <img src={item.recipe.image} alt={item.recipe.label} className="rounded-2xl" />
                     <p className="text-xl font-bold p-3">{item.recipe.label}</p>
                     <button className="bg-blue-200 py-1 px-3 rounded-2xl cursor-pointer absolute right-5 bottom-5" onClick={() => handleModal(item)}>
