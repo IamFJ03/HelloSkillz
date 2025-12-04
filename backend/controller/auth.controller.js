@@ -1,6 +1,8 @@
 const User = require("../model/auth.model");
 const jwt = require("jsonwebtoken");
 
+const jwtkey = 'iamFJ03';
+
 const SignUp = async (req, res) => {
 const {username, email, password} = req.body;
 console.log(username, email, password);
@@ -37,21 +39,35 @@ function Authenticate(req, res, next){
 }
 
 const Login = async (req, res) => {
-    const {username, email, password} = req.body;
-    try{
-        const fetchUser = await User.findOne({email});
-        if(fetchUser){
-            const user = {id: fetchUser._id, username, email, password};
-            const token = jwt.sign(user, jwtkey, {expiresIn:"1h"}, (err, token) => {
-                res.json({message:"Authentication Succesfull", token, USER: user});
-            });
-        }
-        else
-            res.json({message:"User Not Found"});
-    }
-    catch(e){
-        res.status(500).json({message:"Internal Server Error"});
-    }
-}
+    try {
+        const { email, password } = req.body;
 
-module.exports = {SignUp, Login};
+        const fetchUser = await User.findOne({ email });
+        if (!fetchUser)
+            return res.json({ message: "User Not Found" });
+
+        if (fetchUser.password !== password)
+            return res.json({ message: "Incorrect Password" });
+
+        const user = {
+            id: fetchUser._id,
+            username: fetchUser.username,
+            email: fetchUser.email
+        };
+
+        const token = jwt.sign(user, jwtkey, { expiresIn: "1h" });
+
+        res.json({
+            success: true,
+            message: "Authentication Succesfull",
+            token,
+            USER: user
+        });
+
+    } catch (e) {
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
+
+module.exports = {SignUp, Login, Authenticate};

@@ -5,6 +5,6 @@ const multer = require("multer");
 
 const upload = multer();
 router.post("/signup", upload.none(),SignUp);
-router.post("/login", upload.none(), Login);
+router.post("/login", Login);
 
 module.exports = router;
