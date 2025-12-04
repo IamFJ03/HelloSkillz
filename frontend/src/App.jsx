@@ -6,6 +6,7 @@ import Favourites from './Pages/Favourites';
 import Planning from './Pages/Planning';
 import CartContext from './Context/CartContext';
 import Recipe from './Pages/Recipe';
+import Payment from './Pages/Payment';
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path='/favourites' element={<Favourites />} />
         <Route path='/meal-plan' element={<Planning />} />
         <Route path='/recipe' element={<Recipe />} />
+        <Route path='/payment' element={<Payment />} />
       </Routes>
     </CartContext>
   )

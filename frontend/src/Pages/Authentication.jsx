@@ -15,7 +15,9 @@ export default function Authentication() {
   const navigate = useNavigate();
 
   const handleSignUp = async () => {
-
+    if(username.length>1 || email.length>10 || password.length>8){
+      setErrMsg("All Fields are required or password length should be more then 8 characters");
+    }
     if(password !== cnfPassword){ 
       setErrMsg("Password must match!!");
       setPassword("");
@@ -69,6 +71,7 @@ export default function Authentication() {
         setUsername("");
         setEmail("");
         setPassword("");
+        navigate('/')
       }
       else
         console.log("User Not Found");
