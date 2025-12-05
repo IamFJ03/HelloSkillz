@@ -7,9 +7,11 @@ import Planning from './Pages/Planning';
 import CartContext from './Context/CartContext';
 import Recipe from './Pages/Recipe';
 import Payment from './Pages/Payment';
+import AuthContext from './Context/AuthContext';
 
 export default function App() {
   return (
+    <AuthContext>
     <CartContext>
       <Routes>
         <Route path='/' element={<Home />} />
@@ -20,5 +22,6 @@ export default function App() {
         <Route path='/payment' element={<Payment />} />
       </Routes>
     </CartContext>
+    </AuthContext>
   )
 }

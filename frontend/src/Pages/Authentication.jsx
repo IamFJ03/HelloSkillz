@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { User, Mail, Eye, EyeClosed } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../Context/AuthContext';
 
 export default function Authentication() {
   const [login, setLogin] = useState(false)
@@ -11,6 +12,7 @@ export default function Authentication() {
   const [cnfPassword, setCnfPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [showPass, setShowPass] = useState(false);
+  const { setIsLoggedIn } = useAuth();
 
   const navigate = useNavigate();
 
@@ -71,7 +73,9 @@ export default function Authentication() {
         setUsername("");
         setEmail("");
         setPassword("");
-        navigate('/')
+        setIsLoggedIn(true);
+        navigate('/');
+
       }
       else
         console.log("User Not Found");

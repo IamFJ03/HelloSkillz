@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { Ellipsis } from 'lucide-react';
 import user from '../assets/user.png';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../Context/AuthContext';
+
 export default function Navbar({ foods }) {
-  const [nav, setNav] = useState(false)
+  const [nav, setNav] = useState(false);
+  const { isLoggedIn } = useAuth();
   return (
     <div className='sticky top-0 z-50'>
       <div className='md:flex hidden items-center justify-between px-20 py-5 bg-linear-to-r from-blue-200 to-white shadow-2xl'>
@@ -24,18 +27,22 @@ export default function Navbar({ foods }) {
         </div>
         <div className='flex gap-3 items-center'>
           <img src={user} className='w-8 h-8 rounded-full' />
-          <button className='bg-blue-200 py-2 px-5 rounded-2xl cursor-pointer hover:shadow-md transition-all duration-500 hover:scale-105'><Link to={'/Auth'}>Login/Sign Up</Link></button>
+          {
+            isLoggedIn ?
+            <p>Logged In User</p>
+            :
+            <button className='bg-blue-200 py-2 px-5 rounded-2xl cursor-pointer hover:shadow-md transition-all duration-500 hover:scale-105'><Link to={'/Auth'}>Login/Sign Up</Link></button>
+          }
         </div>
       </div>
 
       <div className='md:hidden cursor-pointer absolute'>
         <Ellipsis color='black' size={30} onClick={() => setNav(!nav)} />
         {
-          
-          <div 
-  style={{backgroundImage: 'linear-gradient(to right, #bfdbfe, white)'}} 
-  className={`w-[140%] max-h-70 text-center flex flex-col gap-5 mx-5 rounded-2xl ${ nav ? 'scale-100' : 'scale-0'} transition-all duration-500`}
->
+          <div
+            style={{ backgroundImage: 'linear-gradient(to right, #bfdbfe, white)' }}
+            className={`w-[140%] max-h-70 text-center flex flex-col gap-5 mx-5 rounded-2xl ${nav ? 'scale-100' : 'scale-0'} transition-all duration-500`}
+          >
             <div>
               <p className='font-bold text-2xl mt-5'><Link to={'/'}>FlavorFinds</Link></p>
             </div>
