@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import Navbar from '../Components/Navbar';
-import { Check } from 'lucide-react';
+import { Check, Crown } from 'lucide-react';
 
 export default function Payment() {
     const RAZORPAY_KEY_ID = 'rzp_test_RTJBBXdu6qLigb';
@@ -21,8 +21,7 @@ export default function Payment() {
         loadRazorpay()
     }, [])
 
-    const handlePayment = async (e) => {
-        e.preventDefault();
+    const handlePayment = async (amount) => {
 
         if (isLoading || amount <= 0) return;
 
@@ -31,7 +30,7 @@ export default function Payment() {
         try {
             const response = await axios.post("http://localhost:5000/api/payment/createOrders", {
                 amount: amount * 100,
-                currency: "INR"
+                currency: "USD"
             });
 
             const { order_id, amount: orderAmount, currency } = response.data;
@@ -95,6 +94,7 @@ export default function Payment() {
             <div className='flex justify-between px-20 mt-10'>
                 {info.map((data, index) =>  (
                     <div className='h-70 w-100 bg-white shadow-md rounded-2xl text-center hover:scale-110 hover:-mt-5 border border-transparent hover:border-blue-400 cursor-pointer transition-all duration-500'>
+                        <Crown size={30} color='yellow' className='ml-45'/>
                         <p className='text-lg font-bold text-center mt-3'>{data.heading}</p>
                         <p className='text-2xl font-bold'>${data.amount}/{data.for}</p>
                         <div className='my-5 text-left px-20'>
@@ -108,7 +108,7 @@ export default function Payment() {
                         <Check size={20} color='black'/><p>{data.subHead3}</p>
                         </div>
                         </div>
-                        <button className='text-white bg-blue-200 px-18 py-1.5 rounded-lg cursor-pointer'>{data.buttonTag}</button>
+                        <button className='text-white bg-blue-200 px-18 py-1.5 rounded-lg cursor-pointer' onClick={()=>handlePayment(data.amount)}>{data.buttonTag}</button>
                     </div>
                 ))}
             </div>
