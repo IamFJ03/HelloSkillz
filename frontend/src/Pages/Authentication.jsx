@@ -12,7 +12,7 @@ export default function Authentication() {
   const [cnfPassword, setCnfPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [showPass, setShowPass] = useState(false);
-  const { setIsLoggedIn } = useAuth();
+  const { setIsLoggedIn, setUserInfo } = useAuth();
 
   const navigate = useNavigate();
 
@@ -74,6 +74,7 @@ export default function Authentication() {
         setEmail("");
         setPassword("");
         setIsLoggedIn(true);
+        setUserInfo(res.data.USER);
         navigate('/');
 
       }

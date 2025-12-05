@@ -6,7 +6,7 @@ import { useAuth } from '../Context/AuthContext';
 
 export default function Navbar({ foods }) {
   const [nav, setNav] = useState(false);
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, userInfo } = useAuth();
   return (
     <div className='sticky top-0 z-50'>
       <div className='md:flex hidden items-center justify-between px-20 py-5 bg-linear-to-r from-blue-200 to-white shadow-2xl'>
@@ -29,7 +29,7 @@ export default function Navbar({ foods }) {
           <img src={user} className='w-8 h-8 rounded-full' />
           {
             isLoggedIn ?
-            <p>Logged In User</p>
+            <p>{userInfo.username}</p>
             :
             <button className='bg-blue-200 py-2 px-5 rounded-2xl cursor-pointer hover:shadow-md transition-all duration-500 hover:scale-105'><Link to={'/Auth'}>Login/Sign Up</Link></button>
           }

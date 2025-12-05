@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
+import Navbar from '../Components/Navbar';
 import { Currency } from 'lucide-react';
 
 export default function Payment() {
@@ -80,8 +81,10 @@ console.error('Payment Error:', e);
 
     return (
         <div>
-            <div>
-                <p className='flex justify-center font-mono text-2xl font-bold'>React Razorpay payment Integration</p>
+            <Navbar />
+            <div className='px-20 py-10'>
+                <p className='font-sans text-4xl font-bold '>Unlock Premium Flavors</p>
+                <p className='text-lg mt-2'>Elevate Your culinary Journey with exclusive benefits.</p>
             </div>
             <form onSubmit={handlePayment} className='flex flex-col gap-5 mt-10 w-80 ml-150 border-2 p-5 rounded'>
                 <label htmlFor="amount" className='text-xl font-mono'>
