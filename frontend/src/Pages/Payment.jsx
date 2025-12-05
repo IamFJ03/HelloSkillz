@@ -45,24 +45,24 @@ export default function Payment() {
                 handler: async function (response) {
                     setIsLoading(true);
                     setStatus("Payment Succesfull, Verifying Payment");
-                    const { razorpay_payment_id} = response;
-                    
-                        const verifyResponse = await axios.get(`http://localhost:5000/api/payment/${razorpay_payment_id}`);
-                        const paymentDetails = verifyResponse.data;
-                        if(paymentDetails.status==="captured")
-                            setStatus(`Payment Succeded! Status: ${paymentDetails.status.toUpperCase()}. Id: ${razorpay_payment_id}`);
-                        else
-                            setStatus(`Payment verification failed. Status: ${paymentDetails.status.toUpperCase()}`);
+                    const { razorpay_payment_id } = response;
 
-                        setIsLoading(false);
-                    },
-                prefill: {
-                    name:"Faheem Jawaid",
-                    email: "faheemjawaid12@gmail.com",
-                    contact:"9012345678"
+                    const verifyResponse = await axios.get(`http://localhost:5000/api/payment/${razorpay_payment_id}`);
+                    const paymentDetails = verifyResponse.data;
+                    if (paymentDetails.status === "captured")
+                        setStatus(`Payment Succeded! Status: ${paymentDetails.status.toUpperCase()}. Id: ${razorpay_payment_id}`);
+                    else
+                        setStatus(`Payment verification failed. Status: ${paymentDetails.status.toUpperCase()}`);
+
+                    setIsLoading(false);
                 },
-                theme:{
-                    color:'#007bff'
+                prefill: {
+                    name: "Faheem Jawaid",
+                    email: "faheemjawaid12@gmail.com",
+                    contact: "9012345678"
+                },
+                theme: {
+                    color: '#007bff'
                 }
             };
             const rzp = new window.Razorpay(options)
@@ -73,11 +73,17 @@ export default function Payment() {
 
             rzp.open();
         }
-        catch(e){
-console.error('Payment Error:', e);
-      setStatus(`An error occurred. Check console for details. ${e.response?.data?.error || 'Server error.'}`);
+        catch (e) {
+            console.error('Payment Error:', e);
+            setStatus(`An error occurred. Check console for details. ${e.response?.data?.error || 'Server error.'}`);
         }
-  }
+    }
+
+    const info = [
+        { heading: "Monthly Plan", amount: 9.99, for: "month", subhead1: "Ad-free browsing recipes", subhead2: "Exclusive recipe Collections", subHead3: "Advanced Filter Options", buttonTag: "Subscribe Monthly" },
+        { heading: "Annual Plan", amount: 99.99, for: "year", subhead1: "Unlimited Saved Recipes", subhead2: "Exclusive Recipe Collections", subHead3: "Advanced Filter Options", buttonTag: "Subscribe Annually" },
+        { heading: "Lifetime Plan", amount: 249.99, for: "Lifetime", subhead1: "All Annual Plan benefits", subhead2: "Future updates Included", subHead3: "Priority Support", buttonTag: "Buy Lifetime" }
+    ]
 
     return (
         <div>
@@ -86,25 +92,18 @@ console.error('Payment Error:', e);
                 <p className='font-sans text-4xl font-bold '>Unlock Premium Flavors</p>
                 <p className='text-lg mt-2'>Elevate Your culinary Journey with exclusive benefits.</p>
             </div>
-            <form onSubmit={handlePayment} className='flex flex-col gap-5 mt-10 w-80 ml-150 border-2 p-5 rounded'>
-                <label htmlFor="amount" className='text-xl font-mono'>
-                    Amount (in ₹):
-                </label>
-                <input
-                    type="number"
-                    id="amount"
-                    value={amount}
-                    onChange={(e) => setAmount(Number(e.target.value))}
-                    min="1"
-                    className='rounded text-lg p-1'
-                    required
+            <div className='flex  justify-between px-20'>
+                {info.map((data, index) => {
+                    <div className='h-70 w-100 bg-white shadow-md rounded-2xl'>
+                        <p>{data.heading}</p>
+                    </div>
+                })}
+            </div>
 
-                />
+            <button type="submit" disabled={isLoading} className='bg-[#5cb85c] rounded text-white py-2'>
+                {isLoading ? 'Processing...' : `Pay ₹${amount}`}
+            </button>
 
-                <button type="submit" disabled={isLoading} className='bg-[#5cb85c] rounded text-white py-2'>
-                    {isLoading ? 'Processing...' : `Pay ₹${amount}`}
-                </button>
-            </form>
             <p>{status}</p>
         </div>
     )
