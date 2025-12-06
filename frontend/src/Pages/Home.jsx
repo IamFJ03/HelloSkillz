@@ -8,6 +8,7 @@ import { FaPlateWheat } from "react-icons/fa6";
 import { X } from 'lucide-react';
 import { CheckCircle } from 'lucide-react';
 import { useCart } from '../Context/CartContext';
+import axios from 'axios';
 const MEALS_BATCH_SIZE = 4;
 
 export default function Home() {
@@ -25,6 +26,10 @@ export default function Home() {
   const [details, setDetails] = useState({});
   const { favourites, setFavourites, setAllMeals } = useCart();
   const [msg, setMsg] = useState(false);
+  const [label, setLabel] = useState("");
+  const [image, setImage] = useState("");
+  const [title, setTitle] = useState("");
+  const [ingredients, setIngredients] = useState([]);
 
   const fetchRecipes = async () => {
     const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${searchTerm}&app_id=${APP_ID}&app_key=${APP_KEY}`;
@@ -86,14 +91,41 @@ export default function Home() {
 
   }
 
-  const handleFavourites = (item) => {
-    setFavourites(prev => [...prev, item]);
-    console.log("Meal Added to Cart", item);
-    setMsg(true);
-    setTimeout(() => {
-      setMsg(false);
-    }, 5000);
-  }
+  const handleFavourites = async (item) => {
+  setFavourites(prev => [...prev, item]);
+  console.log("Meal Added to Cart", item);
+
+  const recipeTitle = item.recipe.title;
+  const recipeImage = item.recipe.image;
+  const recipeLabel = item.recipe.label;
+  const recipeIngredients = item.recipe.ingredients;
+
+  setTitle(recipeTitle);
+  setImage(recipeImage);
+  setLabel(recipeLabel);
+  setIngredients(recipeIngredients);
+
+  const token = await localStorage.getItem("token");
+
+  const res = await axios.post(
+    "http://localhost:5000/api/cart/addtocart",
+    {
+      title: recipeTitle,
+      image: recipeImage,
+      label: recipeLabel,
+      ingredients: recipeIngredients
+    },
+    {
+      headers: {
+        authorization: `Bearer ${token}`
+      }
+    }
+  );
+
+  setMsg(true);
+  setTimeout(() => setMsg(false), 5000);
+};
+
 
   return (
     <div>

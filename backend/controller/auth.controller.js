@@ -28,7 +28,7 @@ function Authenticate(req, res, next){
     if(!token)
         return res.status(401).json({message: "Token is missing from Authorization header" });
 
-    jwt.verify(token, jwtKey, (err, user) => {
+    jwt.verify(token, jwtkey, (err, user) => {
         if(err)
             return res.status(505).json({ error: "Not Found" });
 
