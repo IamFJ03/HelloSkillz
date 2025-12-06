@@ -95,7 +95,7 @@ export default function Home() {
   setFavourites(prev => [...prev, item]);
   console.log("Meal Added to Cart", item);
 
-  const recipeTitle = item.recipe.title;
+  const recipeTitle = item.recipe.text;
   const recipeImage = item.recipe.image;
   const recipeLabel = item.recipe.label;
   const recipeIngredients = item.recipe.ingredients;
@@ -121,7 +121,10 @@ export default function Home() {
       }
     }
   );
-
+  if(res.data.message === "Meal Added"){
+    console.log("Meal Added Successfully", res.data.newRecipe);
+    
+  }
   setMsg(true);
   setTimeout(() => setMsg(false), 5000);
 };
@@ -213,8 +216,8 @@ export default function Home() {
         }
       </div>
       {
-        <div className={`fixed inset-0 md:w-screen w-90 z-100 ${modal ? 'bg-black/50 opacity-100 pointer-events-auto' : 'bg-transparent opacity-0 pointer-events-none'} transition-all duration-500`}>
-          <div className={`md:h-fit h-175 md:w-220 w-90 pb-10 rounded-2xl bg-white shadow-xl relative md:top-30 md:left-90 overflow-auto top-20 ${modal ? 'scale-100' : 'scale-0'} transition-transform duration-500`}>
+        <div className={`fixed inset-0 md:w-screen z-100 ${modal ? 'bg-black/50 opacity-100 pointer-events-auto' : 'bg-transparent opacity-0 pointer-events-none'} transition-all duration-500`}>
+          <div className={`md:h-fit h-175 md:w-220 w-[90%] left-[6%] pb-10 rounded-2xl bg-white shadow-xl relative md:top-30 md:left-90 overflow-auto top-20 ${modal ? 'scale-100' : 'scale-0'} transition-transform duration-500`}>
             <div className='flex items-center justify-between px-10 pt-10'>
               <p className='font-bold font-mono text-2xl md:my-0 mb-5'>Meal Details:</p>
               <X color='black' size={25} onClick={() => setModal(false)} className='cursor-pointer' />
