@@ -11,6 +11,8 @@ const ingredientSchema = new mongoose.Schema({
 
 const recipeSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    label: {type: String, required: false},
+    image: {type: String, required: false},
     title: { type: String, required: false },
     ingredients: [ingredientSchema]
 });
