@@ -30,10 +30,9 @@ export default function Recipe() {
     <div>
       <Navbar />
 
-      {/* Main Responsive Wrapper */}
+   
       <div className="flex flex-col lg:flex-row items-center lg:items-start gap-10 lg:gap-20 px-5 lg:px-20 py-10">
 
-        {/* Image Section */}
         <div className="w-full lg:w-auto flex justify-center">
           <img
             src={meal.recipe.image}
@@ -42,7 +41,6 @@ export default function Recipe() {
           />
         </div>
 
-        {/* Ingredients Section */}
         <div className="w-full lg:w-1/2">
           <p className="text-2xl font-semibold font-mono mb-5">
             Meal Recipe Includes:
@@ -57,10 +55,9 @@ export default function Recipe() {
               }}
               className="rounded-2xl px-5 py-2 mb-3 cursor-pointer shadow-md"
             >
-              {/* Ingredient Title */}
+             
               <p className="py-2 font-semibold">{i.text}</p>
 
-              {/* Expand Section */}
               <div
                 className={`
                   overflow-hidden transition-all duration-500 ease-in-out
