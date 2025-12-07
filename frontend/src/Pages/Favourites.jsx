@@ -4,16 +4,41 @@ import HeroSection from '../Components/HeroSection';
 import { useCart } from '../Context/CartContext';
 import { X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 export default function Favourites() {
   const [meals, setMeals] = useState([]);
   const [modal, setModal] = useState(false);
   const [selectedMeal, setSelectedMeal] = useState({});
   const { favourites } = useCart();
 
+
+
   const navigate = useNavigate();
   useEffect(() => {
-    console.log("Meal Found!", favourites);
-    setMeals(favourites)
+    const loadCart = async () => {
+      const token = await localStorage.getItem("token");
+      try {
+        const res = await axios.get("http://localhost:5000/api/cart/fetchcart", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        if (res.data.message === "meals found") {
+          console.log("Meal Found!", res.data.cartInfo);
+          setMeals(res.data.cartinfo);
+        }
+        else {
+          console.log("Something went wrong while fecthing cart");
+
+        }
+      }
+      catch (e) {
+        console.log("Internal Error while Fetching cart Data",e);
+
+      }
+    }
+
+    loadCart();
   }, [favourites])
 
   const handleModal = (item) => {
@@ -22,19 +47,19 @@ export default function Favourites() {
   }
 
   const handleProceed = () => {
-      navigate('/recipe', { 
-        state:{
-          meal: selectedMeal
-        }
-      })
-      setModal(false);
-      setSelectedMeal({});
+    navigate('/recipe', {
+      state: {
+        meal: selectedMeal
+      }
+    })
+    setModal(false);
+    setSelectedMeal({});
   }
   const pathname = window.location.pathname;
   return (
     <div>
       <Navbar />
-      <HeroSection path={pathname}/>
+      <HeroSection path={pathname} />
       <div>
         <p className='px-20 text-2xl font-mono font-semibold mt-10'>Favourites:</p>
         <div className='my-10'>
@@ -42,7 +67,7 @@ export default function Favourites() {
             meals.length > 0 ?
               <div className="flex gap-10 md:ml-20 ml-6 md:overflow-auto md:flex-nowrap flex-wrap">
                 {meals.map(item => (
-                  <div key={item.recipe.uri} style={{backgroundImage: 'linear-gradient(to right, #bfdbfe, white)'}} className="h-110 bg-white shadow-lg relative min-w-[20%] rounded-2xl">
+                  <div key={item.recipe.uri} style={{ backgroundImage: 'linear-gradient(to right, #bfdbfe, white)' }} className="h-110 bg-white shadow-lg relative min-w-[20%] rounded-2xl">
                     <img src={item.recipe.image} alt={item.recipe.label} className="rounded-2xl" />
                     <p className="text-xl font-bold p-3">{item.recipe.label}</p>
                     <button className="bg-blue-200 py-1 px-3 rounded-2xl cursor-pointer absolute right-5 bottom-5" onClick={() => handleModal(item)}>
@@ -65,8 +90,8 @@ export default function Favourites() {
           <p className='pt-17 text-xl font-bold px-17'>Are you Sure you want to proceed??</p>
           <p className='px-17 my-5 '>By Proceeding Further you are using your 1 of 3 free meal recipe findings</p>
           <div className='flex justify-between px-15'>
-          <button className='px-5 py-1 cursor-pointer bg-blue-200 rounded hover:scale-105 hover:shadow-md transition-all duration-500' onClick={() => setModal(false)}>Cancel</button>
-          <button className='px-5 py-1 cursor-pointer bg-blue-200 rounded hover:scale-105 hover:shadow-md transition-all duration-500' onClick={() => handleProceed()}>Proceed</button>
+            <button className='px-5 py-1 cursor-pointer bg-blue-200 rounded hover:scale-105 hover:shadow-md transition-all duration-500' onClick={() => setModal(false)}>Cancel</button>
+            <button className='px-5 py-1 cursor-pointer bg-blue-200 rounded hover:scale-105 hover:shadow-md transition-all duration-500' onClick={() => handleProceed()}>Proceed</button>
           </div>
         </div>
       </div>

@@ -14,8 +14,24 @@ catch(e){
 }
 }
 
+const fetchCart = async (req, res) => {
+  console.log("Logged In User Id:",req.user.id);
+  try{
+    const fetchedCart = await Recipe.find({user: req.user.id});
+    if(fetchCart){
+        res.json({message:"meals found", cartInfo:fetchedCart});
+    }
+    else{
+        res.json({message:"Something went wrong"});
+    }
+  }
+  catch(e){
+    res.status.json({message:"Internal Server Error"});
+  }
+}
+
 const deleteFromCart = async () => {
 
 }
 
-module.exports = {addToCart, deleteFromCart};
+module.exports = {addToCart, fetchCart, deleteFromCart};
