@@ -25,6 +25,7 @@ export default function Home() {
   const [modal, setModal] = useState(false);
   const [details, setDetails] = useState({});
   const { favourites, setFavourites, setAllMeals } = useCart();
+  const [infoMsg, setInfoMsg] = useState("");
   const [msg, setMsg] = useState(false);
   const [label, setLabel] = useState("");
   const [image, setImage] = useState("");
@@ -61,7 +62,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchRecipes();
-  }, [trendFoods, visibleMeals]);
+  }, []);
 
   useEffect(() => {
     if (trendFoods.length > 0) {
@@ -121,11 +122,16 @@ export default function Home() {
       }
     }
   );
-  if(res.data.message === "Meal Added"){
+  if(res.data.message==="Meal already present"){
+    console.log("Meal Already Present");
+    setInfoMsg("Meal Already in Favourites")
+  }
+  else if(res.data.message === "Meal Added"){
     console.log("Meal Added Successfully", res.data.newRecipe);
-    
+    setInfoMsg("Meal Added to favourites")
   }
   setMsg(true);
+  
   setTimeout(() => setMsg(false), 5000);
 };
 
@@ -249,7 +255,7 @@ export default function Home() {
       }
       <div className={`bg-white h-20 w-90 fixed right-6 top-10 md:right-20 md:bottom-10 md:top-auto rounded-2xl shadow-md flex items-center ${msg ? 'opacity-100' : 'opacity-0'} transition-all duration-500`}>
         <CheckCircle size={35} color='black' className=' mx-5' />
-        <p className='text-xl font-mono'>Meal Added to Favourites</p>
+        <p className='text-xl font-mono'>{infoMsg && infoMsg}</p>
       </div>
       
     </div>

@@ -25,7 +25,7 @@ export default function Favourites() {
         });
         if (res.data.message === "meals found") {
           console.log("Meal Found!", res.data.cartInfo);
-          setMeals(res.data.cartinfo);
+          setMeals(res.data.cartInfo);
         }
         else {
           console.log("Something went wrong while fecthing cart");
@@ -65,11 +65,11 @@ export default function Favourites() {
         <div className='my-10'>
           {
             meals.length > 0 ?
-              <div className="flex gap-10 md:ml-20 ml-6 md:overflow-auto md:flex-nowrap flex-wrap">
+              <div className="flex gap-10 md:gap-25 md:ml-20 ml-6 md:overflow-auto md:flex-nowrap flex-wrap">
                 {meals.map(item => (
-                  <div key={item.recipe.uri} style={{ backgroundImage: 'linear-gradient(to right, #bfdbfe, white)' }} className="h-110 bg-white shadow-lg relative min-w-[20%] rounded-2xl">
-                    <img src={item.recipe.image} alt={item.recipe.label} className="rounded-2xl" />
-                    <p className="text-xl font-bold p-3">{item.recipe.label}</p>
+                  <div style={{ backgroundImage: 'linear-gradient(to right, #bfdbfe, white)' }} className="h-110 bg-white shadow-lg relative max-w-[20%] rounded-2xl">
+                    <img src={item.image} alt={item.label} className="rounded-2xl" />
+                    <p className="text-xl font-bold p-3">{item.label}</p>
                     <button className="bg-blue-200 py-1 px-3 rounded-2xl cursor-pointer absolute right-5 bottom-5" onClick={() => handleModal(item)}>
                       View Recipe
                     </button>
