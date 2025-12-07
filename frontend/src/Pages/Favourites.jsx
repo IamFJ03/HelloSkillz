@@ -2,16 +2,15 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../Components/Navbar';
 import HeroSection from '../Components/HeroSection';
 import { useCart } from '../Context/CartContext';
-import { X } from 'lucide-react';
+import { X, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
 export default function Favourites() {
   const [meals, setMeals] = useState([]);
   const [modal, setModal] = useState(false);
   const [selectedMeal, setSelectedMeal] = useState({});
   const { favourites } = useCart();
-
-
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -33,7 +32,7 @@ export default function Favourites() {
         }
       }
       catch (e) {
-        console.log("Internal Error while Fetching cart Data",e);
+        console.log("Internal Error while Fetching cart Data", e);
 
       }
     }
@@ -55,6 +54,27 @@ export default function Favourites() {
     setModal(false);
     setSelectedMeal({});
   }
+
+  const handleRemove = async (label) => {
+    console.log(label);
+    const token = await localStorage.getItem("token");
+    try {
+      const res = await axios.delete("http://localhost:5000/api/cart/deleteMeal", {
+        data:{ label },
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      });
+      if (res.data.message === "Meal Removed") {
+        console.log("Meal Removed From favourites");
+        setMeals(meals.filter(item => item.label!== label));
+      }
+    }
+    catch (e) {
+      console.log("Internal Server Error While removing Meal", e);
+    }
+  }
+
   const pathname = window.location.pathname;
   return (
     <div>
@@ -65,14 +85,17 @@ export default function Favourites() {
         <div className='my-10'>
           {
             meals.length > 0 ?
-              <div className="flex gap-10 md:gap-25 md:ml-20 ml-6 md:overflow-auto md:flex-nowrap flex-wrap">
+              <div className="flex gap-10  md:gap-25 md:ml-20 ml-6 md:overflow-auto md:flex-nowrap flex-wrap">
                 {meals.map(item => (
-                  <div style={{ backgroundImage: 'linear-gradient(to right, #bfdbfe, white)' }} className="h-110 bg-white shadow-lg relative max-w-[20%] rounded-2xl">
+                  <div style={{ backgroundImage: 'linear-gradient(to right, #bfdbfe, white)' }} className=" ml-[5%] md:ml-0 h-110 bg-white shadow-lg relative md:max-w-[20%] rounded-2xl">
                     <img src={item.image} alt={item.label} className="rounded-2xl" />
                     <p className="text-xl font-bold p-3">{item.label}</p>
-                    <button className="bg-blue-200 py-1 px-3 rounded-2xl cursor-pointer absolute right-5 bottom-5" onClick={() => handleModal(item)}>
+                    <div className='flex items-center mt-5 justify-between px-5'>
+                    <Trash2 size={25} color='black' onClick={() => handleRemove(item.label)} className='cursor-pointer'/>
+                    <button className="bg-blue-200 py-1 px-3 rounded-2xl cursor-pointer" onClick={() => handleModal(item)}>
                       View Recipe
                     </button>
+                    </div>
                   </div>
                 ))}
               </div>

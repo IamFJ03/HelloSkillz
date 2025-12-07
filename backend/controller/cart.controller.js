@@ -34,8 +34,17 @@ const fetchCart = async (req, res) => {
     }
 }
 
-const deleteFromCart = async () => {
-
+const deleteFromCart = async (req, res) => {
+    const {label} = req.body;
+    console.log("Caught Label", label, req.user.id);
+    try{
+       const removeMeal = await Recipe.deleteOne({user:req.user.id, label});
+       if(removeMeal)
+        res.json({message:"Meal Removed", removed: removeMeal});
+    }
+    catch(e){
+        res.status(500).json({message:"Internal Server Error"});
+    }
 }
 
 module.exports = { addToCart, fetchCart, deleteFromCart };

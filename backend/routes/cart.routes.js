@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.post("/addtocart",Authenticate, addToCart);
 router.get("/fetchcart", Authenticate, fetchCart);
-router.delete("/deleteMeal", deleteFromCart);
+router.delete("/deleteMeal",Authenticate, deleteFromCart);
 
 module.exports = router;

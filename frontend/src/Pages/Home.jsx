@@ -145,7 +145,7 @@ const location = useLocation();
   return (
     <div>
       <Navbar foods={foods} />
-      <HeroSection />
+      <HeroSection path={location.pathname}/>
       <div style={{backgroundImage: 'linear-gradient(to right, #bfdbfe, white)'}} className='md:h-120 h-70 from-blue-200 to-white md:my-20 mt-20'>
         <p className='text-3xl font-bold px-20 py-10'>Trending Recipes</p>
         <div className='md:px-20 px-5'>
