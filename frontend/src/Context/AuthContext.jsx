@@ -7,9 +7,16 @@ export const useAuth = () => {
 }
 
 export default function AuthContext({children}) {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [userInfo, setUserInfo] = useState();
-  return <GlobalContext.Provider value={{isLoggedIn, setIsLoggedIn, userInfo, setUserInfo}}>
+
+    const loggedIn = (data) => {
+      localStorage.setItem("username", data.username);
+    }
+    
+    const logout = () => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("expiry");
+    }
+  return <GlobalContext.Provider value={{ loggedIn}}>
     {children}
   </GlobalContext.Provider>
 }

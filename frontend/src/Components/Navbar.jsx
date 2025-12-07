@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Ellipsis } from 'lucide-react';
 import user from '../assets/user.png';
 import { Link } from 'react-router-dom';
@@ -6,7 +6,15 @@ import { useAuth } from '../Context/AuthContext';
 
 export default function Navbar({ foods }) {
   const [nav, setNav] = useState(false);
-  const { isLoggedIn, userInfo } = useAuth();
+  const [username, setUsername] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const username = localStorage.getItem("username");
+    if(username){
+    setIsLoggedIn(true);
+    setUsername(username);
+    }
+  }, []);
   return (
     <div className='sticky top-0 z-50'>
       <div className='md:flex hidden items-center justify-between px-20 py-5 bg-linear-to-r from-blue-200 to-white shadow-2xl'>
@@ -28,8 +36,8 @@ export default function Navbar({ foods }) {
         <div className='flex gap-3 items-center'>
           <img src={user} className='w-8 h-8 rounded-full' />
           {
-            isLoggedIn ?
-            <p>{userInfo.username}</p>
+            isLoggedIn && username.length>0 ?
+            <p>{username}</p>
             :
             <button className='bg-blue-200 py-2 px-5 rounded-2xl cursor-pointer hover:shadow-md transition-all duration-500 hover:scale-105'><Link to={'/Auth'}>Login/Sign Up</Link></button>
           }

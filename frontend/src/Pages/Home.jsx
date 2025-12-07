@@ -33,39 +33,45 @@ export default function Home() {
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState([]);
   const fetchRef = useRef(false);
-useEffect(() => {
-  if (allMeals.length > 0){
-    const topFiveFoods = allMeals.slice(0, 8);
-      const allFoods = allMeals.slice(8, 20);
+
+  useEffect(() => {
+    const cached = localStorage.getItem("allMeals");
+    if (cached) {
+      const parsedMeals = JSON.parse(cached);
+      setAllMeals(parsedMeals);
+      const topFiveFoods = parsedMeals.slice(0, 8);
+      const allFoods = parsedMeals.slice(8, 20);
       setFoods(allFoods);
       setTrendFoods(topFiveFoods);
       setVisibleMeals(allFoods.slice(0, MEALS_BATCH_SIZE));
       setIsLoading(false);
       return;
-  }
-
-  const fetchRecipes = async () => {
-    try {
-      const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${searchTerm}&app_id=${APP_ID}&app_key=${APP_KEY}`;
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-      const data = await response.json();
-      const fetchedRecipes = data.hits;
-      setAllMeals(fetchedRecipes);
-
-      const topFiveFoods = fetchedRecipes.slice(0, 8);
-      const allFoods = fetchedRecipes.slice(8, 20);
-      setFoods(allFoods);
-      setTrendFoods(topFiveFoods);
-      setVisibleMeals(allFoods.slice(0, MEALS_BATCH_SIZE));
-      setIsLoading(false);
-    } catch (error) {
-      console.error("API Call Failed:", error);
     }
-  };
 
-  fetchRecipes();
-}, [allMeals, setAllMeals]);
+    const fetchRecipes = async () => {
+      try {
+        const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${searchTerm}&app_id=${APP_ID}&app_key=${APP_KEY}`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        const data = await response.json();
+        const fetchedRecipes = data.hits;
+        setAllMeals(fetchedRecipes);
+        localStorage.setItem("allMeals", JSON.stringify(fetchedRecipes));
+
+        const topFiveFoods = fetchedRecipes.slice(0, 8);
+        const allFoods = fetchedRecipes.slice(8, 20);
+        setFoods(allFoods);
+        setTrendFoods(topFiveFoods);
+        setVisibleMeals(allFoods.slice(0, MEALS_BATCH_SIZE));
+        setIsLoading(false);
+      } catch (error) {
+        console.error("API Call Failed:", error);
+      }
+    };
+
+    fetchRecipes();
+  }, []);
+
   useEffect(() => {
     if (trendFoods.length > 0) {
       const interval = setInterval(() => {
@@ -85,7 +91,7 @@ useEffect(() => {
 
     setVisibleMeals((prev) => [...prev, ...nextBatch])
   }
- 
+
 
   const handleViewDetails = (item) => {
     setDetails(item);
@@ -95,58 +101,58 @@ useEffect(() => {
   }
 
   const handleFavourites = async (item) => {
-  setFavourites(prev => [...prev, item]);
-  console.log("Meal Added to Cart", item);
+    setFavourites(prev => [...prev, item]);
+    console.log("Meal Added to Cart", item);
 
-  const recipeTitle = item.recipe.text;
-  const recipeImage = item.recipe.image;
-  const recipeLabel = item.recipe.label;
-  const recipeIngredients = item.recipe.ingredients;
+    const recipeTitle = item.recipe.text;
+    const recipeImage = item.recipe.image;
+    const recipeLabel = item.recipe.label;
+    const recipeIngredients = item.recipe.ingredients;
 
-  setTitle(recipeTitle);
-  setImage(recipeImage);
-  setLabel(recipeLabel);
-  setIngredients(recipeIngredients);
+    setTitle(recipeTitle);
+    setImage(recipeImage);
+    setLabel(recipeLabel);
+    setIngredients(recipeIngredients);
 
-  const token = await localStorage.getItem("token");
+    const token = await localStorage.getItem("token");
 
-  const res = await axios.post(
-    "http://localhost:5000/api/cart/addtocart",
-    {
-      title: recipeTitle,
-      image: recipeImage,
-      label: recipeLabel,
-      ingredients: recipeIngredients
-    },
-    {
-      headers: {
-        authorization: `Bearer ${token}`
+    const res = await axios.post(
+      "http://localhost:5000/api/cart/addtocart",
+      {
+        title: recipeTitle,
+        image: recipeImage,
+        label: recipeLabel,
+        ingredients: recipeIngredients
+      },
+      {
+        headers: {
+          authorization: `Bearer ${token}`
+        }
       }
+    );
+    if (res.data.message === "Meal already present") {
+      console.log("Meal Already Present");
+      setInfoMsg("Meal Already in Favourites")
     }
-  );
-  if(res.data.message==="Meal already present"){
-    console.log("Meal Already Present");
-    setInfoMsg("Meal Already in Favourites")
-  }
-  else if(res.data.message === "Meal Added"){
-    console.log("Meal Added Successfully", res.data.newRecipe);
-    setInfoMsg("Meal Added to favourites")
-  }
-  setMsg(true);
-  
-  setTimeout(() => setMsg(false), 5000);
-};
-useEffect(() => {
-  console.log("HOME MOUNTED");
-  return () => console.log("HOME UNMOUNTED");
-}, []);
+    else if (res.data.message === "Meal Added") {
+      console.log("Meal Added Successfully", res.data.newRecipe);
+      setInfoMsg("Meal Added to favourites")
+    }
+    setMsg(true);
 
-const location = useLocation();
+    setTimeout(() => setMsg(false), 5000);
+  };
+  useEffect(() => {
+    console.log("HOME MOUNTED");
+    return () => console.log("HOME UNMOUNTED");
+  }, []);
+
+  const location = useLocation();
   return (
     <div>
       <Navbar foods={foods} />
-      <HeroSection path={location.pathname}/>
-      <div style={{backgroundImage: 'linear-gradient(to right, #bfdbfe, white)'}} className='md:h-120 h-70 from-blue-200 to-white md:my-20 mt-20'>
+      <HeroSection path={location.pathname} />
+      <div style={{ backgroundImage: 'linear-gradient(to right, #bfdbfe, white)' }} className='md:h-120 h-70 from-blue-200 to-white md:my-20 mt-20'>
         <p className='text-3xl font-bold px-20 py-10'>Trending Recipes</p>
         <div className='md:px-20 px-5'>
           {
@@ -210,8 +216,8 @@ const location = useLocation();
                         <span className='font-bold'>Dish Type: </span><span>{foodItems.recipe.dishType}</span>
                       </div>
                       <div className='flex flex-col  gap-5  '>
-                        <button style={{backgroundColor:'#bfdbfe'}} className=' md:bg-blue-200 text-white w-40 md:w-50 py-2 px-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleViewDetails(foodItems)}>View Details</button>
-                        <button style={{backgroundColor:'#bfdbfe'}} className=' md:bg-blue-200 text-white w-40 md:w-50 py-2 px-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleFavourites(foodItems)}>Add to Favourites</button>
+                        <button style={{ backgroundColor: '#bfdbfe' }} className=' md:bg-blue-200 text-white w-40 md:w-50 py-2 px-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleViewDetails(foodItems)}>View Details</button>
+                        <button style={{ backgroundColor: '#bfdbfe' }} className=' md:bg-blue-200 text-white w-40 md:w-50 py-2 px-5 cursor-pointer transition-all hover:scale-105 hover:shadow-md duration-500 rounded' onClick={() => handleFavourites(foodItems)}>Add to Favourites</button>
                       </div>
                     </div>
                   </div>
@@ -240,7 +246,7 @@ const location = useLocation();
                 <span className='font-bold'>Name: </span><span>{details.recipe?.label}</span>
                 <div className='flex items-center'>
                   <span className='font-bold my-5'>Diets: </span><span className='flex'>{details.recipe?.dietLabels.map((item) => (
-                    <p style={{backgroundColor:'#bfdbfe'}} className='py-1 px-3 ml-3  rounded-2xl'>{item} </p>
+                    <p style={{ backgroundColor: '#bfdbfe' }} className='py-1 px-3 ml-3  rounded-2xl'>{item} </p>
                   ))}</span>
 
                 </div>
@@ -249,7 +255,7 @@ const location = useLocation();
                 </div>
                 <div className='flex my-5'>
                   <span className='font-bold my-3'>Dish Types: </span><span className='flex flex-wrap gap-3'>{details.recipe?.healthLabels.slice(0, 8).map((item) => (
-                    <p style={{backgroundColor:'#bfdbfe'}} className='py-1 px-3 ml-3 rounded-2xl'>{item}</p>
+                    <p style={{ backgroundColor: '#bfdbfe' }} className='py-1 px-3 ml-3 rounded-2xl'>{item}</p>
                   ))}</span>
 
                 </div>

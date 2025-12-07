@@ -12,7 +12,7 @@ export default function Authentication() {
   const [cnfPassword, setCnfPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [showPass, setShowPass] = useState(false);
-  const { setIsLoggedIn, setUserInfo } = useAuth();
+  const { setIsLoggedIn, setUserInfo, loggedIn } = useAuth();
 
   const navigate = useNavigate();
 
@@ -68,13 +68,14 @@ export default function Authentication() {
         username, email, password
       });
       if(res.data.message === "Authentication Succesfull"){
+        const expiryTime = Date.now()+60*60*1000;
         console.log("User Found", res.data.USER);
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("expiry", expiryTime.toString());
+        loggedIn(res.data.USER)
         setUsername("");
         setEmail("");
         setPassword("");
-        setIsLoggedIn(true);
-        setUserInfo(res.data.USER);
         navigate('/');
 
       }
