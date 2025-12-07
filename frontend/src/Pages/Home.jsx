@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Navbar from '../Components/Navbar';
 import HeroSection from '../Components/HeroSection';
 import Food1 from '../assets/Food1.jpg';
@@ -9,6 +9,7 @@ import { X } from 'lucide-react';
 import { CheckCircle } from 'lucide-react';
 import { useCart } from '../Context/CartContext';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 const MEALS_BATCH_SIZE = 4;
 
 export default function Home() {
@@ -24,46 +25,47 @@ export default function Home() {
   const [visibleMeals, setVisibleMeals] = useState([]);
   const [modal, setModal] = useState(false);
   const [details, setDetails] = useState({});
-  const { favourites, setFavourites, setAllMeals } = useCart();
+  const { favourites, setFavourites, setAllMeals, allMeals } = useCart();
   const [infoMsg, setInfoMsg] = useState("");
   const [msg, setMsg] = useState(false);
   const [label, setLabel] = useState("");
   const [image, setImage] = useState("");
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState([]);
-
-  const fetchRecipes = async () => {
-    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${searchTerm}&app_id=${APP_ID}&app_key=${APP_KEY}`;
-
-    try {
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("Fetched Recipes:", data.hits);
-      const fetchedRecipes = data.hits;
-      setAllMeals(fetchedRecipes);
-      const topFiveFoods = fetchedRecipes.slice(0, 8);
-      const allFoods = fetchedRecipes.slice(8, 20);
-
+  const fetchRef = useRef(false);
+useEffect(() => {
+  if (allMeals.length > 0){
+    const topFiveFoods = allMeals.slice(0, 8);
+      const allFoods = allMeals.slice(8, 20);
       setFoods(allFoods);
       setTrendFoods(topFiveFoods);
-
       setVisibleMeals(allFoods.slice(0, MEALS_BATCH_SIZE));
+      setIsLoading(false);
+      return;
+  }
 
-      setIsLoading(false)
+  const fetchRecipes = async () => {
+    try {
+      const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${searchTerm}&app_id=${APP_ID}&app_key=${APP_KEY}`;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      const data = await response.json();
+      const fetchedRecipes = data.hits;
+      setAllMeals(fetchedRecipes);
+
+      const topFiveFoods = fetchedRecipes.slice(0, 8);
+      const allFoods = fetchedRecipes.slice(8, 20);
+      setFoods(allFoods);
+      setTrendFoods(topFiveFoods);
+      setVisibleMeals(allFoods.slice(0, MEALS_BATCH_SIZE));
+      setIsLoading(false);
     } catch (error) {
       console.error("API Call Failed:", error);
     }
   };
 
-  useEffect(() => {
-    fetchRecipes();
-  }, []);
-
+  fetchRecipes();
+}, [allMeals, setAllMeals]);
   useEffect(() => {
     if (trendFoods.length > 0) {
       const interval = setInterval(() => {
@@ -83,7 +85,7 @@ export default function Home() {
 
     setVisibleMeals((prev) => [...prev, ...nextBatch])
   }
-  const currScreen = window.location.pathname;
+ 
 
   const handleViewDetails = (item) => {
     setDetails(item);
@@ -134,12 +136,16 @@ export default function Home() {
   
   setTimeout(() => setMsg(false), 5000);
 };
+useEffect(() => {
+  console.log("HOME MOUNTED");
+  return () => console.log("HOME UNMOUNTED");
+}, []);
 
-
+const location = useLocation();
   return (
     <div>
       <Navbar foods={foods} />
-      <HeroSection path={currScreen} />
+      <HeroSection />
       <div style={{backgroundImage: 'linear-gradient(to right, #bfdbfe, white)'}} className='md:h-120 h-70 from-blue-200 to-white md:my-20 mt-20'>
         <p className='text-3xl font-bold px-20 py-10'>Trending Recipes</p>
         <div className='md:px-20 px-5'>
@@ -257,7 +263,6 @@ export default function Home() {
         <CheckCircle size={35} color='black' className=' mx-5' />
         <p className='text-xl font-mono'>{infoMsg && infoMsg}</p>
       </div>
-      
     </div>
   )
 }
