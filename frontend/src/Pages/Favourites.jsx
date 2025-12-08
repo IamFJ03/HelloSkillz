@@ -46,6 +46,7 @@ export default function Favourites() {
   }
 
   const handleProceed = () => {
+    console.log(selectedMeal);
     navigate('/recipe', {
       state: {
         meal: selectedMeal

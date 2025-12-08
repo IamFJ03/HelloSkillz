@@ -15,7 +15,7 @@ export default function Recipe() {
     setExpandedIndex(index === expandedIndex ? null : index);
   };
 
-  if (!meal || !meal.recipe) {
+  if (!meal) {
     return (
       <div>
         <Navbar />
@@ -35,8 +35,8 @@ export default function Recipe() {
 
         <div className="w-full lg:w-auto flex justify-center">
           <img
-            src={meal.recipe.image}
-            alt={meal.recipe.label}
+            src={meal.image}
+            alt={meal.label}
             className="rounded-2xl w-full max-w-sm lg:max-w-md shadow-md"
           />
         </div>
@@ -46,7 +46,7 @@ export default function Recipe() {
             Meal Recipe Includes:
           </p>
 
-          {meal.recipe.ingredients.map((i, index) => (
+          {meal.ingredients.map((i, index) => (
             <div
               key={index}
               onClick={() => handleIngredientClick(index)}
