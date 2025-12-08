@@ -8,6 +8,7 @@ export default function Navbar({ foods }) {
   const [nav, setNav] = useState(false);
   const [username, setUsername] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userModal, setUserModal] = useState(false);
   useEffect(() => {
     const username = localStorage.getItem("username");
     if (username) {
@@ -34,7 +35,7 @@ export default function Navbar({ foods }) {
           </ul>
         </div>
         <div className='flex gap-3 items-center'>
-          <img src={user} className='w-8 h-8 rounded-full cursor-pointer' />
+          <img src={user} className='w-8 h-8 rounded-full cursor-pointer' onClick={()=> setUserModal(!userModal)}/>
           {
             isLoggedIn && username.length > 0 ?
               <p className='font-mono font-semibold'>{username}</p>
@@ -79,6 +80,10 @@ export default function Navbar({ foods }) {
             }
           </div>
         </div>
+        <div className={`h-90 w-60 bg-blue-100 shadow-md absolute  top-30 rounded-xl ${userModal ? 'right-5 scale-100' : '-right-100 scale-0'} transition-all duration-500`}>
+
+        </div>
     </div>
   )
 }
+
