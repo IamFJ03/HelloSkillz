@@ -10,13 +10,16 @@ export default function AuthContext({children}) {
 
     const loggedIn = (data) => {
       localStorage.setItem("username", data.username);
+      localStorage.setItem("email", data.email);
     }
     
     const logout = () => {
-      localStorage.removeItem("token");
-      localStorage.removeItem("expiry");
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
+    localStorage.removeItem("allMeals");
+    localStorage.removeItem("token");
     }
-  return <GlobalContext.Provider value={{ loggedIn}}>
+  return <GlobalContext.Provider value={{ loggedIn, logout }}>
     {children}
   </GlobalContext.Provider>
 }
