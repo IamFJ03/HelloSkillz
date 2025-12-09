@@ -1,28 +1,36 @@
-import React,{useContext, createContext, useState} from 'react'
-
+import React, { useContext, createContext, useState } from 'react'
+import axios from "axios";
 const GlobalContext = createContext(null);
 
 export const useAuth = () => {
-    return useContext(GlobalContext);
+  return useContext(GlobalContext);
 }
 
-export default function AuthContext({children}) {
-const [token, setToken] = useState(localStorage.getItem("token"));
-    const loggedIn = (data) => {
-      localStorage.setItem("username", data.username);
-      localStorage.setItem("email", data.email);
-      const tok = localStorage.getItem("token")
-      setToken(tok);
+export default function AuthContext({ children }) {
+  const [userData, setUserData] = useState({});
+  const loggedIn = async (data) => {
+    if (data) {
+      setUserData(data)
     }
-    
-    const logout = () => {
-    localStorage.removeItem("username");
-    localStorage.removeItem("email");
+    else {
+      await axios.get("http://localhost:5000/api/authentication/me", {
+        withCredentials: true
+      })
+        .then(res => {
+          if (res.data.user) {
+            setUserData(res.data.user);
+          }
+        })
+        .catch(err => console.log("Not logged in", err));
+    }
+  }
+
+  const logout = () => {
+
     localStorage.removeItem("allMeals");
-    localStorage.removeItem("token");
-    setToken(null);
-    }
-  return <GlobalContext.Provider value={{ token, loggedIn, logout }}>
+    setUserData({});
+  }
+  return <GlobalContext.Provider value={{ userData, loggedIn, logout }}>
     {children}
   </GlobalContext.Provider>
 }

@@ -24,9 +24,7 @@ export default function Favourites() {
       }
       try {
         const res = await axios.get("http://localhost:5000/api/cart/fetchcart", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          withCredentials: true
         });
         if (res.data.message === "meals found") {
           console.log("Meal Found!", res.data.cartInfo);
@@ -56,9 +54,7 @@ export default function Favourites() {
     const token = await localStorage.getItem("token");
     try {
       const res = await axios.post("http://localhost:5000/api/recipe/updateAccess",{}, {
-        headers: {
-          authorization: `Bearer ${token}`
-        }
+        withCredentials: true
       })
       if (res.data.message === "User Access Updated") {
         console.log(res.data.newLevel);

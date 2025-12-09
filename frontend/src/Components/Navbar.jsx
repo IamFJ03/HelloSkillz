@@ -11,15 +11,14 @@ export default function Navbar({ foods }) {
   const [email, setEmail] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userModal, setUserModal] = useState(false);
-  const { logout } = useAuth();
+  const { logout, userData, loggedIn } = useAuth();
 
   useEffect(() => {
-    const username = localStorage.getItem("username");
-    const email = localStorage.getItem("email");
-    if (username) {
+    loggedIn();
+    if (userData) {
       setIsLoggedIn(true);
-      setUsername(username);
-      setEmail(email)
+      setUsername(userData.username);
+      setEmail(userData.email)
     }
   }, []);
   
@@ -52,7 +51,7 @@ export default function Navbar({ foods }) {
         <div className='flex gap-3 items-center'>
           <img src={user} className='w-8 h-8 rounded-full cursor-pointer' onClick={() => setUserModal(!userModal)} />
           {
-            isLoggedIn && username.length > 0 ?
+            isLoggedIn && username !=="" ?
               <p className='font-mono font-semibold'>{username}</p>
               :
               <button className='bg-blue-200 py-2 px-5 rounded-2xl cursor-pointer hover:shadow-md transition-all duration-500 hover:scale-105'><Link to={'/Auth'}>Login/Sign Up</Link></button>
@@ -88,7 +87,7 @@ export default function Navbar({ foods }) {
         }
         <div className='absolute top-0 right-5'>
           {
-            isLoggedIn && username.length > 0 ?
+            isLoggedIn && username !=="" ?
               <img src={user} className='w-8 h-8 rounded-full mt-3 ' />
               :
               <button className='bg-blue-200 py-2 px-5 rounded-2xl cursor-pointer hover:shadow-md transition-all duration-500 hover:scale-105'><Link to={'/Auth'}>Login/Sign Up</Link></button>

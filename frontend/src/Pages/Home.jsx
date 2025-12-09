@@ -125,9 +125,7 @@ export default function Home() {
         ingredients: recipeIngredients
       },
       {
-        headers: {
-          authorization: `Bearer ${token}`
-        }
+        withCredentials: true
       }
     );
     if (res.data.message === "Meal already present") {

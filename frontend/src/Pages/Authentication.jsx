@@ -66,12 +66,14 @@ export default function Authentication() {
     try{
       const res = await axios.post("http://localhost:5000/api/authentication/login", {
         username, email, password
-      });
+      },
+    {
+      withCredentials: true
+    });
       if(res.data.message === "Authentication Succesfull"){
-        const expiryTime = Date.now()+60*60*1000;
+        
         console.log("User Found", res.data.USER);
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("expiry", expiryTime.toString());
+        
         loggedIn(res.data.USER)
         setUsername("");
         setEmail("");

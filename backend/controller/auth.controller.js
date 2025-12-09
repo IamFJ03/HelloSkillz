@@ -21,10 +21,8 @@ catch(e){
 }
 
 function Authenticate(req, res, next){
-    const authHeader = req.headers['authorization'];
-    if (!authHeader) return res.json({ message: "Token Missing!!" })
 
-    const token = authHeader.split(' ')[1];
+    const token = req.cookies.token
     if(!token)
         return res.status(401).json({message: "Token is missing from Authorization header" });
 
@@ -56,11 +54,17 @@ const Login = async (req, res) => {
         };
 
         const token = jwt.sign(user, jwtkey, { expiresIn: "1h" });
+        
+        res.cookie("token", token, {
+  httpOnly: true,
+  secure: false,
+  sameSite: "lax",
+  maxAge: 60 * 60 * 1000
+});
 
         res.json({
             success: true,
             message: "Authentication Succesfull",
-            token,
             USER: user
         });
 
@@ -69,5 +73,14 @@ const Login = async (req, res) => {
     }
 };
 
+const me = async (req, res) => {
+    try{
+    const fetch = await User.findOne({_id: req.user.id});
+    res.json({message:"User Info", user:fetch});
+    }
+    catch(e){
+        res.status(500).json({message:"Internal Server Error"});
+    }
+}
 
-module.exports = {SignUp, Login, Authenticate};
+module.exports = {SignUp, Login, Authenticate, me};
