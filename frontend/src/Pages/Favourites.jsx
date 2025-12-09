@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../Components/Navbar';
 import HeroSection from '../Components/HeroSection';
 import { useCart } from '../Context/CartContext';
+import { useAuth } from '../Context/AuthContext';
 import { X, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -11,11 +12,16 @@ export default function Favourites() {
   const [modal, setModal] = useState(false);
   const [selectedMeal, setSelectedMeal] = useState({});
   const { favourites } = useCart();
+  const {token} = useAuth();
 
   const navigate = useNavigate();
   useEffect(() => {
     const loadCart = async () => {
-      const token = await localStorage.getItem("token");
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setMeals([]);
+        return;
+      }
       try {
         const res = await axios.get("http://localhost:5000/api/cart/fetchcart", {
           headers: {
@@ -38,37 +44,51 @@ export default function Favourites() {
     }
 
     loadCart();
-  }, [favourites])
+  }, [favourites, token])
 
   const handleModal = (item) => {
     setSelectedMeal(item);
     setModal(true);
   }
 
-  const handleProceed = () => {
+  const handleProceed = async () => {
     console.log(selectedMeal);
-    navigate('/recipe', {
-      state: {
-        meal: selectedMeal
+    const token = await localStorage.getItem("token");
+    try {
+      const res = await axios.post("http://localhost:5000/api/recipe/updateAccess", {
+        headers: {
+          authorization: `Bearer ${token}`
+        }
+      })
+      if (res.data.message === "User Access Updated") {
+        console.log(res.data.newLevel);
+        navigate('/recipe', {
+          state: {
+            meal: selectedMeal
+          }
+        })
+        setModal(false);
+        setSelectedMeal({});
       }
-    })
-    setModal(false);
-    setSelectedMeal({});
+    }
+    catch (e) {
+      console.log("Internal Server Error while Updating Acccess", e);
+    }
   }
 
   const handleRemove = async (label) => {
     console.log(label);
     const token = await localStorage.getItem("token");
     try {
-      const res = await axios.delete("http://localhost:5000/api/cart/deleteMeal", {
-        data:{ label },
-        headers:{
+      const res = await axios.delete("http://localhost:5000/api/cart/deleteMeal",{}, {
+        data: { label },
+        headers: {
           Authorization: `Bearer ${token}`
         }
       });
       if (res.data.message === "Meal Removed") {
         console.log("Meal Removed From favourites");
-        setMeals(meals.filter(item => item.label!== label));
+        setMeals(meals.filter(item => item.label !== label));
       }
     }
     catch (e) {
@@ -92,10 +112,10 @@ export default function Favourites() {
                     <img src={item.image} alt={item.label} className="rounded-2xl" />
                     <p className="text-xl font-bold p-3">{item.label}</p>
                     <div className='flex items-center mt-5 justify-between px-5'>
-                    <Trash2 size={25} color='black' onClick={() => handleRemove(item.label)} className='cursor-pointer'/>
-                    <button className="bg-blue-200 py-1 px-3 rounded-2xl cursor-pointer" onClick={() => handleModal(item)}>
-                      View Recipe
-                    </button>
+                      <Trash2 size={25} color='black' onClick={() => handleRemove(item.label)} className='cursor-pointer' />
+                      <button className="bg-blue-200 py-1 px-3 rounded-2xl cursor-pointer" onClick={() => handleModal(item)}>
+                        View Recipe
+                      </button>
                     </div>
                   </div>
                 ))}

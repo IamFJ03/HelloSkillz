@@ -7,10 +7,11 @@ export const useAuth = () => {
 }
 
 export default function AuthContext({children}) {
-
+const [token, setToken] = useState(localStorage.getItem("token"));
     const loggedIn = (data) => {
       localStorage.setItem("username", data.username);
       localStorage.setItem("email", data.email);
+      setToken(data.token);
     }
     
     const logout = () => {
@@ -18,8 +19,9 @@ export default function AuthContext({children}) {
     localStorage.removeItem("email");
     localStorage.removeItem("allMeals");
     localStorage.removeItem("token");
+    setToken(null);
     }
-  return <GlobalContext.Provider value={{ loggedIn, logout }}>
+  return <GlobalContext.Provider value={{ token, loggedIn, logout }}>
     {children}
   </GlobalContext.Provider>
 }
