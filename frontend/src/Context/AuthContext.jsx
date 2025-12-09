@@ -11,7 +11,8 @@ const [token, setToken] = useState(localStorage.getItem("token"));
     const loggedIn = (data) => {
       localStorage.setItem("username", data.username);
       localStorage.setItem("email", data.email);
-      setToken(data.token);
+      const tok = localStorage.getItem("token")
+      setToken(tok);
     }
     
     const logout = () => {

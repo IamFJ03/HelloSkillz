@@ -17,7 +17,7 @@ export default function Favourites() {
   const navigate = useNavigate();
   useEffect(() => {
     const loadCart = async () => {
-      const token = localStorage.getItem("token");
+      const token = await localStorage.getItem("token");
       if (!token) {
         setMeals([]);
         return;
@@ -55,7 +55,7 @@ export default function Favourites() {
     console.log(selectedMeal);
     const token = await localStorage.getItem("token");
     try {
-      const res = await axios.post("http://localhost:5000/api/recipe/updateAccess", {
+      const res = await axios.post("http://localhost:5000/api/recipe/updateAccess",{}, {
         headers: {
           authorization: `Bearer ${token}`
         }
@@ -80,7 +80,7 @@ export default function Favourites() {
     console.log(label);
     const token = await localStorage.getItem("token");
     try {
-      const res = await axios.delete("http://localhost:5000/api/cart/deleteMeal",{}, {
+      const res = await axios.delete("http://localhost:5000/api/cart/deleteMeal", {
         data: { label },
         headers: {
           Authorization: `Bearer ${token}`
