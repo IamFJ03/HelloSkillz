@@ -8,9 +8,12 @@ export const useAuth = () => {
 
 export default function AuthContext({ children }) {
   const [userData, setUserData] = useState({});
+  const [isloggedIn, setIsLoggedIn] = useState(false);
+  
   const loggedIn = async (data) => {
     if (data) {
       setUserData(data)
+      setIsLoggedIn(true);
     }
     else {
       await axios.get("http://localhost:5000/api/authentication/me", {
@@ -19,18 +22,29 @@ export default function AuthContext({ children }) {
         .then(res => {
           if (res.data.user) {
             setUserData(res.data.user);
+            setIsLoggedIn(true);
           }
         })
         .catch(err => console.log("Not logged in", err));
     }
   }
 
-  const logout = () => {
-
+  const logout = async () => {
+    try{
+      await axios.post("http://localhost:5000/api/authentication/logout", {},{
+        withCredentials: true
+      });
+      console.log("Logout Done");
+      setIsLoggedIn(false)
+    }
+    catch(e){
+      console.log("Internal Server Error", e);
+      
+    }
     localStorage.removeItem("allMeals");
     setUserData({});
   }
-  return <GlobalContext.Provider value={{ userData, loggedIn, logout }}>
+  return <GlobalContext.Provider value={{ userData, loggedIn , isloggedIn, logout }}>
     {children}
   </GlobalContext.Provider>
 }

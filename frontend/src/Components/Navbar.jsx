@@ -15,14 +15,14 @@ export default function Navbar({ foods }) {
 
   useEffect(() => {
     loggedIn();
-    if (userData) {
+    if (userData && userData.username) {
       setIsLoggedIn(true);
       setUsername(userData.username);
       setEmail(userData.email)
     }
   }, []);
   
-  const handleLogOut = () => {
+  const handleLogOut = () => { 
     logout();
     setIsLoggedIn(false);
     setUsername("");

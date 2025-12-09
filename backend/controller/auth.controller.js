@@ -4,30 +4,30 @@ const jwt = require("jsonwebtoken");
 const jwtkey = 'iamFJ03';
 
 const SignUp = async (req, res) => {
-const {username, email, password} = req.body;
-console.log(username, email, password);
-const fetch = await User.findOne({username});
-try{
-if(fetch)
-    res.json({message:"User Already Exists"});
-else{
-    const newUser = await User.create({username, email, password});
-    res.json({message:"User Created Succesfully", user: newUser});
-}
-}
-catch(e){
-    res.status(500).json({message:"Internal Server Error"});
-}
+    const { username, email, password } = req.body;
+    console.log(username, email, password);
+    const fetch = await User.findOne({ username });
+    try {
+        if (fetch)
+            res.json({ message: "User Already Exists" });
+        else {
+            const newUser = await User.create({ username, email, password });
+            res.json({ message: "User Created Succesfully", user: newUser });
+        }
+    }
+    catch (e) {
+        res.status(500).json({ message: "Internal Server Error" });
+    }
 }
 
-function Authenticate(req, res, next){
+function Authenticate(req, res, next) {
 
     const token = req.cookies.token
-    if(!token)
-        return res.status(401).json({message: "Token is missing from Authorization header" });
+    if (!token)
+        return res.status(401).json({ message: "Token is missing from Authorization header" });
 
     jwt.verify(token, jwtkey, (err, user) => {
-        if(err)
+        if (err)
             return res.status(505).json({ error: "Not Found" });
 
         req.user = user;
@@ -54,13 +54,13 @@ const Login = async (req, res) => {
         };
 
         const token = jwt.sign(user, jwtkey, { expiresIn: "1h" });
-        
+
         res.cookie("token", token, {
-  httpOnly: true,
-  secure: false,
-  sameSite: "lax",
-  maxAge: 60 * 60 * 1000
-});
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            maxAge: 60 * 60 * 1000
+        });
 
         res.json({
             success: true,
@@ -73,14 +73,23 @@ const Login = async (req, res) => {
     }
 };
 
+const logout = async (req, res) => {
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",      
+    });
+    return res.json({ message: "Logged out" });
+}
+
 const me = async (req, res) => {
-    try{
-    const fetch = await User.findOne({_id: req.user.id});
-    res.json({message:"User Info", user:fetch});
+    try {
+        const fetch = await User.findOne({ _id: req.user.id });
+        res.json({ message: "User Info", user: fetch });
     }
-    catch(e){
-        res.status(500).json({message:"Internal Server Error"});
+    catch (e) {
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }
 
-module.exports = {SignUp, Login, Authenticate, me};
+module.exports = { SignUp, Login, Authenticate, me, logout };

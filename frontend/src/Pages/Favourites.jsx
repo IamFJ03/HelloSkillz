@@ -12,13 +12,13 @@ export default function Favourites() {
   const [modal, setModal] = useState(false);
   const [selectedMeal, setSelectedMeal] = useState({});
   const { favourites } = useCart();
-  const {token} = useAuth();
+  const {isloggedIn} = useAuth();
 
   const navigate = useNavigate();
   useEffect(() => {
     const loadCart = async () => {
-      const token = await localStorage.getItem("token");
-      if (!token) {
+      
+      if (!isloggedIn) {
         setMeals([]);
         return;
       }
@@ -42,7 +42,7 @@ export default function Favourites() {
     }
 
     loadCart();
-  }, [favourites, token])
+  }, [favourites, isloggedIn])
 
   const handleModal = (item) => {
     setSelectedMeal(item);
@@ -51,7 +51,6 @@ export default function Favourites() {
 
   const handleProceed = async () => {
     console.log(selectedMeal);
-    const token = await localStorage.getItem("token");
     try {
       const res = await axios.post("http://localhost:5000/api/recipe/updateAccess",{}, {
         withCredentials: true
@@ -74,13 +73,11 @@ export default function Favourites() {
 
   const handleRemove = async (label) => {
     console.log(label);
-    const token = await localStorage.getItem("token");
+    
     try {
       const res = await axios.delete("http://localhost:5000/api/cart/deleteMeal", {
         data: { label },
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        withCredentials: true
       });
       if (res.data.message === "Meal Removed") {
         console.log("Meal Removed From favourites");
