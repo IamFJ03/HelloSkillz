@@ -3,6 +3,10 @@ const UserAccess = require("../model/recipe.model");
 const updateAccess = async (req, res) => {
     console.log("User Id:", req.user.id);
     try {
+        const find = await UserAccess.findOne({user: req.user.id});
+        if(find && find.userAccess >= 3) 
+            return res.json({message:"Access to free meal recipe reached its limit"});
+
         const update = await UserAccess.findOneAndUpdate({ user: req.user.id }, {
             $inc: { userAccess: 1 }
         },

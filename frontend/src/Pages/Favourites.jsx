@@ -12,13 +12,13 @@ export default function Favourites() {
   const [modal, setModal] = useState(false);
   const [selectedMeal, setSelectedMeal] = useState({});
   const { favourites } = useCart();
-  const {isloggedIn} = useAuth();
+  const {isLoggedIn} = useAuth();
 
   const navigate = useNavigate();
   useEffect(() => {
     const loadCart = async () => {
       
-      if (!isloggedIn) {
+      if (!isLoggedIn) {
         setMeals([]);
         return;
       }
@@ -42,7 +42,7 @@ export default function Favourites() {
     }
 
     loadCart();
-  }, [favourites, isloggedIn])
+  }, [favourites, isLoggedIn])
 
   const handleModal = (item) => {
     setSelectedMeal(item);
@@ -55,7 +55,11 @@ export default function Favourites() {
       const res = await axios.post("http://localhost:5000/api/recipe/updateAccess",{}, {
         withCredentials: true
       })
-      if (res.data.message === "User Access Updated") {
+      if(res.data.message == "Access to free meal recipe reached its limit"){
+          console.log("You have to Buy Premium Subscription");
+          return;
+        }
+      else if (res.data.message === "User Access Updated") {
         console.log(res.data.newLevel);
         navigate('/recipe', {
           state: {

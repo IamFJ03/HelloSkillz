@@ -53,7 +53,7 @@ export default function Planning() {
 
   useEffect(() => {
     console.log(allMeals);
-
+    setSearchMeals(allMeals);
   }, [])
 
   const dietLabels = [
@@ -118,7 +118,6 @@ export default function Planning() {
     setLabel(recipeLabel);
     setIngredients(recipeIngredients);
 
-    const token = await localStorage.getItem("token");
 
     const res = await axios.post(
       "http://localhost:5000/api/cart/addtocart",
@@ -129,9 +128,7 @@ export default function Planning() {
         ingredients: recipeIngredients
       },
       {
-        headers: {
-          authorization: `Bearer ${token}`
-        }
+        withCredentials: true
       }
     );
     if (res.data.message === "Meal already present") {
