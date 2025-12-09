@@ -6,8 +6,9 @@ import { FaUserGear } from "react-icons/fa6";
 import { FaBowlFood } from "react-icons/fa6";
 import { FaPlateWheat } from "react-icons/fa6";
 import { X } from 'lucide-react';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, BookmarkPlus } from 'lucide-react';
 import { useCart } from '../Context/CartContext';
+import {useAuth} from "../Context/AuthContext";
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 const MEALS_BATCH_SIZE = 4;
@@ -26,6 +27,7 @@ export default function Home() {
   const [modal, setModal] = useState(false);
   const [details, setDetails] = useState({});
   const { favourites, setFavourites, setAllMeals, allMeals } = useCart();
+  const {isLoggedIn} = useAuth();
   const [infoMsg, setInfoMsg] = useState("");
   const [msg, setMsg] = useState(false);
   const [label, setLabel] = useState("");
@@ -101,6 +103,14 @@ export default function Home() {
   }
 
   const handleFavourites = async (item) => {
+    if(!isLoggedIn){
+      setMsg(true);
+      setInfoMsg("Login Required");
+      setTimeout(() => {
+        setMsg(false)
+      }, 5000);
+      return;
+    }
     setFavourites(prev => [...prev, item]);
     console.log("Meal Added to Cart", item);
 
@@ -113,8 +123,6 @@ export default function Home() {
     setImage(recipeImage);
     setLabel(recipeLabel);
     setIngredients(recipeIngredients);
-
-    const token = await localStorage.getItem("token");
 
     const res = await axios.post(
       "http://localhost:5000/api/cart/addtocart",
@@ -181,6 +189,7 @@ export default function Home() {
             <p className='md:mt-10 mt-20 text-xl md:text-lg font-bold md:font-normal'>Personalized Meal Plans</p>
           </div>
           <div className='md:h-50 md:w-50 h-70 w-70 rounded-2xl bg-white shadow-md text-center px-15 hover:-translate-y-5 transition-all duration-500 hover:shadow-xl cursor-pointer'>
+            <BookmarkPlus size={50} color='grey' className='relative top-15 left-15 md:top-10 md:left-5'/>
             <p className='md:mt-10 mt-20 text-xl md:text-lg font-bold md:font-normal'>Save Your Favourites</p>
           </div>
           <div className='md:h-50 md:w-50 h-70 w-70 rounded-2xl bg-white shadow-md text-center px-15 hover:-translate-y-5 transition-all duration-500 hover:shadow-xl cursor-pointer'>

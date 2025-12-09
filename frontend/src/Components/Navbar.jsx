@@ -9,22 +9,21 @@ export default function Navbar({ foods }) {
   const [nav, setNav] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userModal, setUserModal] = useState(false);
-  const { logout, userData, loggedIn } = useAuth();
+  const { logout, userData, loggedIn, isLoggedIn, setIsLoggedIn } = useAuth();
 
   useEffect(() => {
     loggedIn();
-    if (userData && userData.username) {
-      setIsLoggedIn(true);
+
+    if (isLoggedIn) {
       setUsername(userData.username);
       setEmail(userData.email)
+      console.log(isLoggedIn, userData.username)
     }
   }, []);
   
   const handleLogOut = () => { 
     logout();
-    setIsLoggedIn(false);
     setUsername("");
     setEmail("");
     setUserModal(false)
@@ -94,7 +93,7 @@ export default function Navbar({ foods }) {
           }
         </div>
       </div>
-      <div className={`h-100 w-60 bg-blue-100 shadow-md flex flex-col justify-between absolute top-30 rounded-xl ${userModal ? 'right-5 scale-100' : '-right-100 scale-0'} transition-all duration-500`}>
+      <div className={`h-100 w-60 bg-blue-100 shadow-md flex flex-col justify-between absolute top-30 rounded-xl ${isLoggedIn && userModal ? 'right-5 scale-100' : '-right-100 scale-0'} transition-all duration-500`}>
         <div className='relative pl-22 mt-5 border-b border-gray-400'>
           <img src={user} className='w-15 h-15 rounded-full ' />
           <p className='ml-2 font-mono font-semibold my-2'>{username}</p>

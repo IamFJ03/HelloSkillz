@@ -8,7 +8,7 @@ export const useAuth = () => {
 
 export default function AuthContext({ children }) {
   const [userData, setUserData] = useState({});
-  const [isloggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   const loggedIn = async (data) => {
     if (data) {
@@ -44,7 +44,7 @@ export default function AuthContext({ children }) {
     localStorage.removeItem("allMeals");
     setUserData({});
   }
-  return <GlobalContext.Provider value={{ userData, loggedIn , isloggedIn, logout }}>
+  return <GlobalContext.Provider value={{ userData, loggedIn , isLoggedIn, logout }}>
     {children}
   </GlobalContext.Provider>
 }
