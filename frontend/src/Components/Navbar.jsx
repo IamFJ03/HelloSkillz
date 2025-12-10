@@ -60,7 +60,9 @@ export default function Navbar({ foods }) {
 
       <div className='md:hidden cursor-pointer absolute w-full'>
 
-        <Ellipsis color='black' size={30} onClick={() => setNav(!nav)} />
+        <Ellipsis color='black' size={30} onClick={() => {setNav(!nav);
+          setUserModal(false);
+        }} />
         {
           <div
             style={{ backgroundImage: 'linear-gradient(to right, #bfdbfe, white)' }}
@@ -87,7 +89,10 @@ export default function Navbar({ foods }) {
         <div className='absolute top-0 right-5'>
           {
             isLoggedIn && username !=="" ?
-              <img src={user} className='w-8 h-8 rounded-full mt-3 ' />
+              <img src={user} className='w-8 h-8 rounded-full mt-3 ' onClick={()=>{
+                setNav(false);
+                setUserModal(!userModal);
+              }}/>
               :
               <button className='bg-blue-200 py-2 px-5 rounded-2xl cursor-pointer hover:shadow-md transition-all duration-500 hover:scale-105'><Link to={'/Auth'}>Login/Sign Up</Link></button>
           }
