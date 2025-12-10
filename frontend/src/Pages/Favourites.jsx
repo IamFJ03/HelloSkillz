@@ -60,7 +60,7 @@ export default function Favourites() {
       })
       if(res.data.message == "Access to free meal recipe reached its limit"){
           console.log("You have to Buy Premium Subscription");
-          setInfoMsg("You have to Buy Premium Subscription to view more meals as you reack limit of 3");
+          setInfoMsg("You have to Buy Premium Subscription to view more meals as you reach limit of 3 free recipe Access");
           setMsg(true);
           setModal(false);
           setTimeout(() => {
@@ -146,7 +146,7 @@ export default function Favourites() {
         </div>
       </div>
       <div className={`bg-white h-fit py-3 max-w-120 px-3 fixed right-6 top-10 md:right-20 md:bottom-10 md:top-auto rounded-2xl shadow-md flex items-center ${msg ? 'opacity-100' : 'opacity-0'} transition-all duration-500`}>
-        <AlertCircle size={70} color='black' className=' mx-5' />
+        <AlertCircle size={80} color='black' className=' mx-5' />
         <p className='text-xl font-mono'>{infoMsg && infoMsg}</p>
       </div>
     </div>

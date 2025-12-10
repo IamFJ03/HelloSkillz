@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Ellipsis } from 'lucide-react';
+import { Ellipsis, Gem } from 'lucide-react';
 import user from '../assets/user.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../Context/AuthContext';
-import { LogOut } from 'lucide-react';
+import { LogOut, BadgeCheck } from 'lucide-react';
 
 export default function Navbar({ foods }) {
   const [nav, setNav] = useState(false);
@@ -14,13 +14,14 @@ export default function Navbar({ foods }) {
 
   useEffect(() => {
     loggedIn();
-
-    if (isLoggedIn) {
+  },[])
+  useEffect(() => {
+    if (userData && userData.username) {
       setUsername(userData.username);
-      setEmail(userData.email)
-      console.log(isLoggedIn, userData.username)
+      setEmail(userData.email);
+      console.log(isLoggedIn, userData.username);
     }
-  }, []);
+  }, [userData]);
   
   const handleLogOut = () => { 
     logout();
@@ -98,7 +99,7 @@ export default function Navbar({ foods }) {
           }
         </div>
       </div>
-      <div className={`h-100 w-60 bg-blue-100 shadow-md flex flex-col justify-between absolute top-30 rounded-xl ${isLoggedIn && userModal ? 'right-5 scale-100' : '-right-100 scale-0'} transition-all duration-500`}>
+      <div className={`h-110 w-70 bg-blue-100 shadow-md flex flex-col justify-between absolute top-30 rounded-xl ${isLoggedIn && userModal ? 'right-5 scale-100' : '-right-100 scale-0'} transition-all duration-500`}>
         <div className='relative pl-22 mt-5 border-b border-gray-400'>
           <img src={user} className='w-15 h-15 rounded-full ' />
           <p className='ml-2 font-mono font-semibold my-2'>{username}</p>
@@ -106,6 +107,9 @@ export default function Navbar({ foods }) {
         <div className='px-5 flex flex-col gap-10'>
           <p className='font-mono'>{email}</p>
           <p className='text-gray-500'>Welcome to Our FlavorFinds Web Page where you can find your type meals Recipe.</p>
+          <Link to={'/payment'} className='flex items-center gap-5 '><Gem size={25} color='black'/>
+          <p className='font-mono bg-blue-500 px-5 py-1 rounded-xl w-[65%] cursor-pointer hover:scale-110 transition-all duration-500 text-white'>Buy Premium Subscription</p>
+          </Link>
           
         </div>
         <div className='flex my-5 gap-5 px-5 pt-3 border-t border-gray-500 relative bottom-0'>
