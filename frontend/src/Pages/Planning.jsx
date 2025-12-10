@@ -3,9 +3,10 @@ import Navbar from '../Components/Navbar';
 import HeroSection from '../Components/HeroSection';
 import { Search, Settings2, Settings } from 'lucide-react';
 import { useCart } from '../Context/CartContext';
-import { X, CheckCircle } from 'lucide-react';
+import { X, CheckCircle, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import { useAuth } from '../Context/AuthContext';
 
 export default function Planning() {
   const [filter, setFilter] = useState(false);
@@ -23,7 +24,8 @@ export default function Planning() {
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState([]);
   const [infoMsg, setInfoMsg] = useState("");
-
+  const { isLoggedIn } = useAuth();
+  const [icon, setIcon] = useState("");
   const APP_ID = import.meta.env.VITE_EDAMAM_APP_ID;
   const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
 
@@ -105,6 +107,14 @@ export default function Planning() {
   }
 
   const handleFavourites = async (item) => {
+    if (!isLoggedIn){
+      setModal(false);
+      setMsg(true);
+      setInfoMsg("Login Required");
+      setIcon("Alert");
+      return;
+    }
+
     setFavourites(prev => [...prev, item]);
     console.log("Meal Added to Cart", item);
 
@@ -134,12 +144,15 @@ export default function Planning() {
     if (res.data.message === "Meal already present") {
       console.log("Meal Already Present");
       setInfoMsg("Meal Already in Favourites")
+      setIcon("Alert")
     }
     else if (res.data.message === "Meal Added") {
       console.log("Meal Added Successfully", res.data.newRecipe);
       setInfoMsg("Meal Added to favourites")
+      setIcon("Check")
     }
     setMsg(true);
+    setModal(false);
 
     setTimeout(() => setMsg(false), 5000);
   };
@@ -305,10 +318,15 @@ export default function Planning() {
         </div>
       </div>
       <div className={`bg-white md:h-20 md:w-90 w-80 md:py-0 py-5 fixed right-6 top-10 md:right-20 md:bottom-10 md:top-auto  rounded-2xl shadow-md flex items-center ${msg ? 'opacity-100' : 'opacity-0'} transition-all duration-500`}>
-        <CheckCircle size={35} color='black' className=' mx-5' />
+        {
+          icon === "Check" ?
+          <CheckCircle size={35} color='black' className=' mx-5' />
+          :
+          <AlertCircle size={35} color='black' className='mx-5' />
+        }
         <p className='text-xl font-mono'>{infoMsg && infoMsg}</p>
       </div>
-
+      
     </div>
   )
 }

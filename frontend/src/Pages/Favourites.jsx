@@ -112,10 +112,10 @@ export default function Favourites() {
         <div className='my-10'>
           {
             meals.length > 0 ?
-              <div className="flex gap-10  md:gap-25 md:ml-20 ml-6 md:overflow-auto md:flex-nowrap flex-wrap">
+              <div className="flex gap-10  md:gap-25 md:mx-15 ml-6 md:overflow-auto md:flex-nowrap flex-wrap">
                 {meals.map(item => (
-                  <div style={{ backgroundImage: 'linear-gradient(to right, #bfdbfe, white)' }} className=" ml-[5%] md:ml-0 h-110 bg-white shadow-lg relative md:max-w-[20%] rounded-2xl">
-                    <img src={item.image} alt={item.label} className="rounded-2xl" />
+                  <div style={{ backgroundImage: 'linear-gradient(to right, #bfdbfe, white)' }} className="overflow-hidden ml-[5%] md:ml-0 h-110 bg-white shadow-lg relative max-w-[75%] md:min-w-[20%] rounded-2xl">
+                    <img src={item.image} alt={item.label} className="rounded-2xl hover:scale-110 duration-500" />
                     <p className="text-xl font-bold p-3">{item.label}</p>
                     <div className='flex items-center mt-5 justify-between px-5'>
                       <Trash2 size={25} color='black' onClick={() => handleRemove(item.label)} className='cursor-pointer' />

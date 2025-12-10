@@ -6,7 +6,7 @@ import { FaUserGear } from "react-icons/fa6";
 import { FaBowlFood } from "react-icons/fa6";
 import { FaPlateWheat } from "react-icons/fa6";
 import { X } from 'lucide-react';
-import { CheckCircle, BookmarkPlus } from 'lucide-react';
+import { CheckCircle, BookmarkPlus, AlertCircle } from 'lucide-react';
 import { useCart } from '../Context/CartContext';
 import {useAuth} from "../Context/AuthContext";
 import axios from 'axios';
@@ -35,6 +35,7 @@ export default function Home() {
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState([]);
   const fetchRef = useRef(false);
+   const [icon, setIcon] = useState("");
 
   useEffect(() => {
     const cached = localStorage.getItem("allMeals");
@@ -106,6 +107,7 @@ export default function Home() {
     if(!isLoggedIn){
       setMsg(true);
       setInfoMsg("Login Required");
+      setIcon("Alert")
       setTimeout(() => {
         setMsg(false)
       }, 5000);
@@ -139,10 +141,12 @@ export default function Home() {
     if (res.data.message === "Meal already present") {
       console.log("Meal Already Present");
       setInfoMsg("Meal Already in Favourites")
+      setIcon("Alert")
     }
     else if (res.data.message === "Meal Added") {
       console.log("Meal Added Successfully", res.data.newRecipe);
       setInfoMsg("Meal Added to favourites")
+      setIcon("Check");
     }
     setMsg(true);
 
@@ -273,7 +277,12 @@ export default function Home() {
         </div>
       }
       <div className={`bg-white h-20 w-90 fixed right-6 top-10 md:right-20 md:bottom-10 md:top-auto rounded-2xl shadow-md flex items-center ${msg ? 'opacity-100' : 'opacity-0'} transition-all duration-500`}>
-        <CheckCircle size={35} color='black' className=' mx-5' />
+        {
+          icon === "Check" ?
+          <CheckCircle size={35} color='black' className=' mx-5' />
+          :
+          <AlertCircle size={35} color='black' className='mx-5' />
+        }
         <p className='text-xl font-mono'>{infoMsg && infoMsg}</p>
       </div>
     </div>
