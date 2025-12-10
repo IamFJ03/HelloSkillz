@@ -5,6 +5,7 @@ import { useCart } from '../Context/CartContext';
 import { useAuth } from '../Context/AuthContext';
 import { X, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { AlertCircle } from 'lucide-react';
 import axios from 'axios';
 
 export default function Favourites() {
@@ -13,6 +14,8 @@ export default function Favourites() {
   const [selectedMeal, setSelectedMeal] = useState({});
   const { favourites } = useCart();
   const {isLoggedIn} = useAuth();
+  const [msg, setMsg] = useState(false);
+  const [infoMsg, setInfoMsg] = useState("");
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -57,6 +60,12 @@ export default function Favourites() {
       })
       if(res.data.message == "Access to free meal recipe reached its limit"){
           console.log("You have to Buy Premium Subscription");
+          setInfoMsg("You have to Buy Premium Subscription to view more meals as you reack limit of 3");
+          setMsg(true);
+          setModal(false);
+          setTimeout(() => {
+            setMsg(false);
+          }, 5000);
           return;
         }
       else if (res.data.message === "User Access Updated") {
@@ -135,6 +144,10 @@ export default function Favourites() {
             <button className='px-5 py-1 cursor-pointer bg-blue-200 rounded hover:scale-105 hover:shadow-md transition-all duration-500' onClick={() => handleProceed()}>Proceed</button>
           </div>
         </div>
+      </div>
+      <div className={`bg-white h-fit py-3 max-w-120 px-3 fixed right-6 top-10 md:right-20 md:bottom-10 md:top-auto rounded-2xl shadow-md flex items-center ${msg ? 'opacity-100' : 'opacity-0'} transition-all duration-500`}>
+        <AlertCircle size={70} color='black' className=' mx-5' />
+        <p className='text-xl font-mono'>{infoMsg && infoMsg}</p>
       </div>
     </div>
   )
