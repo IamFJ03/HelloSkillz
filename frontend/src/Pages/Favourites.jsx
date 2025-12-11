@@ -68,7 +68,7 @@ export default function Favourites() {
           }, 5000);
           return;
         }
-      else if (res.data.message === "User Access Updated") {
+      else if (res.data.message === "User Access Granted") {
         console.log(res.data.newLevel);
         navigate('/recipe', {
           state: {

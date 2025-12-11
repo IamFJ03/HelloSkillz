@@ -2,23 +2,24 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import Navbar from '../Components/Navbar';
 import { Check, Crown, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Payment() {
 
     const RAZORPAY_KEY_ID = 'rzp_test_RTJBBXdu6qLigb';
-    
+
     const [modal, setModal] = useState(false)
     const [amount, setAmount] = useState(0);
     const [status, setStatus] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [details, setDetails] = useState({});
+    
     const loadRazorpay = () => {
         const script = document.createElement("script");
         script.src = "https://checkout.razorpay.com/v1/checkout.js";
         script.async = true;
         document.body.appendChild(script);
     }
-
+    const navigate = useNavigate();
     useEffect(() => {
         loadRazorpay()
     }, [])
@@ -32,8 +33,7 @@ export default function Payment() {
                 amount: amount * 100,
                 currency: "USD"
             });
-            //4718 6091 0820 4366
-            //OTP - 123456
+            
             const { order_id, amount: orderAmount, currency } = response.data;
             const options = {
                 key: RAZORPAY_KEY_ID,
@@ -47,12 +47,16 @@ export default function Payment() {
                     setStatus("Payment Succesfull, Verifying Payment");
                     const { razorpay_payment_id } = response;
 
-                    const verifyResponse = await axios.get(`http://localhost:5000/api/payment/${razorpay_payment_id}`,{
+                    const verifyResponse = await axios.get(`http://localhost:5000/api/payment/${razorpay_payment_id}`, {
                         withCredentials: true
                     });
                     const paymentDetails = verifyResponse.data;
-                    if (paymentDetails.status === "captured")
+                    if (paymentDetails.status === "captured") {
                         setStatus(`Payment Succeded! Status: ${paymentDetails.status.toUpperCase()}. Id: ${razorpay_payment_id}`);
+                        setTimeout(() => {
+                            navigate("/");
+                        }, 5000);
+                    }
                     else
                         setStatus(`Payment verification failed. Status: ${paymentDetails.status.toUpperCase()}`);
 
@@ -92,8 +96,8 @@ export default function Payment() {
             <Navbar />
             <div className='px-20 py-10'>
                 <div className='flex items-center justify-between'>
-                <p className='font-sans text-4xl font-bold'>Unlock Premium Flavors</p>
-                <p className='bg-blue-200 text-white py-1 px-2 rounded-lg cursor-pointer hover:scale-110 transition-all duration-500 shadow-md' onClick={() => setModal(true)}>Show Info</p>
+                    <p className='font-sans text-4xl font-bold'>Unlock Premium Flavors</p>
+                    <p className='bg-blue-200 text-white py-1 px-2 rounded-lg cursor-pointer hover:scale-110 transition-all duration-500 shadow-md' onClick={() => setModal(true)}>Show Info</p>
                 </div>
                 <p className='text-lg mt-2'>Elevate Your culinary Journey with exclusive benefits.</p>
             </div>
@@ -122,13 +126,13 @@ export default function Payment() {
             <div className={`bg-black/50 fixed inset-0 ${modal ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} duration-500`}>
                 <div className={`py-5 md:w-100 w-[90%] bg-white rounded-xl mt-50 md:ml-[35%] ml-[5%] px-10 ${modal ? 'scale-100' : 'scale-0'} duration-500 transition-transform`}>
                     <div className='flex justify-between items-center'>
-                  <p className=' text-xl font-semibold font-mono'>Few Important Instructions!!</p>
-                  <X size={25} color='black' onClick={() => setModal(false)} className={`cursor-pointer`}/>
-                  </div>
-                  <p className='my-5'>Since the payment is now on test mode it is not live you can use credentials given below to continue:</p>
-                  <span className='font-bold'>Card Number: </span><span> 4718 6091 0820 4366</span><br />
-                  <span className='font-bold'>CVV:</span><span>111</span><br />
-                  <span className='font-bold'>OTP:</span><span>OTP: 123(Skip First time asked use it 2nd time)</span>
+                        <p className=' text-xl font-semibold font-mono'>Few Important Instructions!!</p>
+                        <X size={25} color='black' onClick={() => setModal(false)} className={`cursor-pointer`} />
+                    </div>
+                    <p className='my-5'>Since the payment is now on test mode it is not live you can use credentials given below to continue:</p>
+                    <span className='font-bold'>Card Number: </span><span> 4718 6091 0820 4366</span><br />
+                    <span className='font-bold'>CVV:</span><span>111</span><br />
+                    <span className='font-bold'>OTP:</span><span>OTP: 123(Skip First time asked use it 2nd time)</span>
                 </div>
             </div>
         </div>
