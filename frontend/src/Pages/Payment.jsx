@@ -47,7 +47,9 @@ export default function Payment() {
                     setStatus("Payment Succesfull, Verifying Payment");
                     const { razorpay_payment_id } = response;
 
-                    const verifyResponse = await axios.get(`http://localhost:5000/api/payment/${razorpay_payment_id}`);
+                    const verifyResponse = await axios.get(`http://localhost:5000/api/payment/${razorpay_payment_id}`,{
+                        withCredentials: true
+                    });
                     const paymentDetails = verifyResponse.data;
                     if (paymentDetails.status === "captured")
                         setStatus(`Payment Succeded! Status: ${paymentDetails.status.toUpperCase()}. Id: ${razorpay_payment_id}`);
@@ -118,7 +120,7 @@ export default function Payment() {
             </div>
             <p className='ml-[25%] mt-15 font-mono text-xl text-green-400'>{isLoading ? 'Processing...' : status}</p>
             <div className={`bg-black/50 fixed inset-0 ${modal ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} duration-500`}>
-                <div className={`py-5 md:w-100 w-[90%] bg-white rounded-xl mt-50 md:ml-[35%] ml-[5%] px-5 ${modal ? 'scale-100' : 'scale-0'} duration-500 transition-transform`}>
+                <div className={`py-5 md:w-100 w-[90%] bg-white rounded-xl mt-50 md:ml-[35%] ml-[5%] px-10 ${modal ? 'scale-100' : 'scale-0'} duration-500 transition-transform`}>
                     <div className='flex justify-between items-center'>
                   <p className=' text-xl font-semibold font-mono'>Few Important Instructions!!</p>
                   <X size={25} color='black' onClick={() => setModal(false)} className={`cursor-pointer`}/>

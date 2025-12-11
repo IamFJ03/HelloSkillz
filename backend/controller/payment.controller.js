@@ -1,4 +1,5 @@
-require("dotenv").config();  // ✅ must have ()
+require("dotenv").config();
+const payment = require("../model/payment.model");
 const Razorpay = require("razorpay");
 const KEY_ID= "rzp_test_RTJBBXdu6qLigb";
 const KEY_SECRET= "gtq2TNSaoDGv1XkKhdPFERYc";
@@ -47,8 +48,17 @@ const fetchPayments = async (req, res) => {
 
         const paymentDetails = await razorpay.payments.fetch(payment_id);
         console.log("payment details:", paymentDetails);
-
-        res.json(paymentDetails);
+        if(paymentDetails.captured){
+            const paymentInfo = await payment.create({
+                User: req.user.id,
+                payment_id: paymentDetails.id,
+                amount: paymentDetails.amount, 
+                currency: payment.currency, 
+                status: paymentDetails.status, 
+                captured: paymentDetails.captured
+            });
+        res.json(paymentInfo);
+        }
     } catch (error) {
         console.error("Fetch payment error:", error);
         res.status(500).json({ message: "Network Error While Fetching Payment" });
