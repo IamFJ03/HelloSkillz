@@ -118,11 +118,15 @@ export default function Payment() {
             </div>
             <p className='ml-[25%] mt-15 font-mono text-xl text-green-400'>{isLoading ? 'Processing...' : status}</p>
             <div className={`bg-black/50 fixed inset-0 ${modal ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} duration-500`}>
-                <div className={`h-50 w-100 bg-white rounded-xl mt-50 ml-[35%] px-5 ${modal ? 'scale-100' : 'scale-0'} duration-500 transition-transform`}>
+                <div className={`py-5 md:w-100 w-[90%] bg-white rounded-xl mt-50 md:ml-[35%] ml-[5%] px-5 ${modal ? 'scale-100' : 'scale-0'} duration-500 transition-transform`}>
                     <div className='flex justify-between items-center'>
-                  <p className='py-5 text-xl font-semibold font-mono'>Few Important Notes!!</p>
+                  <p className=' text-xl font-semibold font-mono'>Few Important Instructions!!</p>
                   <X size={25} color='black' onClick={() => setModal(false)} className={`cursor-pointer`}/>
                   </div>
+                  <p className='my-5'>Since the payment is now on test mode it is not live you can use credentials given below to continue:</p>
+                  <span className='font-bold'>Card Number: </span><span> 4718 6091 0820 4366</span><br />
+                  <span className='font-bold'>CVV:</span><span>111</span><br />
+                  <span className='font-bold'>OTP:</span><span>OTP: 123(Skip First time asked use it 2nd time)</span>
                 </div>
             </div>
         </div>
