@@ -5,6 +5,8 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const app = express();
 
+const PORT = process.env.PORT || 5000
+
 const authRouter = require("./routes/auth.routes");
 const paymentRouter = require("./routes/payment.routes"); 
 const cartRouter = require("./routes/cart.routes");
@@ -25,7 +27,7 @@ app.use("/api/recipe", recipeRouter);
 app.use("/api/payment", paymentRouter);
 
 
-app.listen(5000, () => {
+app.listen(PORT, () => {
     console.log("Server Started on port 5000");
     connectDB(); 
 });

@@ -287,7 +287,7 @@ export default function Planning() {
             <motion.p className='text-xl font-mono px-20 text-gray-500' animate={{ y: -10 }} transition={{ repeat: Infinity, duration: 0.5, repeatType: "reverse", ease: "easeInOut" }}>Loading...</motion.p>
           </div>}
       </div>
-      <div className={`fixed inset-0 z-100 ${modal ? 'bg-black/50 opacity-100 pointer-events-auto' : 'bg-transparent opacity-0 pointer-events-none'} transition-all duration-500`}>
+      <div style={{backgroundColor:"rgb(0,0,0,0.5)"}} className={`fixed inset-0 z-100 ${modal ? 'bg-black/50 opacity-100 pointer-events-auto' : 'bg-transparent opacity-0 pointer-events-none'} transition-all duration-500`}>
         <div className={`md:h-fit h-165 md:w-200 pb-10  rounded-2xl bg-white shadow-xl absolute md:relative md:top-10 md:left-90 bottom-0 overflow-auto ${modal ? 'scale-100' : 'scale-0 '} transition-transform duration-500`}>
           <div className='flex items-center justify-between px-10 pt-10'>
             <p className='font-bold font-mono text-2xl '>Meal Details:</p>

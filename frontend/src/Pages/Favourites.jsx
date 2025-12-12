@@ -134,7 +134,7 @@ export default function Favourites() {
         </div>
       </div>
 
-      <div className={` fixed md:w-screen inset-0 transition-all duration-500 ${modal ? 'bg-black/50 opacity-100 pointer-events-auto' : 'bg-transparent opacity-0 pointer-events-none'}`}>
+      <div style={{backgroundColor:'rgb(0,0,0,0.5)'}} className={` fixed md:w-screen inset-0 transition-all duration-500 ${modal ? 'bg-black/50 opacity-100 pointer-events-auto' : 'bg-transparent opacity-0 pointer-events-none'}`}>
         <div className={`relative md:h-70 h-80 md:w-120 w-90 bg-white shadow-lg rounded-2xl md:left-120 left-6 mt-50 ${modal ? 'scale-100' : 'scale-0'} transition-transform duration-500`} >
           <X size={25} color='black' className='absolute right-5 top-5 cursor-pointer' onClick={() => setModal(false)} />
           <p className='pt-17 text-xl font-bold px-17'>Are you Sure you want to proceed??</p>

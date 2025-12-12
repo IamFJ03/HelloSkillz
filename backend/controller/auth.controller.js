@@ -1,7 +1,7 @@
 const User = require("../model/auth.model");
 const jwt = require("jsonwebtoken");
 
-const jwtkey = 'iamFJ03';
+const jwtkey = process.env.JWT_KEY;
 
 const SignUp = async (req, res) => {
     const { username, email, password } = req.body;
