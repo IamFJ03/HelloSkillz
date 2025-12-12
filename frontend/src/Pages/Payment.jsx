@@ -97,7 +97,7 @@ export default function Payment() {
             <div className='px-20 py-10'>
                 <div className='flex items-center justify-between'>
                     <p className='font-sans text-4xl font-bold'>Unlock Premium Flavors</p>
-                    <p className='bg-blue-200 text-white py-1 px-2 rounded-lg cursor-pointer hover:scale-110 transition-all duration-500 shadow-md' onClick={() => setModal(true)}>Show Info</p>
+                    <button className='bg-blue-200 text-white py-1 px-2 rounded-lg cursor-pointer md:hover:scale-110 transition-all duration-500 shadow-md' onClick={() => setModal(true)}><p>Show Info</p></button>
                 </div>
                 <p className='text-lg mt-2'>Elevate Your culinary Journey with exclusive benefits.</p>
             </div>
@@ -123,7 +123,7 @@ export default function Payment() {
                 ))}
             </div>
             <p className='ml-[25%] mt-15 font-mono text-xl text-green-400'>{isLoading ? 'Processing...' : status}</p>
-            <div className={`bg-black/50 fixed inset-0 ${modal ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} duration-500`}>
+            <div className={`bg-black/50 z-50 fixed inset-0 ${modal ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} duration-500`}>
                 <div className={`py-5 md:w-100 w-[90%] bg-white rounded-xl mt-50 md:ml-[35%] ml-[5%] px-10 ${modal ? 'scale-100' : 'scale-0'} duration-500 transition-transform`}>
                     <div className='flex justify-between items-center'>
                         <p className=' text-xl font-semibold font-mono'>Few Important Instructions!!</p>

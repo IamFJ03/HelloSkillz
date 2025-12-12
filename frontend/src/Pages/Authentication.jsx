@@ -133,7 +133,7 @@ export default function Authentication() {
 
          
 
-          <button onClick={() => handleLogin()} className='mb-5 bg-blue-300 md:px-33 px-30 rounded-2xl py-2 cursor-pointer hover:shadow-xl transition-all duration-500 hover:scale-105'>Log In</button>
+          <button style={{backgroundColor:'#93C5FD'}} onClick={() => handleLogin()} className='mb-5 md:px-33 px-30 rounded-2xl py-2 cursor-pointer hover:shadow-xl transition-all duration-500 hover:scale-105'>Log In</button>
 
           <p className='md:ml-10 ml-5'>Don't Have An Account? <button className='cursor-pointer' onClick={() => setLogin(false)}>Sign Up</button></p>
 
@@ -183,7 +183,7 @@ export default function Authentication() {
 
           </div>
 {errMsg.length>0 && <p className='text-red-500 bottom-5 relative'>{errMsg}</p>}
-          <button onClick={()=>handleSignUp()} className='mb-5 bg-blue-300 px-28 md:px-33 rounded-2xl py-2 cursor-pointer hover:shadow-xl transition-all duration-500 hover:scale-105'>Sign Up</button>
+          <button style={{backgroundColor:'#93C5FD'}} onClick={()=>handleSignUp()} className='mb-5 px-28 md:px-33 rounded-2xl py-2 cursor-pointer hover:shadow-xl transition-all duration-500 hover:scale-105'>Sign Up</button>
 
           <p className='md:ml-10 ml-5'>Already Have An Account? <button className='cursor-pointer' onClick={() => setLogin(true)}>Log In</button></p>
 
