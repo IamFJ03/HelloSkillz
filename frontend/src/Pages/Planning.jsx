@@ -179,7 +179,7 @@ export default function Planning() {
         w-330 py-2 px-5 placeholder-gray-400 rounded-tl rounded-bl shadow-md border border-gray-100 focus:outline-none focus:border-blue-500 transition-colors duration-500 
         ' onChange={(e) => setSearchTerm(e.target.value)} />
         <div className="flex gap-2 bg-white items-center">
-          <div className='bg-blue-200 p-2.75 rounded'>
+          <div style={{backgroundColor:'#BFDBFE'}} className=' p-2.75 rounded'>
             <Search size={20} color='white' className='cursor-pointer' onClick={() => handleSearch()} />
           </div>
           <Settings color="black" size={30} className='cursor-pointer' onClick={() => handleFilter()} />
@@ -196,7 +196,7 @@ export default function Planning() {
               </div>
             ))}
           </div>
-          <button className='h-12 bg-blue-200 rounded py-2 px-5 hover:shadow-md cursor-pointer hover:scale-105 transition-transform duration-500'>Apply Filter</button>
+          <button style={{backgroundColor:'#BFDBFE'}} className='h-12 rounded py-2 px-5 hover:shadow-md cursor-pointer hover:scale-105 transition-transform duration-500'>Apply Filter</button>
         </div>
         <div className='flex items-center gap-10 px-10 font-mono my-10'>
           <p className='text-xl font-semibold'>Diet Labels:</p>
@@ -204,7 +204,8 @@ export default function Planning() {
             {dietLabels.map((i) => (
               <li
                 key={i}
-                className='bg-blue-200 rounded-2xl py-1.5 px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'
+                style={{backgroundColor:'#BFDBFE'}}
+                className=' rounded-2xl py-1.5 px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'
                 onClick={() => handleLabelClick(i)}
               >
                 {i}
@@ -219,7 +220,8 @@ export default function Planning() {
             {cuisineType.map((i) => (
               <li
                 key={i}
-                className='bg-blue-200 rounded-2xl py-1.5 px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'
+                style={{backgroundColor:'#BFDBFE'}}
+                className='rounded-2xl py-1.5 px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'
                 onClick={() => handleLabelClick(i)}
               >
                 {i}
@@ -233,7 +235,8 @@ export default function Planning() {
             {visibleHealthLabels.map((i) => (
               <li
                 key={i}
-                className='bg-blue-200 rounded-2xl py-1.5 w-fit px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'
+                style={{backgroundColor:'#BFDBFE'}}
+                className=' rounded-2xl py-1.5 w-fit px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'
                 onClick={() => handleLabelClick(i)}
               >
                 {i}
@@ -296,16 +299,16 @@ export default function Planning() {
               <span className='font-bold'>Name: </span><span>{details.recipe?.label}</span>
               <div className='flex items-center'>
                 <span className='font-bold my-5'>Diets: </span><span className='flex'>{details.recipe?.dietLabels.map((item) => (
-                  <p className='py-1 px-3 ml-3 my-3 bg-blue-200 rounded-2xl'>{item} </p>
+                  <p style={{backgroundColor:'#BFDBFE'}} className='py-1 px-3 ml-3 my-3  rounded-2xl'>{item} </p>
                 ))}</span>
 
               </div>
               <div>
-                <span className='font-bold'>Meal Type: </span><span>{details.recipe?.mealType}</span>
+                <span className='font-bold'>Meal Type: </span><span style={{backgroundColor:'#BFDBFE'}} className='px-5 py-2 rounded-2xl'>{details.recipe?.mealType}</span>
               </div>
               <div className='flex my-5'>
                 <span className='font-bold my-3'>Dish Types: </span><span className='flex flex-wrap gap-3'>{details.recipe?.healthLabels.slice(0, 10).map((item) => (
-                  <p className='py-1 px-3 ml-3  bg-blue-200 rounded-2xl'>{item}</p>
+                  <p style={{backgroundColor:'#BFDBFE'}} className='py-1 px-3 ml-3 rounded-2xl'>{item}</p>
                 ))}</span>
 
               </div>

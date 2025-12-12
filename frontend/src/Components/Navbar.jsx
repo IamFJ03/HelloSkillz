@@ -95,20 +95,20 @@ export default function Navbar({ foods }) {
                 setUserModal(!userModal);
               }}/>
               :
-              <button className='bg-blue-200 py-2 px-5 rounded-2xl cursor-pointer hover:shadow-md transition-all duration-500 hover:scale-105'><Link to={'/Auth'}>Login/Sign Up</Link></button>
+              <button style={{backgroundColor:'#BFDBFE'}} className=' py-2 px-5 rounded-2xl cursor-pointer hover:shadow-md transition-all duration-500 hover:scale-105'><Link to={'/Auth'}>Login/Sign Up</Link></button>
           }
         </div>
       </div>
-      <div className={`h-110 w-70 bg-blue-100 shadow-md flex flex-col justify-between absolute top-30 rounded-xl ${isLoggedIn && userModal ? 'right-5 scale-100' : '-right-100 scale-0'} transition-all duration-500`}>
+      <div style={{backgroundColor: "#DBEAFE"}} className={`h-110 w-70  shadow-md flex flex-col justify-between absolute top-30 rounded-xl ${isLoggedIn && userModal ? 'right-5 scale-100' : '-right-100 scale-0'} transition-all duration-500`}>
         <div className='relative pl-22 mt-5 border-b border-gray-400'>
           <img src={user} className='w-15 h-15 rounded-full ' />
           <p className='ml-2 font-mono font-semibold my-2'>{username}</p>
         </div>
         <div className='px-5 flex flex-col gap-10'>
           <p className='font-mono'>{email}</p>
-          <p className='text-gray-500'>Welcome to Our FlavorFinds Web Page where you can find your type meals Recipe.</p>
+          <p style={{color:"#6B7280"}}>Welcome to Our FlavorFinds Web Page where you can find your type meals Recipe.</p>
           <Link to={'/payment'} className='flex items-center gap-5 '><Gem size={25} color='black'/>
-          <p className='font-mono bg-blue-500 px-5 py-1 rounded-xl w-[65%] cursor-pointer hover:scale-110 transition-all duration-500 text-white'>Buy Premium Subscription</p>
+          <p style={{backgroundColor: "#3B82F6"}} className='font-mono  px-5 py-1 rounded-xl w-[65%] cursor-pointer hover:scale-110 transition-all duration-500 text-white'>Buy Premium Subscription</p>
           </Link>
           
         </div>
