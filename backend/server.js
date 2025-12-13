@@ -21,10 +21,6 @@ app.use(cors({
     credentials: true
 }));
 
-app.options("*", cors({
-  origin: "https://lambent-daifuku-4d6c44.netlify.app",
-  credentials: true
-}));
 
 app.use("/api/authentication", authRouter);
 app.use("/api/cart", cartRouter);
