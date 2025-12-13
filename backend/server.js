@@ -17,8 +17,13 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({extended:true}));
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://lambent-daifuku-4d6c44.netlify.app",
     credentials: true
+}));
+
+app.options("*", cors({
+  origin: "https://lambent-daifuku-4d6c44.netlify.app",
+  credentials: true
 }));
 
 app.use("/api/authentication", authRouter);
@@ -28,6 +33,6 @@ app.use("/api/payment", paymentRouter);
 
 
 app.listen(PORT, () => {
-    console.log("Server Started on port 5000");
+    console.log(`Server Started on port ${PORT}`);
     connectDB(); 
 });
