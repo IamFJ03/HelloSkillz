@@ -130,7 +130,7 @@ export default function Planning() {
 
 
     const res = await axios.post(
-      "http://localhost:5000/api/cart/addtocart",
+      "https://recipetracker-fg4e.onrender.com/api/cart/addtocart",
       {
         title: recipeTitle,
         image: recipeImage,

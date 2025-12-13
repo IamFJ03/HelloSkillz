@@ -29,7 +29,7 @@ export default function Payment() {
         setIsLoading(true);
         setStatus('Initiating payment... Please wait.');
         try {
-            const response = await axios.post("http://localhost:5000/api/payment/createOrders", {
+            const response = await axios.post("https://recipetracker-fg4e.onrender.com/api/payment/createOrders", {
                 amount: amount * 100,
                 currency: "USD"
             });
@@ -47,7 +47,7 @@ export default function Payment() {
                     setStatus("Payment Succesfull, Verifying Payment");
                     const { razorpay_payment_id } = response;
 
-                    const verifyResponse = await axios.get(`http://localhost:5000/api/payment/${razorpay_payment_id}`, {
+                    const verifyResponse = await axios.get(`https://recipetracker-fg4e.onrender.com/api/payment/${razorpay_payment_id}`, {
                         withCredentials: true
                     });
                     const paymentDetails = verifyResponse.data;

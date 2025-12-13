@@ -35,7 +35,7 @@ export default function Authentication() {
     try {
       console.log(formdata)
       const response = await axios.post(
-      "http://localhost:5000/api/authentication/signup",
+      "https://recipetracker-fg4e.onrender.com/api/authentication/signup",
       formdata,
       {
         headers: {
@@ -64,7 +64,7 @@ export default function Authentication() {
   const handleLogin = async () => {
     
     try{
-      const res = await axios.post("http://localhost:5000/api/authentication/login", {
+      const res = await axios.post("https://recipetracker-fg4e.onrender.com/api/authentication/login", {
         username, email, password
       },
     {

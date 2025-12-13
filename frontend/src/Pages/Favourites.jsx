@@ -26,7 +26,7 @@ export default function Favourites() {
         return;
       }
       try {
-        const res = await axios.get("http://localhost:5000/api/cart/fetchcart", {
+        const res = await axios.get("https://recipetracker-fg4e.onrender.com/api/cart/fetchcart", {
           withCredentials: true
         });
         if (res.data.message === "meals found") {
@@ -55,7 +55,7 @@ export default function Favourites() {
   const handleProceed = async () => {
     console.log(selectedMeal);
     try {
-      const res = await axios.post("http://localhost:5000/api/recipe/updateAccess",{}, {
+      const res = await axios.post("https://recipetracker-fg4e.onrender.com/api/recipe/updateAccess",{}, {
         withCredentials: true
       })
       if(res.data.message == "Access to free meal recipe reached its limit"){
@@ -88,7 +88,7 @@ export default function Favourites() {
     console.log(label);
     
     try {
-      const res = await axios.delete("http://localhost:5000/api/cart/deleteMeal", {
+      const res = await axios.delete("https://recipetracker-fg4e.onrender.com/api/cart/deleteMeal", {
         data: { label },
         withCredentials: true
       });

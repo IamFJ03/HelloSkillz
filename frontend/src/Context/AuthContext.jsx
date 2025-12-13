@@ -16,7 +16,7 @@ export default function AuthContext({ children }) {
       setIsLoggedIn(true);
     }
     else {
-      await axios.get("http://localhost:5000/api/authentication/me", {
+      await axios.get("https://recipetracker-fg4e.onrender.com/api/authentication/me", {
         withCredentials: true
       })
         .then(res => {
@@ -31,7 +31,7 @@ export default function AuthContext({ children }) {
 
   const logout = async () => {
     try{
-      await axios.post("http://localhost:5000/api/authentication/logout", {},{
+      await axios.post("https://recipetracker-fg4e.onrender.com/api/authentication/logout", {},{
         withCredentials: true
       });
       console.log("Logout Done");
