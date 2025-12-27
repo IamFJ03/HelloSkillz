@@ -125,7 +125,8 @@ export default function Payment() {
           </h1>
           <button
             onClick={() => setModal(true)}
-            className="bg-blue-300 text-white px-4 py-2 rounded-lg
+            style={{ backgroundColor: '#bfdbfe' }}
+            className=" text-white px-4 py-2 rounded-lg
                        transition active:scale-95 md:hover:scale-105"
           >
             Show Info
@@ -167,7 +168,8 @@ export default function Payment() {
 
             <button
               onClick={() => handlePayment(plan.price)}
-              className="mt-6 w-full bg-blue-300 text-white py-2 rounded-lg
+              style={{ backgroundColor: '#bfdbfe' }}
+              className="mt-6 w-full  text-white py-2 rounded-lg
                          transition active:scale-95 md:hover:bg-blue-400"
             >
               {plan.btn}
