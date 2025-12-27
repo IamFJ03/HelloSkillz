@@ -1,140 +1,211 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../Components/Navbar';
 import { Check, Crown, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Payment() {
+  const RAZORPAY_KEY_ID = 'rzp_test_RTJBBXdu6qLigb';
 
-    const RAZORPAY_KEY_ID = 'rzp_test_RTJBBXdu6qLigb';
+  const [modal, setModal] = useState(false);
+  const [status, setStatus] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-    const [modal, setModal] = useState(false)
-    const [amount, setAmount] = useState(0);
-    const [status, setStatus] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    
-    const loadRazorpay = () => {
-        const script = document.createElement("script");
-        script.src = "https://checkout.razorpay.com/v1/checkout.js";
-        script.async = true;
-        document.body.appendChild(script);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
+  const handlePayment = async (amount) => {
+    if (isLoading || amount <= 0) return;
+
+    setIsLoading(true);
+    setStatus('Initiating payment... Please wait.');
+
+    try {
+      const response = await axios.post(
+        "https://recipetracker-fg4e.onrender.com/api/payment/createOrders",
+        { amount: amount * 100, currency: "USD" }
+      );
+
+      const { order_id, currency } = response.data;
+
+      const options = {
+        key: RAZORPAY_KEY_ID,
+        amount: amount * 100,
+        currency,
+        name: "Faheem Jawaid",
+        order_id,
+        description: "Product Purchase",
+        handler: async function (response) {
+          setStatus("Payment successful. Verifying...");
+          const verifyResponse = await axios.get(
+            `https://recipetracker-fg4e.onrender.com/api/payment/${response.razorpay_payment_id}`,
+            { withCredentials: true }
+          );
+
+          if (verifyResponse.data.status === "captured") {
+            setStatus("Payment successful! Redirecting...");
+            setTimeout(() => navigate("/"), 4000);
+          } else {
+            setStatus("Payment verification failed.");
+          }
+          setIsLoading(false);
+        },
+        prefill: {
+          name: "Faheem Jawaid",
+          email: "faheemjawaid12@gmail.com",
+          contact: "9012345678"
+        },
+        theme: { color: "#007bff" }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.on('payment.failed', (res) => {
+        setStatus(`Payment Failed: ${res.error.description}`);
+        setIsLoading(false);
+      });
+
+      rzp.open();
+    } catch (e) {
+      setStatus("Something went wrong. Please try again.");
+      setIsLoading(false);
     }
-    const navigate = useNavigate();
-    useEffect(() => {
-        loadRazorpay()
-    }, [])
+  };
 
-    const handlePayment = async (amount) => {
-        if (isLoading || amount <= 0) return;
-        setIsLoading(true);
-        setStatus('Initiating payment... Please wait.');
-        try {
-            const response = await axios.post("https://recipetracker-fg4e.onrender.com/api/payment/createOrders", {
-                amount: amount * 100,
-                currency: "USD"
-            });
-            
-            const { order_id, amount: orderAmount, currency } = response.data;
-            const options = {
-                key: RAZORPAY_KEY_ID,
-                amount: amount * 100,
-                currency: currency,
-                name: "Faheem Jawaid",
-                order_id: order_id,
-                description: "Product Purchase",
-                handler: async function (response) {
-                    setIsLoading(true);
-                    setStatus("Payment Succesfull, Verifying Payment");
-                    const { razorpay_payment_id } = response;
-
-                    const verifyResponse = await axios.get(`https://recipetracker-fg4e.onrender.com/api/payment/${razorpay_payment_id}`, {
-                        withCredentials: true
-                    });
-                    const paymentDetails = verifyResponse.data;
-                    if (paymentDetails.status === "captured") {
-                        setStatus(`Payment Succeded! Status: ${paymentDetails.status.toUpperCase()}. Id: ${razorpay_payment_id}`);
-                        setTimeout(() => {
-                            navigate("/");
-                        }, 5000);
-                    }
-                    else
-                        setStatus(`Payment verification failed. Status: ${paymentDetails.status.toUpperCase()}`);
-
-                    setIsLoading(false);
-                },
-                prefill: {
-                    name: "Faheem Jawaid",
-                    email: "faheemjawaid12@gmail.com",
-                    contact: "9012345678"
-                },
-                theme: {
-                    color: '#007bff'
-                }
-            };
-            const rzp = new window.Razorpay(options)
-            rzp.on('payment.failed', (response) => {
-                setStatus(`Payment Failed: ${response.error.description}`);
-                setIsLoading(false);
-            });
-
-            rzp.open();
-        }
-        catch (e) {
-            console.error('Payment Error:', e);
-            setStatus(`An error occurred. Check console for details. ${e.response?.data?.error || 'Server error.'}`);
-        }
+  const plans = [
+    {
+      title: "Monthly Plan",
+      price: 9.99,
+      period: "month",
+      features: [
+        "Ad-free browsing",
+        "Exclusive recipes",
+        "Advanced filters"
+      ],
+      btn: "Subscribe Monthly"
+    },
+    {
+      title: "Annual Plan",
+      price: 99.99,
+      period: "year",
+      features: [
+        "Unlimited saved recipes",
+        "Exclusive collections",
+        "Advanced filters"
+      ],
+      btn: "Subscribe Annually"
+    },
+    {
+      title: "Lifetime Plan",
+      price: 249.99,
+      period: "lifetime",
+      features: [
+        "All annual benefits",
+        "Future updates",
+        "Priority support"
+      ],
+      btn: "Buy Lifetime"
     }
+  ];
 
-    const info = [
-        { heading: "Monthly Plan", amount: 9.99, for: "month", subHead1: "Ad-free browsing recipes", subHead2: "Exclusive recipe Collections", subHead3: "Advanced Filter Options", buttonTag: "Subscribe Monthly" },
-        { heading: "Annual Plan", amount: 99.99, for: "year", subHead1: "Unlimited Saved Recipes", subHead2: "Exclusive Recipe Collections", subHead3: "Advanced Filter Options", buttonTag: "Subscribe Annually" },
-        { heading: "Lifetime Plan", amount: 249.99, for: "Lifetime", subHead1: "All Annual Plan benefits", subHead2: "Future updates Included", subHead3: "Priority Support", buttonTag: "Buy Lifetime" }
-    ]
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Navbar />
 
-    return (
-        <div>
-            <Navbar />
-            <div className='px-20 py-10'>
-                <div className='flex items-center justify-between'>
-                    <p className='font-sans text-4xl font-bold'>Unlock Premium Flavors</p>
-                    <button className='bg-blue-200 text-white py-1 px-2 rounded-lg cursor-pointer md:hover:scale-110 transition-all duration-500 shadow-md' onClick={() => setModal(true)}><p>Show Info</p></button>
-                </div>
-                <p className='text-lg mt-2'>Elevate Your culinary Journey with exclusive benefits.</p>
-            </div>
-            <div className='flex flex-col gap-10 md:flex-row justify-between px-20 mt-10'>
-                {info.map((data, index) => (
-                    <div className='md:h-70 w-[90%] bg-white shadow-md rounded-2xl text-center hover:scale-110 hover:-mt-5 border border-transparent hover:border-blue-400 cursor-pointer transition-all duration-500'>
-                        <Crown size={30} color='yellow' className='ml-45' />
-                        <p className='text-lg font-bold text-center mt-3'>{data.heading}</p>
-                        <p className='text-2xl font-bold'>${data.amount}/{data.for}</p>
-                        <div className='my-5 text-left px-20'>
-                            <div className='flex items-center gap-2'>
-                                <Check size={20} color='green' /><p>{data.subHead1}</p>
-                            </div>
-                            <div className='flex items-center gap-2'>
-                                <Check size={20} color='green' /><p>{data.subHead2}</p>
-                            </div>
-                            <div className='flex items-center gap-2'>
-                                <Check size={20} color='green' /><p>{data.subHead3}</p>
-                            </div>
-                        </div>
-                        <button className='text-white bg-blue-200 px-18 py-1.5 rounded-lg cursor-pointer' onClick={() => handlePayment(data.amount)}>{data.buttonTag}</button>
-                    </div>
-                ))}
-            </div>
-            <p className='ml-[25%] mt-15 font-mono text-xl text-green-400'>{isLoading ? 'Processing...' : status}</p>
-            <div className={`bg-black/50 z-50 fixed inset-0 ${modal ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} duration-500`}>
-                <div className={`py-5 md:w-100 w-[90%] bg-white rounded-xl mt-50 md:ml-[35%] ml-[5%] px-10 ${modal ? 'scale-100' : 'scale-0'} duration-500 transition-transform`}>
-                    <div className='flex justify-between items-center'>
-                        <p className=' text-xl font-semibold font-mono'>Few Important Instructions!!</p>
-                        <X size={25} color='black' onClick={() => setModal(false)} className={`cursor-pointer`} />
-                    </div>
-                    <p className='my-5'>Since the payment is now on test mode it is not live you can use credentials given below to continue:</p>
-                    <span className='font-bold'>Card Number: </span><span> 4718 6091 0820 4366</span><br />
-                    <span className='font-bold'>CVV:</span><span>111</span><br />
-                    <span className='font-bold'>OTP:</span><span>OTP: 123(Skip First time asked use it 2nd time)</span>
-                </div>
-            </div>
+      {/* HEADER */}
+      <div className="px-4 sm:px-8 md:px-20 py-8 animate-fade-in">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <h1 className="text-3xl md:text-4xl font-bold">
+            Unlock Premium Flavors
+          </h1>
+          <button
+            onClick={() => setModal(true)}
+            className="bg-blue-300 text-white px-4 py-2 rounded-lg
+                       transition active:scale-95 md:hover:scale-105"
+          >
+            Show Info
+          </button>
         </div>
-    )
+        <p className="mt-3 text-lg text-gray-600">
+          Elevate your culinary journey with exclusive benefits.
+        </p>
+      </div>
+
+      {/* PLANS */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4 sm:px-8 md:px-20">
+        {plans.map((plan, i) => (
+          <div
+            key={i}
+            className="bg-white rounded-2xl shadow-md p-6 text-center
+                       animate-slide-up
+                       transition-transform duration-300
+                       active:scale-95 md:hover:scale-105"
+            style={{ animationDelay: `${i * 0.15}s` }}
+          >
+            <div className="flex justify-center mb-4">
+              <Crown size={32} color="gold" />
+            </div>
+
+            <h2 className="text-lg font-bold">{plan.title}</h2>
+            <p className="text-2xl font-extrabold my-2">
+              ${plan.price}/{plan.period}
+            </p>
+
+            <ul className="text-left mt-5 space-y-2 px-6">
+              {plan.features.map((f, idx) => (
+                <li key={idx} className="flex items-center gap-2">
+                  <Check size={18} color="green" />
+                  <span>{f}</span>
+                </li>
+              ))}
+            </ul>
+
+            <button
+              onClick={() => handlePayment(plan.price)}
+              className="mt-6 w-full bg-blue-300 text-white py-2 rounded-lg
+                         transition active:scale-95 md:hover:bg-blue-400"
+            >
+              {plan.btn}
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {/* STATUS */}
+      <p className="text-center mt-10 text-green-500 font-mono">
+        {isLoading ? "Processing..." : status}
+      </p>
+
+      {/* MODAL */}
+      <div
+        className={`fixed inset-0 z-50 bg-black/50 flex items-center justify-center
+        transition-opacity duration-300
+        ${modal ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+      >
+        <div
+          className={`bg-white w-[90%] max-w-md rounded-xl p-6
+          transform transition-all duration-300
+          ${modal ? "scale-100 opacity-100" : "scale-90 opacity-0"}`}
+        >
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-semibold">Important Instructions</h3>
+            <X className="cursor-pointer" onClick={() => setModal(false)} />
+          </div>
+
+          <p className="text-sm text-gray-600 mb-4">
+            Payment is in test mode. Use the credentials below:
+          </p>
+
+          <p><strong>Card:</strong> 4718 6091 0820 4366</p>
+          <p><strong>CVV:</strong> 111</p>
+          <p><strong>OTP:</strong> 123</p>
+        </div>
+      </div>
+    </div>
+  );
 }
