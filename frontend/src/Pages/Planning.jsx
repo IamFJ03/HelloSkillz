@@ -26,14 +26,15 @@ export default function Planning() {
   const [infoMsg, setInfoMsg] = useState("");
   const { isLoggedIn } = useAuth();
   const [icon, setIcon] = useState("");
+  const[healthLabel, setHealthLabel] = useState([]);
+  const[cuisineTypes, setCuisineTypes] = useState([]);
+  const[dietLabel, setDietLabel] = useState([]);
+  const[allSearchMeals, setAllSearchMeals] = useState([]);
+
   const APP_ID = import.meta.env.VITE_EDAMAM_APP_ID;
   const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
 
   const MEALS_SIZE = 5;
-
-  useEffect(() => {
-    setSearchMeals(allMeals);
-  }, [])
 
   const fetchMeals = async () => {
     const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${searchTerm}&app_id=${APP_ID}&app_key=${APP_KEY}`;
@@ -45,22 +46,23 @@ export default function Planning() {
       const data = await res.json();
       console.log("Meals:", data.hits);
       setSearchMeals(data.hits);
+      setAllSearchMeals(data.hits)
       setSearchTerm("");
     }
     catch (e) {
       console.log("API Call Failed", e);
-
     }
   }
 
   useEffect(() => {
     console.log(allMeals);
     setSearchMeals(allMeals);
+    setAllSearchMeals(allMeals)
   }, [])
 
   const dietLabels = [
-    'Balanced', 'High Fiber',
-    'Low Fat', 'Low Sodium',
+    'Balanced', 'High-Fiber',
+    'Low-Fat', 'Low-Sodium',
     'Low-Carb'
   ];
 
@@ -169,6 +171,28 @@ export default function Planning() {
     });
   };
 
+  const handleFilterMeals = () => {
+
+    if(filterLabels.length === 0){
+      setSearchMeals(allSearchMeals)
+      return;
+    }
+    
+    const filteredMeals = allSearchMeals.filter(item => {
+      const recipe = item.recipe;
+      
+      const matchesDiet = dietLabel ? recipe.dietLabels?.some(d => d.toLowerCase() === dietLabel.toLowerCase()) : true
+
+      const matchesCusine = cuisineType ? recipe.cuisineType?.some(c => c.toLowerCase() === cuisineTypes.toLowerCase()) : true
+
+      const matchesHealth = healthLabel ? recipe.healthLabels?.some(h => h.toLowerCase() === healthLabel.toLowerCase()) : true
+
+      return matchesDiet && matchesCusine && matchesHealth;
+    });
+
+    setSearchMeals(filteredMeals)
+  }
+
   const hasMoreLabels = visibleHealthLabels.length < healthLabels.length;
   return (
     <div>
@@ -196,7 +220,7 @@ export default function Planning() {
               </div>
             ))}
           </div>
-          <button style={{backgroundColor:'#BFDBFE'}} className='h-12 rounded py-2 px-5 hover:shadow-md cursor-pointer hover:scale-105 transition-transform duration-500'>Apply Filter</button>
+          <button style={{backgroundColor:'#BFDBFE'}} className='h-12 rounded py-2 px-5 hover:shadow-md cursor-pointer hover:scale-105 transition-transform duration-500' onClick={handleFilterMeals}>Apply Filter</button>
         </div>
         <div className='flex items-center gap-10 px-10 font-mono my-10'>
           <p className='text-xl font-semibold'>Diet Labels:</p>
@@ -206,7 +230,10 @@ export default function Planning() {
                 key={i}
                 style={{backgroundColor:'#BFDBFE'}}
                 className=' rounded-2xl py-1.5 px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'
-                onClick={() => handleLabelClick(i)}
+                onClick={() => {
+                  handleLabelClick(i)
+                  setDietLabel(i)
+                }}
               >
                 {i}
               </li>
@@ -222,7 +249,9 @@ export default function Planning() {
                 key={i}
                 style={{backgroundColor:'#BFDBFE'}}
                 className='rounded-2xl py-1.5 px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'
-                onClick={() => handleLabelClick(i)}
+                onClick={() => {handleLabelClick(i)
+                  setCuisineTypes(i);
+                }}
               >
                 {i}
               </li>
@@ -237,7 +266,9 @@ export default function Planning() {
                 key={i}
                 style={{backgroundColor:'#BFDBFE'}}
                 className=' rounded-2xl py-1.5 w-fit px-5 ml-3 cursor-pointer hover:shadow-md transition-shadow duration-500'
-                onClick={() => handleLabelClick(i)}
+                onClick={() => {handleLabelClick(i)
+                  setHealthLabel(i)
+                }}
               >
                 {i}
               </li>
